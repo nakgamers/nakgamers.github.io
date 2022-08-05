@@ -1,4 +1,4 @@
-{
+ {
   
   "featured": {
     "title": "Featured",
@@ -401,7 +401,7 @@
       },
       {
         "title": "Join Discord Kita",
-        "url": "https://discord.gg/cHpsN4CWhu",
+        "url": "#",
         "body": "Server buat hang-out/diskusi dan ketemu orang-orang baru.",
         "tag": ["CHANNEL", "COMMUNITY"],
         "published_date": "2022-12-12"
@@ -412,8 +412,8 @@
     "title": "Support",
     "urls": [
       {
-        "title": "Traktir dimas beli kopi.",
-        "url": "https://saweria.co/dimasmiftah",
+        "title": "Traktir gw beli kopi.",
+        "url": "https://saweria.co/nandar198",
         "body": "Makasih udah support!",
         "tag": ["SUPPORT", "TRAKTIR"]
       }
