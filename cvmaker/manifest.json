@@ -1,0 +1,22 @@
+{
+  "name": "Create a professional cv - quick & easy with our cv builder",
+  "short_name": "CV Maker",
+  "description": "Want to find a new job? It starts with a professional CV. Use our quick and easy online cv builder to make your cv stand out. Start now and pick a template!",
+  "start_url": "/",
+  "background_color": "#0f4a73",
+  "theme_color": "#000000",
+  "display": "browser",
+  "icons": [{
+    "src": "assets/icons/icon-512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  },{
+    "src": "assets/icons/icon-256.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  },{
+    "src": "assets/icons/icon-128.png",
+    "sizes": "128x128",
+    "type": "image/png"
+  }]
+}
