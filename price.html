@@ -4,6 +4,9 @@
     <title>Mobile Legends & Free Fire Harga</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
+	.hidden {
+            display: none;
+        }
         .highlight {
             color: green;
         }
@@ -143,9 +146,18 @@
     </div>
     <p class="highlight">*Hijau: Best Seller</p>
     <p class="highlight2">*Merah: Out of Stock</p>
-    <p>*List di atas adalah gambaran kasar dari stok yang kami punya. Jika dirasa jumlah diamond yang diinginkan tidak ada dalam list, silakan hubungi kami melalui WhatsApp untuk konfirmasi ketersediaan:<br>
-    <img src="https://i.ibb.co/FhXhWwM/unduhan-2.png" alt="contoh tanya stock"></p>
+<p><span class="hidden">*List di atas adalah gambaran kasar dari stok yang kami punya. Jika dirasa jumlah diamond yang diinginkan tidak ada dalam list,<br> silakan hubungi kami melalui WhatsApp untuk konfirmasi ketersediaan:<br>
+    <img src="https://i.ibb.co/FhXhWwM/unduhan-2.png" alt="contoh tanya stock"></span></p>
 
-    <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN, SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI WHATSAPP</strong></h1>
+    <button onclick="toggleHiddenText()">pesan penting</button>
+
+    <script>
+        function toggleHiddenText() {
+            var hiddenText = document.querySelector('.hidden');
+            hiddenText.style.display = (hiddenText.style.display === 'none') ? 'inline' : 'none';
+        }
+    </script>
+
+    <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN,<br> SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI WHATSAPP</strong></h1>
 </body>
 </html>
