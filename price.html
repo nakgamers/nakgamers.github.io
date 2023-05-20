@@ -4,12 +4,16 @@
     <title>Mobile Legends & Free Fire Harga</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
         .container {
             position: relative;
-            width: 90%;
+            width: 500px;
             height: 56px;
             overflow: hidden;
-            margin: 0 auto;
         }
 
         .train {
@@ -24,7 +28,7 @@
             width: 150px;
             height: 56px;
             object-fit: contain;
-            margin-right: 10px;
+            margin-right: 20px;
         }
 
         @keyframes trainMove {
@@ -53,27 +57,25 @@
         @media (max-width: 600px) {
             table {
                 width: 100%;
-                font-size: 14px;
+                background-color: #fff;
+                border-collapse: collapse;
             }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #ccc;
+            }
+
             th {
+                font-size: 18px;
+            }
+
+            td {
                 font-size: 16px;
             }
-            td {
-                font-size: 14px;
-                padding: 8px 0;
-            }
-            .highlight,
-            .highlight2 {
-                font-size: 14px;
-            }
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Link tanpa garis bawah */
         a {
             color: green;
             text-decoration: none;
@@ -81,15 +83,15 @@
     </style>
 </head>
 <body>
-    <h1>Daftar Harga</h1>
-
-    <div style="overflow-x:auto;">
-        <table>
-            <tr>
-                <th>Mobile Legends</th>
-                <th>Harga</th>
-            </tr>
-            <tr>
+    <div style="padding: 20px;">
+        <h1 style="text-align: center;">Daftar Harga</h1>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    <th>Mobile Legends</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
                 <td>14 Diamonds (13 + 1 Bonus)</td>
                 <td>Rp 3.700</td>
             </tr>
@@ -189,35 +191,36 @@
                 <td>1000 Diamond</td>
                 <td>Rp 124.194</td>
             </tr>
-            <!-- Data tabel di sini -->
-        </table>
-    </div>
-    <p class="highlight">*Hijau: Best Seller</p>
-    <p class="highlight2">*Merah: Out of Stock</p>
-    <p><span class="hidden">*List di atas adalah gambaran kasar dari stok yang kami punya. Jika dirasa jumlah diamond yang diinginkan tidak ada dalam list,<br> silakan hubungi kami melalui WhatsApp untuk konfirmasi ketersediaan:<br>
-        <img src="https://i.ibb.co/FhXhWwM/unduhan-2.png" alt="contoh tanya stock"></span></p>
-
-    <button onclick="toggleHiddenText()">pesan penting</button>
-
-    <script>
-        function toggleHiddenText() {
-            var hiddenText = document.querySelector('.hidden');
-            hiddenText.style.display = (hiddenText.style.display === 'none') ? 'inline' : 'none';
-        }
-    </script>
-
-    <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN,<br> SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI<a href="https://bit.ly/42GlwxU"> WHATSAPP</a></strong></h1>
-    <center>
-        <h2>PEMBAYARAN:</h2>
-        <div class="container">
-            <div class="train">
-                <img src="https://sukacash.id/assets/img/bca_footer.png" alt="Gerbong 1">
-                <img src="https://sukacash.id/assets/img/qris_footer.png" alt="Gerbong 2">
-                <img src="https://sukacash.id/assets/img/shopay_footer.png" alt="Gerbong 3">
-                <img src="https://sukacash.id/assets/img/dana_footer.png" alt="Gerbong 4">
-                <img src="https://sukacash.id/assets/img/ovo_footer.png" alt="Gerbong 5">
-            </div>
+                <!-- Tambahkan data tabel lainnya di sini -->
+            </table>
         </div>
-    </center>
+        <p class="highlight">*Hijau: Best Seller</p>
+        <p class="highlight2">*Merah: Out of Stock</p>
+        <p><span class="hidden">*List di atas adalah gambaran kasar dari stok yang kami punya. Jika dirasa jumlah diamond yang diinginkan tidak ada dalam list,<br> silakan hubungi kami melalui WhatsApp untuk konfirmasi ketersediaan:<br>
+            <img src="https://i.ibb.co/FhXhWwM/unduhan-2.png" alt="contoh tanya stock"></span></p>
+    
+        <button onclick="toggleHiddenText()">pesan penting</button>
+    
+        <script>
+            function toggleHiddenText() {
+                var hiddenText = document.querySelector('.hidden');
+                hiddenText.style.display = (hiddenText.style.display === 'none') ? 'inline' : 'none';
+            }
+        </script>
+    
+        <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN,<br> SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI<a href="https://bit.ly/42GlwxU"> WHATSAPP</a></strong></h1>
+        <center>
+            <h2>PEMBAYARAN:</h2>
+            <div class="container">
+                <div class="train">
+                    <img src="https://sukacash.id/assets/img/bca_footer.png" alt="Gerbong 1">
+                    <img src="https://sukacash.id/assets/img/qris_footer.png" alt="Gerbong 2">
+                    <img src="https://sukacash.id/assets/img/shopay_footer.png" alt="Gerbong 3">
+                    <img src="https://sukacash.id/assets/img/dana_footer.png" alt="Gerbong 4">
+                    <img src="https://sukacash.id/assets/img/ovo_footer.png" alt="Gerbong 5">
+                </div>
+            </div>
+        </center>
+    </div>
 </body>
 </html>
