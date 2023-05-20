@@ -1,34 +1,80 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
+<style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
 
-h1 {
-    text-align: center;
-}
+        .container {
+            position: relative;
+            width: 500px;
+            height: 56px;
+            overflow: hidden;
+        }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
+        .train {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            animation: trainMove 10s linear infinite;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
+        .train img {
+            width: 150px;
+            height: 56px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        @keyframes trainMove {
+            0% {
+                transform: translateX(100%);
+            }
 
-@media (max-width: 600px) {
-    table {
-        font-size: 12px;
-    }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
 
-    th, td {
-        padding: 4px;
-    }
-}
+        .hidden {
+            display: none;
+        }
+
+        .highlight {
+            color: green;
+        }
+
+        .highlight2 {
+            color: red;
+        }
+
+        /* CSS untuk perangkat mobile dengan lebar layar kurang dari atau sama dengan 600px */
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+                background-color: #fff;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #333333;
+            }
+
+            th {
+                font-size: 18px;
+                background-color: #353b48;
+                color: #ffffff;
+            }
+
+            td {
+                font-size: 16px;
+            }
+        }
+
+        a {
+            color: green;
+            text-decoration: none;
+        }
+    </style>
