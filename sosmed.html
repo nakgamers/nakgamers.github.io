@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LAYANAN SOCIAL MEDIA</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 56px;
+            overflow: hidden;
+        }
+
+        .train {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            animation: trainMove 10s linear infinite;
+        }
+
+        .train img {
+            width: 150px;
+            height: 56px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        @keyframes trainMove {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .highlight {
+            color: green;
+        }
+
+        .highlight2 {
+            color: red;
+        }
+
+        /* CSS untuk perangkat mobile dengan lebar layar kurang dari atau sama dengan 600px */
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+                background-color: #fff;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #333333;
+            }
+
+            th {
+                font-size: 18px;
+                background-color: #353b48;
+                color: #ffffff;
+            }
+
+            td {
+                font-size: 16px;
+            }
+        }
+
+        a {
+            color: green;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h1 style="text-align: center;">Daftar Harga</h1>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    <th>Layanan Youtube ✅ </th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td class="highlight">1K Subs Promo</td>
+                <td>Rp 70.000</td>
+		</tr>
+		<td>1K Jam Tayang</td>
+                <td>Rp 70.000</td>
+		</tr>
+		<td>1K Views Nodrop</td>
+                <td>Rp 120.000</td>
+		</tr>
+		<tr>
+                    <th>Layanan IG ✅</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td>1K Foll HQ</td>
+                <td>Rp 7.000</td>
+		</tr>
+		<tr>
+                <td>1K Foll Low </td>
+                <td>Rp 3.000</td>
+		</tr>
+		<tr>
+                <td class="highlight">50K Foll No Garansi</td>
+                <td>Rp 70.000</td>
+		</tr>
+		    <th>Layanan Tiktok ✅</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td>1K Foll HQ</td>
+                <td>Rp 20.000</td>
+		</tr>
+		<td>1K Like/Heart</td>
+                <td>Rp 5.000</td>
+            	</tr>
+		<td>10K Views</td>
+                <td>Rp 5.000</td>
+            	</tr>
+		<tr>
+		    <th>Layanan Twitter ✅</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td class="highlight">1k Twitter Followers HQ (refill)</td>
+                <td>Rp 15.000</td>
+		</tr>
+		<td class="highlight">1k Twitter Like/Favorites</td>
+                <td>Rp 15.000</td>
+            	</tr>
+            </table>
+        </div>
+        <p><span class="hidden">*Untuk proses lama atau tidaknya tergantung server dan jumlah pesanan semakin banyak jumlah yang kalian pesan semakin lama prosesnya ( 3-7 hari)<br>*MERAH : HABIS <br> *Hijau : Best Seller</span></p>
+    
+        <button onclick="toggleHiddenText()">pesan penting</button>
+    
+        <script>
+            function toggleHiddenText() {
+                var hiddenText = document.querySelector('.hidden');
+                hiddenText.style.display = (hiddenText.style.display === 'none') ? 'inline' : 'none';
+            }
+        </script>
+    
+        <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN,<br> SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI<a href="https://bit.ly/42GlwxU"> WHATSAPP</a></strong></h1>
+        <center>
+            <h2>PEMBAYARAN:</h2>
+            <div class="container">
+                <div class="train">
+                    <img src="https://sukacash.id/assets/img/bca_footer.png" alt="Gerbong 1">
+                    <img src="https://sukacash.id/assets/img/qris_footer.png" alt="Gerbong 2">
+                    <img src="https://sukacash.id/assets/img/shopay_footer.png" alt="Gerbong 3">
+                    <img src="https://sukacash.id/assets/img/dana_footer.png" alt="Gerbong 4">
+                    <img src="https://sukacash.id/assets/img/ovo_footer.png" alt="Gerbong 5">
+                </div>
+            </div>
+        </center>
+    </div>
+</body>
+</html>
