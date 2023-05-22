@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Akun Premium Harga</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 56px;
+            overflow: hidden;
+        }
+
+        .train {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            animation: trainMove 10s linear infinite;
+        }
+
+        .train img {
+            width: 150px;
+            height: 56px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        @keyframes trainMove {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .highlight {
+            color: green;
+        }
+
+        .highlight2 {
+            color: red;
+        }
+
+        /* CSS untuk perangkat mobile dengan lebar layar kurang dari atau sama dengan 600px */
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+                background-color: #fff;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #333333;
+            }
+
+            th {
+                font-size: 18px;
+                background-color: #353b48;
+                color: #ffffff;
+            }
+
+            td {
+                font-size: 16px;
+            }
+        }
+
+        a {
+            color: green;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h1 style="text-align: center;">Daftar Harga</h1>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    <th>Youtube ▶ </th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td>Youtube Premium 1 Bulan (invite Family)</td>
+                <td>Rp 3.000</td>
+		</tr>
+		<td>Youtube Premium 4 Bulan no garansi (akun buyyer)</td>
+                <td>Rp 10.000</td>
+		</tr>
+		<td class="highlight">Youtube Premium 4 Bulan garansi (akun seller)</td>
+                <td>Rp 12.000</td>
+		</tr>
+		<td>Youtube Premium 6 Bulan no garansi (akun buyyer)</td>
+                <td>Rp 15.000</td>
+		</tr>
+		<td class="highlight">Youtube Premium 6 Bulan garansi (akun seller)</td>
+                <td>Rp 17.000</td>
+		</tr>
+		<tr>
+                    <th>ViU ▶</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td>VIU Premium Private 3 bulan </td>
+                <td>Rp 10.000</td>
+		<tr>
+		    <th>Spotify 🎧</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td>Spotify Indonesia plan 3 Bulan </td>
+                <td>Rp 10.000</td>
+		</tr>
+		<td>Spotify family head 2 bulan</td>
+                <td>Rp 20.000</td>
+            	</tr>
+		<tr>
+		    <th>Netflix 🎬</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                <td class="highlight2">Netflix Shared 1 Bulan </td>
+                <td>Rp 15.000</td>
+		</tr>
+		<td class="highlight2">Netflix Private 1 bulan</td>
+                <td>Rp 35.000</td>
+            	</tr>
+            </table>
+        </div>
+        <p><span class="hidden">*Disarankan untuk membeli akun dari kami (akun seller)<br>karena akun buyyer tidak ada garansi. garansi dari buyer<br>*MERAH : HABIS <br> *Hijau : Best Seller</span></p>
+    
+        <button onclick="toggleHiddenText()">pesan penting</button>
+    
+        <script>
+            function toggleHiddenText() {
+                var hiddenText = document.querySelector('.hidden');
+                hiddenText.style.display = (hiddenText.style.display === 'none') ? 'inline' : 'none';
+            }
+        </script>
+    
+        <h1><strong>HARGA DAPAT BERUBAH SEWAKTU-WAKTU TANPA PEMBERITAHUAN,<br> SILAHKAN KONFIRMASI DAHULU KEPADA KAMI MELALUI<a href="https://bit.ly/42GlwxU"> WHATSAPP</a></strong></h1>
+        <center>
+            <h2>PEMBAYARAN:</h2>
+            <div class="container">
+                <div class="train">
+                    <img src="https://sukacash.id/assets/img/bca_footer.png" alt="Gerbong 1">
+                    <img src="https://sukacash.id/assets/img/qris_footer.png" alt="Gerbong 2">
+                    <img src="https://sukacash.id/assets/img/shopay_footer.png" alt="Gerbong 3">
+                    <img src="https://sukacash.id/assets/img/dana_footer.png" alt="Gerbong 4">
+                    <img src="https://sukacash.id/assets/img/ovo_footer.png" alt="Gerbong 5">
+                </div>
+            </div>
+        </center>
+    </div>
+</body>
+</html>
