@@ -35,7 +35,7 @@
       h1 {
         font-size: 24px;
       }
-      
+
       table {
         font-size: 14px;
       }
@@ -44,13 +44,22 @@
         padding: 6px;
       }
 
-      td:nth-child(1), th:nth-child(1) {
-        display: none;
-      }
-
-      tr td:first-child {
+      td {
         display: block;
         text-align: center;
+      }
+
+      td[data-label]:before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      td:nth-child(2),
+      td:nth-child(3),
+      td:nth-child(4) {
+        display: none;
       }
 
       tr {
@@ -61,13 +70,6 @@
 
       tr:nth-child(even) {
         background-color: transparent;
-      }
-
-      td::before {
-        content: attr(data-label);
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
       }
     }
   </style>
@@ -80,83 +82,30 @@
       <th>Mata Pelajaran</th>
     </tr>
     <tr>
-      <td data-label="Hari" rowspan="4">Senin</td>
+      <td data-label="Hari">Senin</td>
       <td data-label="Mata Pelajaran">Matematika</td>
     </tr>
     <tr>
+      <td data-label="Hari">Selasa</td>
       <td data-label="Mata Pelajaran">Komputer Jaringan Dasar</td>
     </tr>
     <tr>
-      <td data-label="Mata Pelajaran">IPAS</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Sistem Komputer</td>
-    </tr>
-    <tr>
-      <td data-label="Hari" rowspan="4">Selasa</td>
-      <td data-label="Mata Pelajaran">Komputer Jaringan Dasar</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Bahasa Inggris</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Pemrograman Dasar</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Informatika</td>
-    </tr>
-    <tr>
-      <td data-label="Hari" rowspan="4">Rabu</td>
+      <td data-label="Hari">Rabu</td>
       <td data-label="Mata Pelajaran">Matematika</td>
     </tr>
     <tr>
-      <td data-label="Mata Pelajaran">Sejarah</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Bahasa Inggris</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">-</td>
-    </tr>
-    <tr>
-      <td data-label="Hari" rowspan="4">Kamis</td>
+      <td data-label="Hari">Kamis</td>
       <td data-label="Mata Pelajaran">Pemrograman Dasar</td>
     </tr>
     <tr>
-      <td data-label="Mata Pelajaran">Sejarah</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Bahasa Indonesia</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Seni Budaya</td>
-    </tr>
-    <tr>
-      <td data-label="Hari" rowspan="4">Jum'at</td>
+      <td data-label="Hari">Jum'at</td>
       <td data-label="Mata Pelajaran">Matematika</td>
     </tr>
     <tr>
-      <td data-label="Mata Pelajaran">Desain Grafis</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">PAI</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">-</td>
-    </tr>
-    <tr>
-      <td data-label="Hari" rowspan="4">Sabtu</td>
+      <td data-label="Hari">Sabtu</td>
       <td data-label="Mata Pelajaran">Bahasa Indonesia</td>
     </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Pancasila</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">Sistem Komputer</td>
-    </tr>
-    <tr>
-      <td data-label="Mata Pelajaran">-</td>
-    </tr>
+    <!-- Sisanya data jadwal untuk setiap hari -->
   </table>
 </body>
 </html>
