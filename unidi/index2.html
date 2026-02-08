@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan Arif & Pari</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold:#b08d57;
+  --bg1:#fffaf3;
+  --bg2:#fdebd0;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(var(--bg1),var(--bg2));
+  color:#333;
+}
+
+h1,h2{
+  font-family:'Playfair Display',serif;
+  color:var(--gold);
+}
+
+.center{text-align:center}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.card{
+  background:#fff;
+  margin:40px 16px;
+  padding:30px 22px;
+  border-radius:26px;
+  box-shadow:0 15px 40px rgba(0,0,0,.12);
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .9s ease;
+}
+
+.card.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+button,.btn{
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#c8a45d,#f5d48e);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.guest{
+  margin-top:18px;
+  font-size:14px;
+  opacity:.9;
+}
+
+.map-preview{
+  display:block;
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.map-preview img{
+  width:100%;
+  display:block;
+}
+
+.map-overlay{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:10px;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-weight:600;
+  text-align:center;
+}
+
+.amplop{
+  background:#fff6ef;
+  padding:18px;
+  border-radius:18px;
+  margin-top:16px;
+}
+
+footer{
+  text-align:center;
+  font-size:13px;
+  margin:40px 0;
+  opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎶 MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🌸 OPENING -->
+<section class="hero card reveal">
+  <div>
+    <p>Undangan Pernikahan</p>
+    <h1>Arif & Pari</h1>
+    <p>04 April 2026</p>
+
+    <p class="guest">
+      Kepada Yth.<br>
+      <strong id="guestName">Tamu Undangan</strong>
+    </p>
+
+    <button onclick="openInvite()">Buka Undangan</button>
+  </div>
+</section>
+
+<!-- 👰🤵 MEMPELAI -->
+<section class="card reveal center">
+  <h2>Mempelai</h2>
+
+  <p><strong>PARI</strong><br>
+  PARIKESIT<br>
+  Putri dari Bpk. Dasma & Ibu Rohanah Mulyani<br>
+  Instagram: @parikesit_14</p>
+
+  <p style="font-size:22px">&</p>
+
+  <p><strong>ARIF</strong><br>
+  ARIEF RAHMAN HAKIM<br>
+  Putra dari Bpk. M. Nur & Ibu Jamilah<br>
+  Instagram: @arif_nsc</p>
+</section>
+
+<!-- 📆 AKAD -->
+<section class="card reveal center">
+  <h2>Akad Nikah</h2>
+  <p>Sabtu, 04 April 2026<br>
+  10:00 WIB - Selesai</p>
+  <p>Kp. Warudoyong RT.07/08<br>Mempelai Pria</p>
+</section>
+
+<!-- 📆 RESEPSI -->
+<section class="card reveal center">
+  <h2>Resepsi</h2>
+  <p>Sabtu, 04 April 2026<br>
+  10:00 WIB - Selesai</p>
+  <p>Kp. Warudoyong RT.07/08<br>Mempelai Pria</p>
+</section>
+
+<!-- 📍 MAP -->
+<section class="card reveal">
+  <h2 class="center">Lokasi Acara</h2>
+
+  <a class="map-preview" target="_blank"
+     href="https://maps.google.com/?q=Toko+Pondok+Tamiya+Buaran">
+    <img src="https://maps.googleapis.com/maps/api/staticmap?center=Toko+Pondok+Tamiya+Buaran&zoom=16&size=600x300&markers=color:red%7CToko+Pondok+Tamiya+Buaran">
+    <div class="map-overlay">Klik untuk membuka Google Maps</div>
+  </a>
+</section>
+
+<!-- 💖 LOVE STORY -->
+<section class="card reveal center">
+  <h2>Love Story</h2>
+  <p><strong>Tunangan</strong><br>20 Desember 2025</p>
+</section>
+
+<!-- 💳 AMPLOP DIGITAL -->
+<section class="card reveal center">
+  <h2>Amplop Digital</h2>
+
+  <div class="amplop">
+    <strong>BCA</strong><br>
+    ARIEF RAHMAN HAKIM<br>
+    6370360632<br>
+    <button onclick="copyText('6370360632')">Salin</button>
+  </div>
+
+  <div class="amplop">
+    <strong>BCA</strong><br>
+    PARIKESIT<br>
+    4120387176<br>
+    <button onclick="copyText('4120387176')">Salin</button>
+  </div>
+</section>
+
+<!-- 📲 RSVP -->
+<section class="card reveal center">
+  <h2>Konfirmasi Kehadiran</h2>
+  <p>WA: 088289978035<br>089668989958</p>
+</section>
+
+<footer>
+  Terima kasih atas doa dan restunya 🤍
+</footer>
+
+<script>
+// 🎵 music + open
+function openInvite(){
+  document.getElementById('music').play();
+  window.scrollTo({top:window.innerHeight,behavior:'smooth'});
+}
+
+// 📋 copy rekening
+function copyText(txt){
+  navigator.clipboard.writeText(txt);
+  alert("Nomor rekening disalin");
+}
+
+// 👤 nama tamu dari URL
+const params = new URLSearchParams(window.location.search);
+const guest = params.get("namatamu");
+if(guest){
+  document.getElementById("guestName").innerText =
+    decodeURIComponent(guest.replace(/\+/g," "));
+}
+
+// ✨ scroll reveal
+const reveal = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+    }
+  });
+},{threshold:0.2});
+reveal.forEach(r=>obs.observe(r));
+</script>
+
+</body>
+</html>
