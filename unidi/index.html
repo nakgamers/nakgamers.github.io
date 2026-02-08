@@ -92,7 +92,7 @@ hr {
   margin: 30px auto;
 }
 
-/* 🌸 FLOWER ANIMATION */
+/* FLOWER */
 .flower {
   position: fixed;
   top: -50px;
@@ -101,26 +101,46 @@ hr {
   opacity: 0.6;
   z-index: 1;
 }
-
 @keyframes fall {
   to {
     transform: translateY(110vh) rotate(360deg);
   }
 }
+
+/* AMPL0P */
+.amplop-card {
+  background: #fff6ef;
+  padding: 18px;
+  border-radius: 16px;
+  margin-top: 15px;
+}
+.amplop-card strong {
+  color: #c8a45d;
+  font-size: 18px;
+}
+.amplop-card button {
+  margin-top: 10px;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #c8a45d, #f5d48e);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
 
-<!-- 🌸 FLOWERS -->
+<!-- FLOWERS -->
 <div class="flower" style="left:10%; animation-duration:14s;">🌸</div>
 <div class="flower" style="left:30%; animation-duration:18s;">🌺</div>
 <div class="flower" style="left:50%; animation-duration:16s;">🌼</div>
 <div class="flower" style="left:70%; animation-duration:20s;">🌸</div>
 <div class="flower" style="left:90%; animation-duration:22s;">🌷</div>
 
-<!-- 🎶 MUSIC -->
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
-  <!-- GANTI FILE MUSIK -->
   <source src="musik-romantis.mp3" type="audio/mpeg">
 </audio>
 
@@ -139,7 +159,7 @@ hr {
   <div class="container">
 
     <small>The Wedding Of</small>
-    <h1 id="namaCatin"></h1>
+    <h1>Arif & Pari</h1>
 
     <p>Dengan memohon rahmat dan ridho Allah SWT,<br>
     kami bermaksud menyelenggarakan pernikahan</p>
@@ -166,30 +186,29 @@ hr {
 
     <hr>
 
-    <small>Merupakan suatu kehormatan dan kebahagiaan<br>
-    apabila Bapak/Ibu/Saudara/i berkenan hadir</small>
+    <h2>Amplop Digital</h2>
+    <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami.</p>
+
+    <div id="amplopDigital"></div>
+
+    <hr>
+
+    <small>
+      Merupakan suatu kehormatan dan kebahagiaan<br>
+      apabila Bapak/Ibu/Saudara/i berkenan hadir
+    </small>
 
   </div>
 </section>
 
 <script>
-/* DATA */
-const data = {
-  pria: "Arif",
-  wanita: "Pari",
-  tanggal: "2026-04-04T10:00:00"
-};
-
 /* GUEST */
 const params = new URLSearchParams(window.location.search);
 document.getElementById("guestName").innerText =
   decodeURIComponent((params.get("namatamu") || "Tamu Undangan").replace(/\+/g," "));
 
-/* NAMA */
-document.getElementById("namaCatin").innerText = data.pria + " & " + data.wanita;
-
 /* COUNTDOWN */
-const target = new Date(data.tanggal).getTime();
+const target = new Date("2026-04-04T10:00:00").getTime();
 setInterval(() => {
   const now = new Date().getTime();
   const diff = target - now;
@@ -201,7 +220,29 @@ setInterval(() => {
   document.getElementById("seconds").innerText = Math.floor((diff % (1000*60)) / 1000);
 }, 1000);
 
-/* OPEN + MUSIC */
+/* AMPL0P DATA */
+const amplopData = [
+  { bank: "BCA", nama: "ARIEF RAHMAN HAKIM", rekening: "6370360632" },
+  { bank: "BCA", nama: "PARIKESIT", rekening: "4120387176" }
+];
+
+const amplopContainer = document.getElementById("amplopDigital");
+amplopData.forEach(a => {
+  amplopContainer.innerHTML += `
+    <div class="amplop-card">
+      <strong>${a.bank}</strong>
+      <p>Atas Nama: ${a.nama}<br>No. Rekening: ${a.rekening}</p>
+      <button onclick="copyRek('${a.rekening}')">Salin Rekening</button>
+    </div>
+  `;
+});
+
+function copyRek(no) {
+  navigator.clipboard.writeText(no);
+  alert("Nomor rekening berhasil disalin");
+}
+
+/* OPEN */
 function openInvite() {
   document.getElementById("opening").classList.add("hide");
   document.getElementById("bgMusic").play();
