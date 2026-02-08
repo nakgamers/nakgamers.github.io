@@ -11,6 +11,7 @@ body {
   font-family: 'Georgia', serif;
   background: linear-gradient(180deg, #fff6ef, #fde2e4);
   color: #4a3f35;
+  overflow-x: hidden;
 }
 
 /* SECTION */
@@ -29,6 +30,8 @@ section {
   padding: 40px 25px;
   border-radius: 24px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  position: relative;
+  z-index: 2;
 }
 
 /* OPENING */
@@ -46,16 +49,9 @@ section {
 }
 
 /* TEXT */
-h1 {
-  font-size: 30px;
-}
-h2 {
-  color: #c8a45d;
-  margin: 10px 0;
-}
-small {
-  opacity: 0.7;
-}
+h1 { font-size: 30px; }
+h2 { color: #c8a45d; margin: 10px 0; }
+small { opacity: 0.7; }
 
 /* BUTTON */
 button, a.btn {
@@ -95,9 +91,38 @@ hr {
   border: 1px solid #f0c987;
   margin: 30px auto;
 }
+
+/* 🌸 FLOWER ANIMATION */
+.flower {
+  position: fixed;
+  top: -50px;
+  font-size: 24px;
+  animation: fall linear infinite;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
 </style>
 </head>
 <body>
+
+<!-- 🌸 FLOWERS -->
+<div class="flower" style="left:10%; animation-duration:14s;">🌸</div>
+<div class="flower" style="left:30%; animation-duration:18s;">🌺</div>
+<div class="flower" style="left:50%; animation-duration:16s;">🌼</div>
+<div class="flower" style="left:70%; animation-duration:20s;">🌸</div>
+<div class="flower" style="left:90%; animation-duration:22s;">🌷</div>
+
+<!-- 🎶 MUSIC -->
+<audio id="bgMusic" loop>
+  <!-- GANTI FILE MUSIK -->
+  <source src="musik-romantis.mp3" type="audio/mpeg">
+</audio>
 
 <!-- OPENING -->
 <section id="opening">
@@ -107,3 +132,84 @@ hr {
     <p>Tanpa mengurangi rasa hormat,<br>kami mengundang Anda</p>
     <button onclick="openInvite()">Buka Undangan</button>
   </div>
+</section>
+
+<!-- MAIN -->
+<section id="main" style="opacity:0; transition:opacity 1s;">
+  <div class="container">
+
+    <small>The Wedding Of</small>
+    <h1 id="namaCatin"></h1>
+
+    <p>Dengan memohon rahmat dan ridho Allah SWT,<br>
+    kami bermaksud menyelenggarakan pernikahan</p>
+
+    <hr>
+
+    <h2>Menuju Hari Bahagia</h2>
+    <div class="countdown">
+      <div><span id="days">0</span>Hari</div>
+      <div><span id="hours">0</span>Jam</div>
+      <div><span id="minutes">0</span>Menit</div>
+      <div><span id="seconds">0</span>Detik</div>
+    </div>
+
+    <hr>
+
+    <h2>04 April 2026</h2>
+    <p>10.00 WIB – Selesai</p>
+    <p>Kp. Warudoyong RT 07/08</p>
+
+    <a class="btn" href="https://www.google.com/maps/search/Toko+Pondok+Tamiya+Stasiun+Buaran" target="_blank">
+      📍 Lihat Lokasi
+    </a>
+
+    <hr>
+
+    <small>Merupakan suatu kehormatan dan kebahagiaan<br>
+    apabila Bapak/Ibu/Saudara/i berkenan hadir</small>
+
+  </div>
+</section>
+
+<script>
+/* DATA */
+const data = {
+  pria: "Arif",
+  wanita: "Pari",
+  tanggal: "2026-04-04T10:00:00"
+};
+
+/* GUEST */
+const params = new URLSearchParams(window.location.search);
+document.getElementById("guestName").innerText =
+  decodeURIComponent((params.get("namatamu") || "Tamu Undangan").replace(/\+/g," "));
+
+/* NAMA */
+document.getElementById("namaCatin").innerText = data.pria + " & " + data.wanita;
+
+/* COUNTDOWN */
+const target = new Date(data.tanggal).getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = target - now;
+  if (diff < 0) return;
+
+  document.getElementById("days").innerText = Math.floor(diff / (1000*60*60*24));
+  document.getElementById("hours").innerText = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  document.getElementById("minutes").innerText = Math.floor((diff % (1000*60*60)) / (1000*60));
+  document.getElementById("seconds").innerText = Math.floor((diff % (1000*60)) / 1000);
+}, 1000);
+
+/* OPEN + MUSIC */
+function openInvite() {
+  document.getElementById("opening").classList.add("hide");
+  document.getElementById("bgMusic").play();
+  setTimeout(() => {
+    document.getElementById("main").style.opacity = 1;
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
