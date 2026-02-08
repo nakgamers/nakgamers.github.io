@@ -9,13 +9,14 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background: #0e0e0e;
-  color: #f5f5f5;
+  background: linear-gradient(180deg, #fff6ef, #fde2e4);
+  color: #4a3f35;
 }
 
+/* SECTION */
 section {
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 50px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,13 +25,17 @@ section {
 
 .container {
   max-width: 520px;
-  margin: auto;
+  background: #ffffff;
+  padding: 40px 25px;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
+/* OPENING */
 #opening {
   position: fixed;
   inset: 0;
-  background: linear-gradient(160deg, #111, #000);
+  background: linear-gradient(160deg, #fde2e4, #fff1da);
   z-index: 10;
   transition: opacity 1s ease, visibility 1s;
 }
@@ -40,27 +45,54 @@ section {
   visibility: hidden;
 }
 
-button {
-  padding: 14px 28px;
-  border-radius: 30px;
-  border: none;
-  background: #c8a45d;
-  color: #000;
-  font-size: 16px;
-  cursor: pointer;
+/* TEXT */
+h1 {
+  font-size: 30px;
 }
-
-h1, h2, h3 {
+h2 {
+  color: #c8a45d;
   margin: 10px 0;
 }
-
 small {
   opacity: 0.7;
 }
 
+/* BUTTON */
+button, a.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  margin-top: 20px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #c8a45d, #f5d48e);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* COUNTDOWN */
+.countdown {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+.countdown div {
+  background: #fff6ef;
+  padding: 12px;
+  border-radius: 14px;
+  width: 70px;
+}
+.countdown span {
+  font-size: 22px;
+  font-weight: bold;
+  display: block;
+}
+
+/* DIVIDER */
 hr {
   width: 80px;
-  border: 1px solid #c8a45d;
+  border: 1px solid #f0c987;
   margin: 30px auto;
 }
 </style>
@@ -72,117 +104,6 @@ hr {
   <div class="container">
     <small>Kepada Yth.</small>
     <h2 id="guestName">Tamu Undangan</h2>
-    <p>Tanpa mengurangi rasa hormat,<br>kami mengundang Anda untuk hadir</p>
+    <p>Tanpa mengurangi rasa hormat,<br>kami mengundang Anda</p>
     <button onclick="openInvite()">Buka Undangan</button>
   </div>
-</section>
-
-<!-- MAIN -->
-<section id="main" style="opacity:0; transition:opacity 1s;">
-  <div class="container">
-
-    <h1 id="namaCatin"></h1>
-    <p>Dengan memohon rahmat dan ridho Allah SWT,<br>kami akan melangsungkan pernikahan</p>
-
-    <hr>
-
-    <h2 id="akadTanggal"></h2>
-    <p id="akadWaktu"></p>
-    <p id="akadAlamat"></p>
-
-    <hr>
-
-    <h2>Resepsi</h2>
-    <p id="resepsiTanggal"></p>
-    <p id="resepsiWaktu"></p>
-    <p id="resepsiAlamat"></p>
-
-    <hr>
-
-    <h3>Amplop Digital</h3>
-    <div id="amplop"></div>
-
-    <hr>
-
-    <small>© Undangan Digital</small>
-
-  </div>
-</section>
-
-<script>
-/* ================= DATA UNDANGAN ================= */
-const invitationData = {
-  mempelai: {
-    wanita: {
-      namaPanggilan: "Pari",
-      namaLengkap: "Parikesit",
-      ayah: "Dasma",
-      ibu: "Rohanah Mulyani",
-      instagram: "parikesit_14"
-    },
-    pria: {
-      namaPanggilan: "Arif",
-      namaLengkap: "Arief Rahman Hakim",
-      ayah: "M. Nur",
-      ibu: "Jamilah",
-      instagram: "arif_nsc"
-    }
-  },
-
-  akad: {
-    tanggal: "04 April 2026",
-    waktu: "10.00 WIB - Selesai",
-    alamat: "Kp. Warudoyong RT 07/08"
-  },
-
-  resepsi: {
-    tanggal: "04 April 2026",
-    waktu: "10.00 WIB - Selesai",
-    alamat: "Kp. Warudoyong RT 07/08"
-  },
-
-  amplopDigital: [
-    { bank: "BCA", nama: "Arief Rahman Hakim", no: "6370360632" },
-    { bank: "BCA", nama: "Parikesit", no: "4120387176" }
-  ]
-};
-
-/* ================= NAMA TAMU ================= */
-const params = new URLSearchParams(window.location.search);
-const namaTamu = params.get("namatamu") || "Tamu Undangan";
-document.getElementById("guestName").innerText =
-  decodeURIComponent(namaTamu.replace(/\+/g, " "));
-
-/* ================= ISI DATA ================= */
-document.getElementById("namaCatin").innerText =
-  invitationData.mempelai.pria.namaPanggilan +
-  " & " +
-  invitationData.mempelai.wanita.namaPanggilan;
-
-document.getElementById("akadTanggal").innerText = invitationData.akad.tanggal;
-document.getElementById("akadWaktu").innerText = invitationData.akad.waktu;
-document.getElementById("akadAlamat").innerText = invitationData.akad.alamat;
-
-document.getElementById("resepsiTanggal").innerText = invitationData.resepsi.tanggal;
-document.getElementById("resepsiWaktu").innerText = invitationData.resepsi.waktu;
-document.getElementById("resepsiAlamat").innerText = invitationData.resepsi.alamat;
-
-/* ================= AMPOLOP ================= */
-const amplopDiv = document.getElementById("amplop");
-invitationData.amplopDigital.forEach(a => {
-  amplopDiv.innerHTML += `
-    <p><strong>${a.bank}</strong><br>${a.nama}<br>${a.no}</p>
-  `;
-});
-
-/* ================= OPENING ================= */
-function openInvite() {
-  document.getElementById("opening").classList.add("hide");
-  setTimeout(() => {
-    document.getElementById("main").style.opacity = 1;
-  }, 1000);
-}
-</script>
-
-</body>
-</html>
