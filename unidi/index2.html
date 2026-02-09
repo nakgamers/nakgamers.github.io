@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Undangan Pernikahan Arif & Pari</title>
+<!-- =========================================
+     META TAGS UNTUK WHATSAPP / SOSMED
+     ========================================= -->
+<!-- Judul yang muncul di WA -->
+<title>The Wedding of Arif & Pari</title>
+<meta property="og:title" content="The Wedding of Arif & Pari">
+
+<!-- Deskripsi singkat di bawah judul -->
+<meta property="og:description" content="Sabtu, 04 April 2026. Kepada Yth. Bapak/Ibu/Saudara/i, kami mengundang Anda untuk hadir di pernikahan kami.">
+
+<!-- Gambar Thumbnail (Ganti URL ini dengan foto kamu sendiri) -->
+<!-- PENTING: Harus menggunakan HTTPS lengkap, jangan file lokal -->
+<meta property="og:image" content="https://ibb.co.com.FkZTx2Pv">
+
+<!-- Tipe konten -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aripari.qzz.io/">
+
+<!-- Favicon (Ikon kecil di tab browser) -->
+<link rel="icon" type="image/png" href="https://img.icons8.com/color/48/wedding-rings.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -42,8 +61,8 @@ h1,h2{
 
 .card{
   background:#fff;
-  margin:40px 16px;
-  padding:30px 22px;
+  margin:20px 16px;
+  padding:30px 20px; /* Padding sedikit diperkecil agar ruang konten lebih lega */
   border-radius:26px;
   box-shadow:0 15px 40px rgba(0,0,0,.12);
   opacity:0;
@@ -51,6 +70,7 @@ h1,h2{
   transition:all .9s ease;
   max-width: 500px;
   width: calc(100% - 32px);
+  position: relative;
 }
 
 section.card {
@@ -63,6 +83,43 @@ section.card {
   transform:translateY(0);
 }
 
+/* --- COUNTDOWN STYLES (FIXED) --- */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px; /* Jarak antar kotak diperkecil */
+    margin: 25px 0;
+    width: 100%; /* Pastikan container tidak melebihi lebar induk */
+}
+
+.countdown-box {
+    background: var(--bg1);
+    padding: 10px 2px; /* Padding kiri-kanan kecil agar muat */
+    border-radius: 10px;
+    flex: 1; /* Agar lebar otomatis menyesuaikan layar */
+    min-width: 0; /* Mencegah overflow flex item */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-number {
+    font-size: 18px; /* Font sedikit diperkecil agar aman di HP kecil */
+    font-weight: bold;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 4px;
+}
+
 button,.btn{
   padding:12px 26px;
   border:none;
@@ -73,6 +130,7 @@ button,.btn{
   cursor:pointer;
   margin-top: 10px;
   transition: transform 0.2s;
+  box-shadow: 0 5px 15px rgba(200, 164, 93, 0.4);
 }
 
 button:hover {
@@ -85,9 +143,14 @@ button:disabled {
 }
 
 .guest{
-  margin-top:18px;
+  margin-top:20px;
   font-size:14px;
   opacity:.9;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  width: 90%; /* Diperlebar sedikit */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .map-preview{
@@ -111,11 +174,12 @@ button:disabled {
   bottom:0;
   width:100%;
   padding:10px;
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.6);
   color:#fff;
   font-weight:600;
   text-align:center;
   font-size: 12px;
+  backdrop-filter: blur(2px);
 }
 
 .amplop{
@@ -135,8 +199,6 @@ footer{
 }
 
 /* --- AI FEATURES STYLES --- */
-
-/* 1. Wish Generator Styles */
 .wish-form input, .wish-form select {
     width: 100%;
     padding: 10px;
@@ -152,7 +214,7 @@ footer{
     border-left: 3px solid var(--gold);
     font-style: italic;
     font-size: 14px;
-    display: none; /* Hidden by default */
+    display: none;
     position: relative;
 }
 .wish-result button {
@@ -162,9 +224,9 @@ footer{
     padding: 5px 10px;
     font-size: 10px;
     margin: 0;
+    box-shadow: none;
 }
 
-/* 2. Chatbot Styles */
 .chat-btn {
     position: fixed;
     bottom: 20px;
@@ -195,7 +257,7 @@ footer{
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     z-index: 1000;
-    display: none; /* Hidden by default */
+    display: none;
     flex-direction: column;
     overflow: hidden;
     animation: slideUp 0.3s ease;
@@ -262,9 +324,9 @@ footer{
     padding: 0 15px;
     margin: 0;
     border-radius: 20px;
+    box-shadow: none;
 }
 
-/* Loading Dots */
 .typing {
     display: flex;
     gap: 4px;
@@ -292,22 +354,42 @@ footer{
 
 <!-- 🎶 MUSIC -->
 <audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <source src="https://cdn1.suno.ai/a233ab42-4d73-4322-883f-aeac6435f041.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🌸 OPENING -->
+<!-- 🌸 OPENING (HERO) -->
 <section class="hero card reveal active">
-  <div>
-    <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 12px;">Undangan Pernikahan</p>
+  <div style="width: 100%;"> <!-- Pastikan konten full width -->
+    <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 12px; color: #888;">Undangan Pernikahan</p>
     <h1 style="font-size: 3rem; margin: 10px 0;">Arif & Pari</h1>
     <p>04 April 2026</p>
 
-    <div class="guest">
-      Kepada Yth.<br>
-      <strong id="guestName" style="font-size: 1.2rem; display: block; margin: 5px 0;">Tamu Undangan</strong>
+    <!-- COUNTDOWN WIDGET -->
+    <div class="countdown-container">
+        <div class="countdown-box">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Detik</span>
+        </div>
     </div>
 
-    <button onclick="openInvite()">Buka Undangan 💌</button>
+    <div class="guest">
+      Kepada Yth.<br>
+      <strong id="guestName" style="font-size: 1.2rem; display: block; margin: 5px 0; color: #333;">Tamu Undangan</strong>
+    </div>
+
+    <button onclick="openInvite()" style="margin-top: 20px;">Buka Undangan 💌</button>
   </div>
 </section>
 
@@ -332,22 +414,25 @@ footer{
   </div>
 </section>
 
-<!-- 📆 AKAD -->
+<!-- 📆 ACARA -->
 <section class="card reveal center">
-  <h2>Akad Nikah</h2>
-  <p style="font-weight: bold; font-size: 1.1rem;">Sabtu, 04 April 2026</p>
-  <p>10:00 WIB - Selesai</p>
-  <hr style="border: 0; border-top: 1px dashed #ddd; width: 50%; margin: 15px auto;">
-  <p style="font-size: 14px;">Kp. Warudoyong RT.07/08<br>(Kediaman Mempelai Pria)</p>
-</section>
+  <h2>Rangkaian Acara</h2>
+  
+  <div style="margin-bottom: 30px;">
+      <h3 style="margin: 5px 0; font-size: 20px;">Akad Nikah</h3>
+      <p style="font-weight: bold; color: #555;">Sabtu, 04 April 2026</p>
+      <p style="font-size: 14px;">10:00 WIB - Selesai</p>
+      <p style="font-size: 13px; color: #777;">Kp. Warudoyong RT.07/08</p>
+  </div>
+  
+  <hr style="border: 0; border-top: 1px dashed #ddd; width: 60%; margin: 20px auto;">
 
-<!-- 📆 RESEPSI -->
-<section class="card reveal center">
-  <h2>Resepsi</h2>
-  <p style="font-weight: bold; font-size: 1.1rem;">Sabtu, 04 April 2026</p>
-  <p>10:00 WIB - Selesai</p>
-  <hr style="border: 0; border-top: 1px dashed #ddd; width: 50%; margin: 15px auto;">
-  <p style="font-size: 14px;">Kp. Warudoyong RT.07/08<br>(Kediaman Mempelai Pria)</p>
+  <div>
+      <h3 style="margin: 5px 0; font-size: 20px;">Resepsi</h3>
+      <p style="font-weight: bold; color: #555;">Sabtu, 04 April 2026</p>
+      <p style="font-size: 14px;">10:00 WIB - Selesai</p>
+      <p style="font-size: 13px; color: #777;">Kp. Warudoyong RT.07/08</p>
+  </div>
 </section>
 
 <!-- 📍 MAP -->
@@ -356,9 +441,9 @@ footer{
   <p class="center" style="font-size: 13px;">Patokan: Toko Pondok Tamiya / Stasiun Buaran</p>
 
   <a class="map-preview" target="_blank"
-     href="https://www.google.com/maps/search/?api=1&query=Toko+Pondok+Tamiya+Buaran">
-    <!-- Placeholder Map Image -->
-    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Peta Lokasi">
+     href="https://www.google.com/maps/search/?api=1&query=Warung+Toing+Buaran">
+    <!-- Menggunakan gambar resolusi tinggi untuk map agar tidak pecah -->
+    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Peta Lokasi">
     <div class="map-overlay">Klik untuk membuka Google Maps</div>
   </a>
 </section>
@@ -366,36 +451,54 @@ footer{
 <!-- 💖 LOVE STORY -->
 <section class="card reveal center">
   <h2>Love Story</h2>
-  <div style="border-left: 2px solid var(--gold); padding-left: 15px; text-align: left; margin-left: 20px;">
-      <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--gold);">20 Desember 2025</p>
-      <h3 style="margin: 5px 0; font-size: 18px;">Tunangan</h3>
-      <p style="font-size: 13px; line-height: 1.5;">Momen dimana kami mengikat janji untuk melangkah ke jenjang yang lebih serius.</p>
+  <div style="border-left: 2px solid var(--gold); padding-left: 20px; text-align: left; margin-left: 20px;">
+      <div style="margin-bottom: 20px;">
+          <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--gold); text-transform: uppercase;">20 Desember 2025</p>
+          <h3 style="margin: 5px 0; font-size: 18px;">Tunangan</h3>
+          <p style="font-size: 13px; line-height: 1.5; color: #555;">Momen dimana kami mengikat janji untuk melangkah ke jenjang yang lebih serius.</p>
+      </div>
+      <div>
+        <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--gold); text-transform: uppercase;">04 April 2026</p>
+          <h3 style="margin: 5px 0; font-size: 18px;">Pernikahan</h3>
+          <p style="font-size: 13px; line-height: 1.5; color: #555;">Hari yang dinanti, awal dari perjalanan hidup bersama dalam ikatan suci.</p>
+      </div>
   </div>
 </section>
 
 <!-- 💳 AMPLOP DIGITAL -->
 <section class="card reveal center">
   <h2>Amplop Digital</h2>
+  <p style="font-size: 13px; margin-bottom: 20px;">Doa restu Anda adalah kado terindah bagi kami.</p>
 
   <div class="amplop">
-    <strong style="font-size: 1.2rem;">BCA</strong><br>
-    <span style="font-size: 12px;">a.n ARIEF RAHMAN HAKIM</span><br>
-    <div style="font-family: monospace; font-size: 18px; margin: 10px 0; letter-spacing: 1px;">6370360632</div>
-    <button onclick="copyText('6370360632')" style="font-size: 12px; padding: 8px 16px;">Salin No. Rek</button>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size: 1.2rem;">BCA</strong>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" style="height:15px; opacity:0.6;">
+    </div>
+    <div style="text-align: left; margin-top: 10px;">
+        <span style="font-size: 12px; color: #666;">a.n ARIEF RAHMAN HAKIM</span>
+        <div style="font-family: monospace; font-size: 18px; font-weight:bold; letter-spacing: 1px; color:#333;">6370360632</div>
+    </div>
+    <button onclick="copyText('6370360632')" style="font-size: 12px; padding: 6px 14px; margin-top: 10px; width: 100%;">Salin No. Rek</button>
   </div>
 
   <div class="amplop">
-    <strong style="font-size: 1.2rem;">BCA</strong><br>
-    <span style="font-size: 12px;">a.n PARIKESIT</span><br>
-    <div style="font-family: monospace; font-size: 18px; margin: 10px 0; letter-spacing: 1px;">4120387176</div>
-    <button onclick="copyText('4120387176')" style="font-size: 12px; padding: 8px 16px;">Salin No. Rek</button>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size: 1.2rem;">BCA</strong>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" style="height:15px; opacity:0.6;">
+    </div>
+    <div style="text-align: left; margin-top: 10px;">
+        <span style="font-size: 12px; color: #666;">a.n PARIKESIT</span>
+        <div style="font-family: monospace; font-size: 18px; font-weight:bold; letter-spacing: 1px; color:#333;">4120387176</div>
+    </div>
+    <button onclick="copyText('4120387176')" style="font-size: 12px; padding: 6px 14px; margin-top: 10px; width: 100%;">Salin No. Rek</button>
   </div>
 </section>
 
-<!-- ✨ AI WISH GENERATOR (New Feature) -->
+<!-- ✨ AI WISH GENERATOR -->
 <section class="card reveal center">
     <h2>Buat Ucapan (AI) ✨</h2>
-    <p style="font-size: 13px; margin-bottom: 20px;">Bingung merangkai kata? Biarkan AI membantu membuatkan ucapan spesial untuk mempelai.</p>
+    <p style="font-size: 13px; margin-bottom: 20px;">Bingung merangkai kata? Biarkan AI membantu membuatkan ucapan spesial.</p>
     
     <div class="wish-form">
         <input type="text" id="wisherName" placeholder="Nama Anda (Cth: Budi)">
@@ -426,20 +529,20 @@ footer{
   <p style="font-size: 14px; margin-bottom: 20px;">Mohon konfirmasi kehadiran Anda melalui WhatsApp:</p>
   
   <a href="https://wa.me/6288289978035?text=Halo%20Arif%20%26%20Pari,%20saya%20hadir." target="_blank" style="text-decoration: none;">
-      <button style="background: #25D366; width: 100%; margin-bottom: 10px;">Chat WA Mempelai 1</button>
+      <button style="background: #25D366; width: 100%; margin-bottom: 10px; border-radius: 8px;">Chat WA Mempelai 1</button>
   </a>
   <a href="https://wa.me/6289668989958?text=Halo%20Arif%20%26%20Pari,%20saya%20hadir." target="_blank" style="text-decoration: none;">
-      <button style="background: #128C7E; width: 100%;">Chat WA Mempelai 2</button>
+      <button style="background: #128C7E; width: 100%; border-radius: 8px;">Chat WA Mempelai 2</button>
   </a>
 </section>
 
 <footer>
-  <p>Arif & Pari</p>
-  Terima kasih atas doa dan restunya 🤍<br>
-  <span style="font-size: 10px; opacity: 0.8">Powered by Gemini AI ✨</span>
+  <p style="font-family:'Playfair Display', serif; font-size: 18px; margin-bottom: 5px;">Arif & Pari</p>
+  <span style="font-size: 11px;">04 April 2026</span><br><br>
+  <span style="font-size: 10px; opacity: 0.6">Created By <a href="https://nandz.my.id"> Nandz </a> ✨</span>
 </footer>
 
-<!-- 🤖 CHATBOT FLOATING BUTTON (New Feature) -->
+<!-- 🤖 CHATBOT FLOATING BUTTON -->
 <div class="chat-btn" onclick="toggleChat()">💬</div>
 
 <!-- CHAT WINDOW -->
@@ -449,7 +552,7 @@ footer{
         <button class="close-chat" onclick="toggleChat()">×</button>
     </div>
     <div class="chat-body" id="chatBody">
-        <div class="msg bot">Halo! Saya asisten pintar untuk pernikahan Arif & Pari. Ada yang bisa dibantu? 😊</div>
+        <div class="msg bot">Halo! Saya Quineilla asisten pintar yang dibuat oleh Nandar untuk pernikahan Arif & Pari. Ada yang bisa dibantu? 😊</div>
     </div>
     <div class="chat-input-area">
         <input type="text" id="chatInput" placeholder="Tanya jam, lokasi..." onkeypress="handleEnter(event)">
@@ -459,10 +562,36 @@ footer{
 
 <script>
 // ==========================================
-// 🔑 KONFIGURASI API KEY GEMINI (WAJIB DIISI)
+// 🔑 KONFIGURASI API KEY GEMINI
 // ==========================================
-const GEMINI_API_KEY = ""; // <--- ISI API KEY ANDA DI SINI
+const GEMINI_API_KEY = ""; 
 // ==========================================
+
+// --- COUNTDOWN LOGIC (Baru) ---
+function updateCountdown() {
+    // Tanggal pernikahan: 4 April 2026
+    const weddingDate = new Date("April 4, 2026 10:00:00").getTime();
+    const now = new Date().getTime();
+    const gap = weddingDate - now;
+
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+
+    const d = Math.floor(gap / day);
+    const h = Math.floor((gap % day) / hour);
+    const m = Math.floor((gap % hour) / minute);
+    const s = Math.floor((gap % minute) / second);
+
+    document.getElementById("days").innerText = d;
+    document.getElementById("hours").innerText = h;
+    document.getElementById("minutes").innerText = m;
+    document.getElementById("seconds").innerText = s;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown(); // Jalankan langsung
+
 
 // --- GEMINI API HELPER FUNCTION ---
 async function callGemini(prompt, systemInstruction = "") {
@@ -505,20 +634,16 @@ async function generateWish() {
 
     if(!name) { alert("Mohon isi nama Anda dulu"); return; }
 
-    // UI Loading state
     btn.innerText = "Sedang Membuat... ⏳";
     btn.disabled = true;
     resultBox.style.display = 'block';
     resultText.innerText = "Sedang mengetik...";
 
-    // Construct Prompt
     const prompt = `Buatkan ucapan pernikahan singkat (maksimal 2 kalimat) untuk Arif & Pari. 
     Pengirim: ${name}. Hubungan: ${relation}. Gaya bahasa: ${tone}. Bahasa: Indonesia.`;
 
-    // Call API
     const text = await callGemini(prompt, "Kamu adalah penulis kreatif untuk kartu ucapan pernikahan.");
     
-    // Update UI
     resultText.innerText = text;
     btn.innerText = "Buatkan Ucapan ✨";
     btn.disabled = false;
@@ -552,11 +677,9 @@ async function sendMessage() {
 
     if (!text) return;
 
-    // 1. Add User Message
     appendMessage(text, 'user');
     input.value = '';
 
-    // 2. Show Typing Indicator
     const typingDiv = document.createElement('div');
     typingDiv.className = 'typing';
     typingDiv.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
@@ -565,20 +688,25 @@ async function sendMessage() {
 
     // 3. Prepare Prompt
     const systemPrompt = `
-    Kamu adalah asisten pernikahan sopan untuk pernikahan Arif & Pari.
+    Kamu adalah asisten pernikahan sopan dengan nama Quineilla yang dibuat oleh Nandar untuk pernikahan Arif & Pari.
     Data Acara:
     - Tanggal: Sabtu, 04 April 2026
     - Akad & Resepsi: 10:00 WIB - Selesai
     - Lokasi: Kp. Warudoyong RT.07/08 (Kediaman Mempelai Pria)
     - Patokan: Toko Pondok Tamiya / Stasiun Buaran
-    - Peta: https://goo.gl/maps/placeholder
+    - Peta: https://share.google/abmJXSVF4V6Sa567X
+    - Nama Lengkap Mempelai pria: Arif Rahman hakim
+    - Nama Lengkap Mempelai perempuan: Parikesit
+    - Nama pembuat undangan dan Aplikasi : Nandar / Nandz
+    - Nama orangtua Mempelai wanita: Bpk. Dasma
+& Ibu Rohanah Mulyani
+    - Nama orangtua Mempelai Pria: Bpk. M. Nur
+& Ibu Jamilah
     Jawab pertanyaan tamu dengan singkat, ramah, dan gunakan emoji.
     `;
 
-    // 4. Call API
     const reply = await callGemini(text, systemPrompt);
 
-    // 5. Remove typing & Add Bot Message
     body.removeChild(typingDiv);
     appendMessage(reply, 'bot');
 }
@@ -593,14 +721,13 @@ function appendMessage(text, sender) {
 }
 
 
-// --- EXISTING SCRIPTS (Music, Scroll, etc) ---
+// --- EXISTING SCRIPTS ---
 function openInvite(){
   var audio = document.getElementById('music');
   audio.play().catch(function(error) {
       console.log("Audio play blocked by browser policy: " + error);
   });
   
-  // Scroll halus ke konten utama
   document.getElementById('main-content').scrollIntoView({ 
     behavior: 'smooth' 
   });
