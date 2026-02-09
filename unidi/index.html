@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Undangan Pernikahan Arif & Pari</title>
+<!-- =========================================
+     META TAGS UNTUK WHATSAPP / SOSMED
+     ========================================= -->
+<!-- Judul yang muncul di WA -->
+<title>The Wedding of Arif & Pari</title>
+<meta property="og:title" content="The Wedding of Arif & Pari">
+
+<!-- Deskripsi singkat di bawah judul -->
+<meta property="og:description" content="Sabtu, 04 April 2026. Kepada Yth. Bapak/Ibu/Saudara/i, kami mengundang Anda untuk hadir di pernikahan kami.">
+
+<!-- Gambar Thumbnail (Ganti URL ini dengan foto kamu sendiri) -->
+<!-- PENTING: Harus menggunakan HTTPS lengkap, jangan file lokal -->
+<meta property="og:image" content="https://ibb.co.com.FkZTx2Pv">
+
+<!-- Tipe konten -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aripari.qzz.io/">
+
+<!-- Favicon (Ikon kecil di tab browser) -->
+<link rel="icon" type="image/png" href="https://img.icons8.com/color/48/wedding-rings.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -533,7 +552,7 @@ footer{
         <button class="close-chat" onclick="toggleChat()">×</button>
     </div>
     <div class="chat-body" id="chatBody">
-        <div class="msg bot">Halo! Saya asisten pintar untuk pernikahan Arif & Pari. Ada yang bisa dibantu? 😊</div>
+        <div class="msg bot">Halo! Saya Quineilla asisten pintar yang dibuat oleh Nandar untuk pernikahan Arif & Pari. Ada yang bisa dibantu? 😊</div>
     </div>
     <div class="chat-input-area">
         <input type="text" id="chatInput" placeholder="Tanya jam, lokasi..." onkeypress="handleEnter(event)">
@@ -669,13 +688,20 @@ async function sendMessage() {
 
     // 3. Prepare Prompt
     const systemPrompt = `
-    Kamu adalah asisten pernikahan sopan untuk pernikahan Arif & Pari.
+    Kamu adalah asisten pernikahan sopan dengan nama Quineilla yang dibuat oleh Nandar untuk pernikahan Arif & Pari.
     Data Acara:
     - Tanggal: Sabtu, 04 April 2026
     - Akad & Resepsi: 10:00 WIB - Selesai
     - Lokasi: Kp. Warudoyong RT.07/08 (Kediaman Mempelai Pria)
     - Patokan: Toko Pondok Tamiya / Stasiun Buaran
     - Peta: https://share.google/abmJXSVF4V6Sa567X
+    - Nama Lengkap Mempelai pria: Arif Rahman hakim
+    - Nama Lengkap Mempelai perempuan: Parikesit
+    - Nama pembuat undangan dan Aplikasi : Nandar / Nandz
+    - Nama orangtua Mempelai wanita: Bpk. Dasma
+& Ibu Rohanah Mulyani
+    - Nama orangtua Mempelai Pria: Bpk. M. Nur
+& Ibu Jamilah
     Jawab pertanyaan tamu dengan singkat, ramah, dan gunakan emoji.
     `;
 
