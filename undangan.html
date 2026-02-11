@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- =========================================
+     META TAGS & JUDUL
+     ========================================= -->
+<title>The Wedding of Yusuf & Juli</title>
+<meta property="og:title" content="The Wedding of Yusuf & Juli">
+<meta property="og:description" content="Sabtu, 18 April 2026. Desa Cikeler, Pandeglang.">
+<!-- Gambar Thumbnail (Ganti dengan foto prewed jika ada) -->
+<meta property="og:image" content="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80">
+<meta property="og:type" content="website">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* --- TEMA FRESH (SAGE GREEN) --- */
+:root{
+  --primary: #557C55;      /* Hijau Sage Gelap */
+  --secondary: #A6CF98;    /* Hijau Muda Segar */
+  --accent: #F2F6F5;       /* Putih Kehijauan (Background) */
+  --text: #333333;
+  --white: #ffffff;
+  --gold-accent: #D4A373;  /* Sedikit sentuhan kayu/gold */
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Nunito Sans',sans-serif;
+  background:linear-gradient(180deg, var(--white), var(--accent));
+  color:var(--text);
+  overflow-x: hidden;
+}
+
+h1,h2,h3{
+  font-family:'Playfair Display',serif;
+  color:var(--primary);
+}
+
+.center{text-align:center}
+
+/* Hero Section */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  flex-direction: column;
+  background-image: url('https://www.transparenttextures.com/patterns/leaves.png'); /* Pattern Daun Halus */
+}
+
+/* Card Styling */
+.card{
+  background:rgba(255, 255, 255, 0.95);
+  margin:20px 16px;
+  padding:40px 20px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(85, 124, 85, 0.15); /* Shadow kehijauan */
+  border: 1px solid var(--secondary);
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .9s ease;
+  max-width: 500px;
+  width: calc(100% - 32px);
+  position: relative;
+}
+
+section.card {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Countdown */
+.countdown-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 25px 0;
+    width: 100%;
+}
+
+.countdown-box {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 5px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-number {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    opacity: 0.9;
+}
+
+/* Buttons */
+button, .btn{
+  padding:12px 28px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:var(--white);
+  font-weight:600;
+  cursor:pointer;
+  margin-top: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 5px 15px rgba(85, 124, 85, 0.3);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(85, 124, 85, 0.4);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.guest{
+  margin-top:20px;
+  font-size:14px;
+  color: var(--primary);
+  border-top: 1px solid var(--secondary);
+  padding-top: 20px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Map */
+.map-preview{
+  display:block;
+  position:relative;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  margin-top: 15px;
+  border: 2px solid var(--white);
+}
+
+.map-preview img{
+  width:100%;
+  height: 250px;
+  object-fit: cover;
+  display:block;
+}
+
+.map-overlay{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:10px;
+  background:rgba(85, 124, 85, 0.8); /* Hijau transparan */
+  color:var(--white);
+  font-weight:600;
+  text-align:center;
+  font-size: 12px;
+  backdrop-filter: blur(2px);
+}
+
+/* Amplop */
+.amplop{
+  background: var(--accent);
+  padding:20px;
+  border-radius:15px;
+  margin-top:16px;
+  border: 1px dashed var(--primary);
+  position: relative;
+}
+
+footer{
+  text-align:center;
+  font-size:13px;
+  margin:40px 0;
+  opacity:.8;
+  padding-bottom: 20px;
+  color: var(--primary);
+}
+
+/* --- AI FEATURES STYLES --- */
+.wish-form input, .wish-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
+    background: var(--white);
+    font-family: inherit;
+    color: var(--text);
+}
+.wish-result {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--bg2);
+    border-left: 4px solid var(--primary);
+    font-style: italic;
+    font-size: 14px;
+    display: none;
+    position: relative;
+    border-radius: 0 10px 10px 0;
+}
+.wish-result button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    font-size: 10px;
+    margin: 0;
+    box-shadow: none;
+    background: var(--secondary);
+}
+
+/* Chatbot */
+.chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 5px 20px rgba(85, 124, 85, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.chat-btn:hover { transform: scale(1.1); }
+
+.chat-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+    border: 1px solid var(--secondary);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header h3 { margin: 0; font-size: 16px; font-family: 'Nunito Sans', sans-serif; }
+.close-chat { background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 0; margin: 0; box-shadow: none; }
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+.msg.bot {
+    background: var(--white);
+    align-self: flex-start;
+    border-top-left-radius: 2px;
+    border: 1px solid #eee;
+    color: var(--text);
+}
+.msg.user {
+    background: var(--secondary);
+    align-self: flex-end;
+    border-top-right-radius: 2px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.chat-input-area {
+    padding: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 5px;
+    background: var(--white);
+}
+.chat-input-area input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+.chat-input-area button {
+    padding: 0 15px;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: none;
+}
+
+.typing {
+    display: flex;
+    gap: 4px;
+    padding: 10px;
+    background: var(--white);
+    border-radius: 14px;
+    align-self: flex-start;
+    width: fit-content;
+}
+.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--secondary);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+</style>
+</head>
+
+<body>
+
+<!-- 🎶 MUSIC -->
+<audio id="music" loop>
+  <!-- Menggunakan lagu instrumental yang calm/fresh -->
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🌿 HERO SECTION -->
+<section class="hero card reveal active">
+  <div style="width: 100%;">
+    <p style="letter-spacing: 3px; text-transform: uppercase; font-size: 11px; color: var(--primary);">The Wedding Of</p>
+    <h1 style="font-size: 3.5rem; margin: 15px 0; line-height:1.1;">Yusuf <br><span style="font-size:2rem; color:var(--gold-accent);">&</span><br> Juli</h1>
+    <p style="font-weight:600; color:var(--text);">18 April 2026</p>
+
+    <!-- COUNTDOWN WIDGET -->
+    <div class="countdown-container">
+        <div class="countdown-box">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-box">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Detik</span>
+        </div>
+    </div>
+
+    <div class="guest">
+      Kepada Yth.<br>
+      <strong id="guestName" style="font-size: 1.3rem; display: block; margin: 8px 0; color: var(--text);">Tamu Undangan</strong>
+    </div>
+
+    <button onclick="openInvite()" style="margin-top: 25px;">Buka Undangan 🌿</button>
+  </div>
+</section>
+
+<!-- 👰🤵 MEMPELAI -->
+<section class="card reveal center" id="main-content">
+  <h2>Mempelai</h2>
+  <p style="font-size:12px; margin-bottom:30px; font-style:italic;">Maha suci Allah yang telah menciptakan mahluk-Nya berpasang-pasangan.</p>
+
+  <!-- Mempelai Wanita -->
+  <div style="margin-bottom: 30px;">
+      <div style="width:100px; height:100px; background:#eee; border-radius:50%; margin:0 auto 10px; overflow:hidden; border:3px solid var(--secondary);">
+           <!-- Ganti src dengan foto wanita jika ada -->
+           <img src="https://via.placeholder.com/100x100?text=Juli" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <h3 style="margin: 5px 0; font-size: 1.8rem;">Juli</h3>
+      <p style="margin: 0; font-weight: 600; color:var(--text);">Jualianita Nurhasanah</p>
+      <p style="font-size: 12px; margin-top: 5px; color: #666;">
+          Putri dari Bpk. TBD <br>& Ibu TBD
+      </p>
+      <a href="https://instagram.com/jlyanta_nrhaa" target="_blank" style="text-decoration: none; color: var(--primary); font-size: 12px; font-weight:bold;">
+         @jlyanta_nrhaa
+      </a>
+  </div>
+
+  <span style="font-family: 'Playfair Display', serif; font-size: 30px; color: var(--gold-accent);">&</span>
+
+  <!-- Mempelai Pria -->
+  <div style="margin-top: 30px;">
+      <div style="width:100px; height:100px; background:#eee; border-radius:50%; margin:0 auto 10px; overflow:hidden; border:3px solid var(--secondary);">
+           <!-- Ganti src dengan foto pria jika ada -->
+           <img src="https://via.placeholder.com/100x100?text=Yusuf" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <h3 style="margin: 5px 0; font-size: 1.8rem;">Yusuf</h3>
+      <p style="margin: 0; font-weight: 600; color:var(--text);">Yusuf Al-Aziz</p>
+      <p style="font-size: 12px; margin-top: 5px; color: #666;">
+          Putra dari Bpk. TBD <br>& Ibu TBD
+      </p>
+      <a href="https://instagram.com/Yusuf Al-Aziz" target="_blank" style="text-decoration: none; color: var(--primary); font-size: 12px; font-weight:bold;">
+         @Yusuf Al-Aziz
+      </a>
+  </div>
+</section>
+
+<!-- 📆 RANGKAIAN ACARA -->
+<section class="card reveal center">
+  <h2>Rangkaian Acara</h2>
+  <p style="font-size:13px; margin-bottom:20px;">Insya Allah acara akan dilaksanakan pada:</p>
+  
+  <div style="margin-bottom: 30px; background:var(--bg2); padding:15px; border-radius:15px;">
+      <h3 style="margin: 5px 0; font-size: 20px;">Akad Nikah</h3>
+      <p style="font-weight: bold; color: var(--primary);">Sabtu, 18 April 2026</p>
+      <p style="font-size: 16px; font-weight:600;">Pukul 09.30 WIB</p>
+      <p style="font-size: 13px; color: #666; margin-top:5px;">Desa Cikeler, Pandeglang</p>
+  </div>
+  
+  <div style="background:var(--bg2); padding:15px; border-radius:15px;">
+      <h3 style="margin: 5px 0; font-size: 20px;">Resepsi</h3>
+      <p style="font-weight: bold; color: var(--primary);">Sabtu, 18 April 2026</p>
+      <p style="font-size: 16px; font-weight:600;">12.30 - 17.00 WIB</p>
+      <p style="font-size: 13px; color: #666; margin-top:5px;">Desa Cikeler, Pandeglang</p>
+  </div>
+  
+  <p style="font-size:13px; margin-top:20px; font-style:italic;">Alamat: Kecamatan Angsana, Kab. Pandeglang Banten</p>
+</section>
+
+<!-- 📍 MAP -->
+<section class="card reveal">
+  <h2 class="center">Lokasi Acara</h2>
+  <p class="center" style="font-size: 13px;">Desa Cikeler, Kecamatan Angsana, Pandeglang</p>
+
+  <a class="map-preview" target="_blank"
+     href="https://www.google.com/maps/search/?api=1&query=Desa+Cikeler+Kecamatan+Angsana+Pandeglang">
+    <!-- Gambar Peta Generik Pandeglang/Pedesaan -->
+    <img src="https://images.unsplash.com/photo-1572089150032-47e246757b3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Peta Lokasi">
+    <div class="map-overlay">Klik untuk membuka Google Maps</div>
+  </a>
+</section>
+
+<!-- 💖 LOVE STORY (TBD) -->
+<section class="card reveal center">
+  <h2>Kisah Cinta</h2>
+  <p style="font-size:12px; color:#888;">Setiap cerita adalah doa yang terwujud.</p>
+  
+  <div style="border-left: 2px solid var(--secondary); padding-left: 20px; text-align: left; margin: 20px 0 0 20px;">
+      <div style="margin-bottom: 20px;">
+          <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--primary); text-transform: uppercase;">Pertemuan</p>
+          <p style="font-size: 13px; color: #555;">TBD</p>
+      </div>
+      <div style="margin-bottom: 20px;">
+          <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--primary); text-transform: uppercase;">Tunangan</p>
+          <p style="font-size: 13px; color: #555;">TBD</p>
+      </div>
+      <div>
+          <p style="margin: 0; font-size: 12px; font-weight: bold; color: var(--primary); text-transform: uppercase;">Pernikahan</p>
+          <h3 style="margin: 5px 0; font-size: 16px;">18 April 2026</h3>
+          <p style="font-size: 13px; color: #555;">Insya Allah kami akan mengikat janji suci.</p>
+      </div>
+  </div>
+</section>
+
+<!-- 💳 AMPLOP DIGITAL (TBD) -->
+<section class="card reveal center">
+  <h2>Amplop Digital</h2>
+  <p style="font-size: 13px; margin-bottom: 20px;">TBD (To Be Announced)</p>
+
+  <div class="amplop" style="background: #fcfcfc; border-color: #ddd;">
+    <div style="display:flex; justify-content:center; align-items:center;">
+        <strong style="font-size: 1.2rem; color:#aaa;">BANK TBD</strong>
+    </div>
+    <div style="text-align: center; margin-top: 10px;">
+        <span style="font-size: 12px; color: #999;">a.n TBD</span>
+        <div style="font-family: monospace; font-size: 18px; font-weight:bold; letter-spacing: 1px; color:#aaa;">0000000000</div>
+    </div>
+    <button disabled style="font-size: 12px; padding: 6px 14px; margin-top: 10px; width: 100%; background: #ccc;">Menyusul</button>
+  </div>
+</section>
+
+<!-- ✨ AI WISH GENERATOR -->
+<section class="card reveal center">
+    <h2>Buat Ucapan (AI) ✨</h2>
+    <p style="font-size: 13px; margin-bottom: 20px;">Kirimkan doa terbaik Anda untuk Yusuf & Juli.</p>
+    
+    <div class="wish-form">
+        <input type="text" id="wisherName" placeholder="Nama Anda">
+        <select id="relation">
+            <option value="Teman">Teman</option>
+            <option value="Sahabat">Sahabat</option>
+            <option value="Keluarga">Keluarga</option>
+            <option value="Rekan Kerja">Rekan Kerja</option>
+        </select>
+        <select id="tone">
+            <option value="Menyentuh">Gaya: Menyentuh</option>
+            <option value="Lucu">Gaya: Lucu / Santai</option>
+            <option value="Islami">Gaya: Islami</option>
+            <option value="Puitis">Gaya: Puitis</option>
+        </select>
+        <button onclick="generateWish()" id="btnGenerate">Buatkan Ucapan ✨</button>
+    </div>
+
+    <div class="wish-result" id="wishResult">
+        <p id="wishText">Ucapan akan muncul di sini...</p>
+        <button onclick="copyWish()">Salin</button>
+    </div>
+</section>
+
+<!-- 📲 RSVP (TBD) -->
+<section class="card reveal center">
+  <h2>Konfirmasi Kehadiran</h2>
+  <p style="font-size: 14px; margin-bottom: 20px;">TBD (Kontak akan segera diperbarui)</p>
+  
+  <a href="#" style="text-decoration: none;">
+      <button disabled style="background: #ccc; width: 100%; border-radius: 50px;">WhatsApp Reservasi (TBD)</button>
+  </a>
+</section>
+
+<footer>
+  <p style="font-family:'Playfair Display', serif; font-size: 20px; margin-bottom: 5px;">Yusuf & Juli</p>
+  <span style="font-size: 11px;">18 April 2026</span><br><br>
+  <span style="font-size: 10px; opacity: 0.6">Powered by Nandz ✨</span>
+</footer>
+
+<!-- 🤖 CHATBOT FLOATING BUTTON -->
+<div class="chat-btn" onclick="toggleChat()">🌿</div>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <h3>Asisten Pernikahan 🌿</h3>
+        <button class="close-chat" onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="msg bot">Halo! Saya asisten pintar untuk pernikahan Yusuf & Juli. Ada yang bisa dibantu tentang lokasi di Desa Cikeler atau waktunya? 😊</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Tanya jam, lokasi..." onkeypress="handleEnter(event)">
+        <button onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// 🔑 KONFIGURASI API KEY GEMINI
+// ==========================================
+const GEMINI_API_KEY = ""; 
+// ==========================================
+
+// --- COUNTDOWN LOGIC ---
+function updateCountdown() {
+    // Tanggal pernikahan: 18 April 2026 09:30
+    const weddingDate = new Date("April 18, 2026 09:30:00").getTime();
+    const now = new Date().getTime();
+    const gap = weddingDate - now;
+
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+
+    const d = Math.floor(gap / day);
+    const h = Math.floor((gap % day) / hour);
+    const m = Math.floor((gap % hour) / minute);
+    const s = Math.floor((gap % minute) / second);
+
+    document.getElementById("days").innerText = d;
+    document.getElementById("hours").innerText = h;
+    document.getElementById("minutes").innerText = m;
+    document.getElementById("seconds").innerText = s;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// --- GEMINI API HELPER ---
+async function callGemini(prompt, systemInstruction = "") {
+    if (!GEMINI_API_KEY) {
+        alert("API Key Gemini belum diisi!");
+        return "Error: API Key Missing";
+    }
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
+    
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] }
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Network response');
+        const data = await response.json();
+        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak mengerti.";
+    } catch (error) {
+        console.error("Error:", error);
+        return "Maaf, terjadi kesalahan koneksi.";
+    }
+}
+
+// --- WISH GENERATOR ---
+async function generateWish() {
+    const name = document.getElementById('wisherName').value;
+    const relation = document.getElementById('relation').value;
+    const tone = document.getElementById('tone').value;
+    const btn = document.getElementById('btnGenerate');
+    const resultBox = document.getElementById('wishResult');
+    const resultText = document.getElementById('wishText');
+
+    if(!name) { alert("Mohon isi nama Anda dulu"); return; }
+
+    btn.innerText = "Merangkai kata... 🌿";
+    btn.disabled = true;
+    resultBox.style.display = 'block';
+    resultText.innerText = "Sedang mengetik...";
+
+    const prompt = `Buatkan ucapan pernikahan singkat (maksimal 2 kalimat) untuk Yusuf & Juli. 
+    Pengirim: ${name}. Hubungan: ${relation}. Gaya bahasa: ${tone}. Bahasa: Indonesia.
+    Tema pernikahan: Fresh/Alam.`;
+
+    const text = await callGemini(prompt, "Kamu adalah penulis kreatif ucapan pernikahan.");
+    
+    resultText.innerText = text;
+    btn.innerText = "Buatkan Ucapan ✨";
+    btn.disabled = false;
+}
+
+function copyWish() {
+    const text = document.getElementById('wishText').innerText;
+    navigator.clipboard.writeText(text);
+    alert("Ucapan berhasil disalin!");
+}
+
+// --- CHATBOT ---
+function toggleChat() {
+    const chat = document.getElementById('chatWindow');
+    chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+}
+
+function handleEnter(e) {
+    if (e.key === 'Enter') sendMessage();
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const body = document.getElementById('chatBody');
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    appendMessage(text, 'user');
+    input.value = '';
+
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing';
+    typingDiv.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+    body.appendChild(typingDiv);
+    body.scrollTop = body.scrollHeight;
+
+    // Prompt khusus Yusuf & Juli
+    const systemPrompt = `
+    Kamu adalah asisten pernikahan Yusuf & Juli.
+    Data Acara:
+    - Tanggal: Sabtu, 18 April 2026
+    - Akad: 09.30 WIB
+    - Resepsi: 12.30 - 17.00 WIB
+    - Lokasi: Desa Cikeler, Kecamatan Angsana, Kab. Pandeglang Banten
+    - Bank/Kado: Informasi menyusul (TBD).
+    
+    Jawab singkat, sopan, dan gunakan emoji alam (🌿🍃).
+    `;
+
+    const reply = await callGemini(text, systemPrompt);
+
+    body.removeChild(typingDiv);
+    appendMessage(reply, 'bot');
+}
+
+function appendMessage(text, sender) {
+    const body = document.getElementById('chatBody');
+    const div = document.createElement('div');
+    div.className = `msg ${sender}`;
+    div.innerText = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+}
+
+// --- UTILITIES ---
+function openInvite(){
+  var audio = document.getElementById('music');
+  audio.play().catch(function(error) {
+      console.log("Audio blocked: " + error);
+  });
+  
+  document.getElementById('main-content').scrollIntoView({ 
+    behavior: 'smooth' 
+  });
+}
+
+const params = new URLSearchParams(window.location.search);
+const guest = params.get("namatamu");
+if(guest){
+  document.getElementById("guestName").innerText =
+    decodeURIComponent(guest.replace(/\+/g," "));
+}
+
+const reveal = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+    }
+  });
+},{threshold:0.1});
+reveal.forEach(r=>obs.observe(r));
+</script>
+
+</body>
+</html>
