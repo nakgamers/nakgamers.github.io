@@ -1,569 +1,562 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Music, MapPin, Calendar, Clock, Copy, Check, Heart, Pause, Instagram, ArrowDown, CreditCard, Loader2 } from 'lucide-react';
-
-export default function App() {
-  const [isOpened, setIsOpened] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [copiedDana, setCopiedDana] = useState(false);
-  const [copiedBri, setCopiedBri] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [guestName, setGuestName] = useState("Tamu Undangan"); // State untuk Nama Tamu
-  
-  // State untuk melacak apakah gambar berat sudah selesai dimuat
-  const [isCoverLoaded, setIsCoverLoaded] = useState(false);
-  const [isProfileLoaded, setIsProfileLoaded] = useState(false);
-  
-  const audioRef = useRef(null);
-
-  // Gambar Karikatur dari User
-  const karikaturImage = "https://i.ibb.co.com/WNfcY3Rr/task-01kk4fseagfxj8znpk4tt6e0r9-1772898564-img-0.webp";
-
-  // Target Date: 18 April 2026, 08:00 WIB
-  const targetDate = new Date('2026-04-18T08:00:00+07:00').getTime();
-
-  // Effect untuk menangkap nama tamu dari URL
-  useEffect(() => {
-    // Mengambil parameter dari URL
-    const params = new URLSearchParams(window.location.search);
-    // Mencari kunci 'namatamu' atau 'to' (yang sering digunakan)
-    const nameFromUrl = params.get('namatamu') || params.get('to');
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Julia & Yusuf</title>
     
-    if (nameFromUrl) {
-      // Decode nama tamu untuk mengatasi karakter khusus seperti & (%26) atau spasi (%20)
-      setGuestName(decodeURIComponent(nameFromUrl));
-    }
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance < 0) {
-        clearInterval(timer);
-        return;
-      }
-
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000),
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  const handleOpen = () => {
-    setIsOpened(true);
-    if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((error) => {
-        console.error("Gagal memutar audio:", error);
-        setIsPlaying(false);
-      });
-    }
-  };
-
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch((error) => {
-          console.error("Gagal memutar audio:", error);
-          setIsPlaying(false);
-        });
-      }
-    }
-  };
-
-  const copyToClipboard = (text, type) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      if (type === 'dana') {
-        setCopiedDana(true);
-        setTimeout(() => setCopiedDana(false), 2000);
-      } else {
-        setCopiedBri(true);
-        setTimeout(() => setCopiedBri(false), 2000);
-      }
-    } catch (err) {
-      console.error('Oops, unable to copy', err);
-    }
-    document.body.removeChild(textArea);
-  };
-
-  // Google Fonts styling with animation classes
-  const fontStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap');
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    .font-serif { font-family: 'Cormorant Garamond', serif; }
-    .font-sans { font-family: 'Montserrat', sans-serif; }
-    .font-script { font-family: 'Great Vibes', cursive; }
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    .cover-slide-up {
-      transform: translateY(-100%);
-      transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .animate-fade-in-up {
-      animation: fadeInUp 0.8s ease-out forwards;
-    }
+    <!-- Babel (Untuk membaca JSX di browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    html { scroll-behavior: smooth; }
-  `;
-
-  return (
-    <div className="bg-[#fcfaf8] text-stone-800 font-sans min-h-screen relative overflow-x-hidden">
-      <style>{fontStyles}</style>
-      
-      {/* Background Audio */}
-      <audio ref={audioRef} loop>
-        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_78f14eab86.mp3" type="audio/mpeg" />
-      </audio>
-
-      {/* Floating Audio Button */}
-      {isOpened && (
-        <button 
-          onClick={toggleAudio}
-          className="fixed bottom-6 right-6 z-50 bg-stone-800/80 text-white p-3 rounded-full shadow-lg backdrop-blur-sm transition-transform hover:scale-110"
-        >
-          {isPlaying ? <Music size={20} className="animate-pulse" /> : <Pause size={20} />}
-        </button>
-      )}
-
-      {/* COVER SCREEN - Menggunakan teknik preload React yang responsif */}
-      <div className={`fixed inset-0 z-[100] bg-stone-900 flex flex-col items-center justify-center transition-transform duration-1000 ${isOpened ? 'cover-slide-up pointer-events-none' : ''}`}>
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap');
         
-        {/* Gambar Cover */}
-        <img 
-          src={karikaturImage} 
-          alt="Cover Background" 
-          onLoad={() => setIsCoverLoaded(true)}
-          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out z-0 ${isCoverLoaded ? 'opacity-50' : 'opacity-0'}`}
-        />
+        body { margin: 0; padding: 0; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Montserrat', sans-serif; }
+        .font-script { font-family: 'Great Vibes', cursive; }
         
-        {/* Gradient Overlay */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-stone-900/40 via-stone-900/20 to-stone-900/80 z-0 transition-opacity duration-1000 ${isCoverLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
-
-        {/* Konten Cover */}
-        <div className="relative z-10 w-full flex flex-col items-center justify-center px-6 text-white min-h-[300px]">
-          {!isCoverLoaded ? (
-            // Animasi Loading Eksklusif
-            <div className="flex flex-col items-center justify-center animate-pulse">
-              <Heart size={36} className="text-stone-300 mb-4 animate-bounce fill-current opacity-50" />
-              <p className="font-serif text-stone-300 text-lg tracking-[0.2em] uppercase">Memuat Undangan...</p>
-            </div>
-          ) : (
-            // Konten Cover Utama
-            <div className="text-center animate-fade-in-up w-full">
-              <p className="tracking-[0.2em] text-sm uppercase mb-6 drop-shadow-md text-stone-200">The Wedding Of</p>
-              <h1 className="font-script text-6xl md:text-8xl mb-8 drop-shadow-lg text-white">Julia & Yusuf</h1>
-              
-              <div className="mb-12 drop-shadow-md">
-                <p className="text-sm font-light mb-2 text-stone-200">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-                {/* NAMA TAMU DINAMIS */}
-                <p className="font-serif text-2xl font-semibold border-b border-white/40 pb-2 inline-block px-8 text-white capitalize min-w-[200px]">
-                  {guestName}
-                </p>
-                <p className="text-xs font-light mt-4 italic text-stone-300">
-                  *Mohon maaf bila ada kesalahan penulisan nama/gelar
-                </p>
-              </div>
-
-              <button 
-                onClick={handleOpen}
-                className="flex items-center gap-2 bg-white text-stone-800 px-8 py-3 rounded-full font-medium tracking-wide hover:bg-stone-200 transition-all duration-300 mx-auto shadow-2xl transform hover:-translate-y-1 hover:scale-105"
-              >
-                <Heart size={18} className="text-rose-500 fill-current" />
-                Buka Undangan
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <div className={`${!isOpened ? 'h-screen overflow-hidden' : ''}`}>
+        .cover-slide-up {
+            transform: translateY(-100%);
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
         
-        {/* HERO SECTION */}
-        <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            {/* Lazy loading di hero background agar cover lebih diutamakan */}
-            <img 
-              src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1000&auto=format&fit=crop" 
-              alt="Background" 
-              loading="lazy"
-              className="w-full h-full object-cover opacity-20"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#fcfaf8]/40 via-[#fcfaf8]/80 to-[#fcfaf8]"></div>
-          </div>
-          
-          <div className="z-10 animate-fade-in-up">
-            <p className="text-stone-500 tracking-[0.2em] text-sm uppercase mb-4">Pernikahan Kami</p>
-            <h1 className="font-script text-7xl md:text-9xl text-stone-800 mb-6 drop-shadow-sm">Julia & Yusuf</h1>
-            <p className="font-serif text-xl md:text-2xl text-stone-600 mb-12">18 . 04 . 2026</p>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function App() {
+            const [isOpened, setIsOpened] = useState(false);
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [copiedDana, setCopiedDana] = useState(false);
+            const [copiedBri, setCopiedBri] = useState(false);
+            const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            const [guestName, setGuestName] = useState("Tamu Undangan");
             
-            <div className="animate-bounce mt-12">
-              <ArrowDown size={24} className="text-stone-400 mx-auto" />
-            </div>
-          </div>
-        </section>
-
-        {/* QUOTE SECTION */}
-        <section className="py-20 px-6 max-w-3xl mx-auto text-center">
-          <Heart size={32} className="mx-auto text-stone-300 mb-6 fill-current opacity-20" />
-          <h2 className="font-serif text-3xl font-semibold mb-8">Maha Suci Allah</h2>
-          <p className="text-stone-600 leading-relaxed font-light mb-6 text-sm md:text-base">
-            "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berfikir."
-          </p>
-          <p className="font-serif font-medium text-stone-500">(QS. Ar-Rum: 21)</p>
-        </section>
-
-        {/* PROFILE SECTION DENGAN KARIKATUR */}
-        <section className="py-20 bg-stone-100 px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="font-serif text-4xl font-semibold mb-4">Mempelai</h2>
-              <p className="text-stone-500 font-light max-w-xl mx-auto text-sm md:text-base">
-                Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center">
-              
-              {/* Single Caricature Image Frame */}
-              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-8 border-white shadow-2xl overflow-hidden mb-12 relative bg-stone-200 flex items-center justify-center">
-                {!isProfileLoaded && (
-                  <Loader2 className="animate-spin text-stone-400 absolute" size={32} />
-                )}
-                <img 
-                  src={karikaturImage} 
-                  alt="Karikatur Julia & Yusuf" 
-                  loading="lazy"
-                  onLoad={() => setIsProfileLoaded(true)}
-                  className={`w-full h-full object-cover object-top transition-opacity duration-700 ${isProfileLoaded ? 'opacity-100' : 'opacity-0'}`} 
-                />
-              </div>
-
-              {/* Bride & Groom Details */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full">
-                
-                {/* Bride */}
-                <div className="text-center flex-1 flex flex-col items-center">
-                  <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Julianita Nurhasanah</h3>
-                  <p className="font-serif text-lg font-semibold mb-2 text-stone-600">Panggilan: Julia</p>
-                  <p className="text-sm text-stone-500 font-light mb-4">
-                    Putri dari<br/>
-                    Bapak Juju Junaedi & Ibu Nuriah
-                  </p>
-                  <a href="https://instagram.com/jlyanta_nrhaa" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-stone-800 transition-colors">
-                    <Instagram size={16} /> @jlyanta_nrhaa
-                  </a>
-                </div>
-
-                {/* '&' Symbol */}
-                <div className="font-script text-5xl md:text-6xl text-stone-300 my-4 md:my-0">&</div>
-
-                {/* Groom */}
-                <div className="text-center flex-1 flex flex-col items-center">
-                  <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Yusuf Al-Aziz S.Pd</h3>
-                  <p className="font-serif text-lg font-semibold mb-2 text-stone-600">Panggilan: Yusuf</p>
-                  <p className="text-sm text-stone-500 font-light mb-4">
-                    Putra dari<br/>
-                    Bapak H. Udin Zaenudin B S.Pd &<br/>Ibu Hj. Yuyun Kania S.Pd (Almh)
-                  </p>
-                  <a href="https://instagram.com/__markucup__" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-stone-800 transition-colors">
-                    <Instagram size={16} /> @__markucup__
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* EVENT DETAILS & COUNTDOWN */}
-        <section className="py-20 px-6 relative">
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <h2 className="font-serif text-4xl font-semibold mb-4">Waktu & Tempat</h2>
-            <p className="text-stone-500 font-light mb-12">Momen bahagia yang sangat kami nantikan</p>
-
-            {/* Countdown */}
-            <div className="flex justify-center gap-3 md:gap-6 mb-16">
-              {[
-                { label: 'Hari', value: timeLeft.days },
-                { label: 'Jam', value: timeLeft.hours },
-                { label: 'Menit', value: timeLeft.minutes },
-                { label: 'Detik', value: timeLeft.seconds },
-              ].map((time, idx) => (
-                <div key={idx} className="bg-white shadow-lg rounded-2xl w-[70px] h-[85px] md:w-24 md:h-28 flex flex-col items-center justify-center border border-stone-100">
-                  <span className="font-serif text-2xl md:text-4xl font-semibold text-stone-700">{time.value}</span>
-                  <span className="text-[9px] md:text-xs tracking-widest uppercase text-stone-400 mt-1">{time.label}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Akad Card */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
-                <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-100 pb-4 text-stone-800">Akad Nikah</h3>
-                <div className="space-y-4 mb-8 flex-grow">
-                  <div className="flex items-start gap-4">
-                    <Calendar className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <Clock className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">08:00 WIB</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <MapPin className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
-                      <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Resepsi Card */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
-                <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-100 pb-4 text-stone-800">Resepsi</h3>
-                <div className="space-y-4 mb-8 flex-grow">
-                  <div className="flex items-start gap-4">
-                    <Calendar className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <Clock className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">10:00 WIB s/d Selesai</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <MapPin className="text-stone-400 shrink-0 mt-1" size={20} />
-                    <div className="text-left">
-                      <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
-                      <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            const [isCoverLoaded, setIsCoverLoaded] = useState(false);
+            const [isProfileLoaded, setIsProfileLoaded] = useState(false);
             
-            <a 
-              href="https://maps.app.goo.gl/1CW2Uf4JkRs4xDL48" 
-              target="_blank" 
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-stone-800 text-white px-8 py-4 rounded-full mt-12 hover:bg-stone-700 transition-colors shadow-lg hover:-translate-y-1 transform duration-300"
-            >
-              <MapPin size={18} />
-              Buka Google Maps
-            </a>
-          </div>
-        </section>
+            const audioRef = useRef(null);
 
-        {/* LOVE STORY SECTION */}
-        <section className="py-20 bg-[#f4f1ed] px-6">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="font-serif text-4xl font-semibold mb-4">Kisah Cinta</h2>
-              <p className="text-stone-500 font-light">Perjalanan cerita kami hingga sampai di titik ini</p>
-            </div>
+            const karikaturImage = "https://i.ibb.co.com/WNfcY3Rr/task-01kk4fseagfxj8znpk4tt6e0r9-1772898564-img-0.webp";
+            const targetDate = new Date('2026-04-18T08:00:00+07:00').getTime();
 
-            <div className="relative border-l border-stone-300 ml-4 md:ml-0 md:border-l-0">
-              {/* Timeline Line Desktop */}
-              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-300 transform -translate-x-1/2"></div>
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                const nameFromUrl = params.get('namatamu') || params.get('to');
+                if (nameFromUrl) {
+                    setGuestName(decodeURIComponent(nameFromUrl));
+                }
+            }, []);
 
-              {/* Item 1 */}
-              <div className="mb-12 relative flex items-center md:justify-between w-full">
-                <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
-                  <Heart size={16} className="text-stone-400 fill-current" />
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+
+                    if (distance < 0) {
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    setTimeLeft({
+                        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+                    });
+                }, 1000);
+
+                return () => clearInterval(timer);
+            }, [targetDate]);
+
+            const handleOpen = () => {
+                setIsOpened(true);
+                if (audioRef.current) {
+                    audioRef.current.play().then(() => {
+                        setIsPlaying(true);
+                    }).catch((error) => {
+                        console.error("Gagal memutar audio:", error);
+                        setIsPlaying(false);
+                    });
+                }
+            };
+
+            const toggleAudio = () => {
+                if (audioRef.current) {
+                    if (isPlaying) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                    } else {
+                        audioRef.current.play().then(() => {
+                            setIsPlaying(true);
+                        }).catch((error) => {
+                            console.error("Gagal memutar audio:", error);
+                            setIsPlaying(false);
+                        });
+                    }
+                }
+            };
+
+            const copyToClipboard = (text, type) => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    if (type === 'dana') {
+                        setCopiedDana(true);
+                        setTimeout(() => setCopiedDana(false), 2000);
+                    } else {
+                        setCopiedBri(true);
+                        setTimeout(() => setCopiedBri(false), 2000);
+                    }
+                } catch (err) {
+                    console.error('Oops, unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            };
+
+            return (
+                <div className="bg-[#fcfaf8] text-stone-800 font-sans min-h-screen relative overflow-x-hidden">
+                    
+                    {/* Background Audio */}
+                    <audio ref={audioRef} loop>
+                        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_78f14eab86.mp3" type="audio/mpeg" />
+                    </audio>
+
+                    {/* Floating Audio Button */}
+                    {isOpened && (
+                        <button 
+                            onClick={toggleAudio}
+                            className="fixed bottom-6 right-6 z-50 bg-stone-800/80 text-white w-12 h-12 rounded-full shadow-lg backdrop-blur-sm transition-transform hover:scale-110 flex items-center justify-center"
+                        >
+                            {isPlaying ? <i className="fa-solid fa-music animate-pulse"></i> : <i className="fa-solid fa-pause"></i>}
+                        </button>
+                    )}
+
+                    {/* COVER SCREEN */}
+                    <div className={`fixed inset-0 z-[100] bg-stone-900 flex flex-col items-center justify-center transition-transform duration-1000 ${isOpened ? 'cover-slide-up pointer-events-none' : ''}`}>
+                        
+                        <img 
+                            src={karikaturImage} 
+                            alt="Cover Background" 
+                            onLoad={() => setIsCoverLoaded(true)}
+                            className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out z-0 ${isCoverLoaded ? 'opacity-50' : 'opacity-0'}`}
+                        />
+                        
+                        <div className={`absolute inset-0 bg-gradient-to-b from-stone-900/40 via-stone-900/20 to-stone-900/80 z-0 transition-opacity duration-1000 ${isCoverLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
+
+                        <div className="relative z-10 w-full flex flex-col items-center justify-center px-6 text-white min-h-[300px]">
+                            {!isCoverLoaded ? (
+                                <div className="flex flex-col items-center justify-center animate-pulse">
+                                    <i className="fa-solid fa-heart text-stone-300 mb-4 animate-bounce opacity-50 text-4xl"></i>
+                                    <p className="font-serif text-stone-300 text-lg tracking-[0.2em] uppercase">Memuat Undangan...</p>
+                                </div>
+                            ) : (
+                                <div className="text-center animate-fade-in-up w-full">
+                                    <p className="tracking-[0.2em] text-sm uppercase mb-6 drop-shadow-md text-stone-200">The Wedding Of</p>
+                                    <h1 className="font-script text-6xl md:text-8xl mb-8 drop-shadow-lg text-white">Julia & Yusuf</h1>
+                                    
+                                    <div className="mb-12 drop-shadow-md">
+                                        <p className="text-sm font-light mb-2 text-stone-200">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+                                        <p className="font-serif text-2xl font-semibold border-b border-white/40 pb-2 inline-block px-8 text-white capitalize min-w-[200px]">
+                                            {guestName}
+                                        </p>
+                                        <p className="text-xs font-light mt-4 italic text-stone-300">
+                                            *Mohon maaf bila ada kesalahan penulisan nama/gelar
+                                        </p>
+                                    </div>
+
+                                    <button 
+                                        onClick={handleOpen}
+                                        className="flex items-center justify-center gap-2 bg-white text-stone-800 px-8 py-3 rounded-full font-medium tracking-wide hover:bg-stone-200 transition-all duration-300 mx-auto shadow-2xl transform hover:-translate-y-1 hover:scale-105"
+                                    >
+                                        <i className="fa-solid fa-heart text-rose-500"></i>
+                                        Buka Undangan
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* MAIN CONTENT */}
+                    <div className={`${!isOpened ? 'h-screen overflow-hidden' : ''}`}>
+                        
+                        {/* HERO SECTION */}
+                        <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+                            <div className="absolute inset-0 z-0">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1000&auto=format&fit=crop" 
+                                    alt="Background" 
+                                    loading="lazy"
+                                    className="w-full h-full object-cover opacity-20"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-[#fcfaf8]/40 via-[#fcfaf8]/80 to-[#fcfaf8]"></div>
+                            </div>
+                            
+                            <div className="z-10 animate-fade-in-up">
+                                <p className="text-stone-500 tracking-[0.2em] text-sm uppercase mb-4">Pernikahan Kami</p>
+                                <h1 className="font-script text-7xl md:text-9xl text-stone-800 mb-6 drop-shadow-sm">Julia & Yusuf</h1>
+                                <p className="font-serif text-xl md:text-2xl text-stone-600 mb-12">18 . 04 . 2026</p>
+                                
+                                <div className="animate-bounce mt-12">
+                                    <i className="fa-solid fa-arrow-down text-stone-400 text-2xl"></i>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* QUOTE SECTION */}
+                        <section className="py-20 px-6 max-w-3xl mx-auto text-center">
+                            <i className="fa-solid fa-heart text-stone-300 text-3xl mb-6 opacity-40"></i>
+                            <h2 className="font-serif text-3xl font-semibold mb-8">Maha Suci Allah</h2>
+                            <p className="text-stone-600 leading-relaxed font-light mb-6 text-sm md:text-base">
+                                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berfikir."
+                            </p>
+                            <p className="font-serif font-medium text-stone-500">(QS. Ar-Rum: 21)</p>
+                        </section>
+
+                        {/* PROFILE SECTION DENGAN KARIKATUR */}
+                        <section className="py-20 bg-stone-100 px-6">
+                            <div className="max-w-5xl mx-auto">
+                                <div className="text-center mb-16">
+                                    <h2 className="font-serif text-4xl font-semibold mb-4">Mempelai</h2>
+                                    <p className="text-stone-500 font-light max-w-xl mx-auto text-sm md:text-base">
+                                        Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col items-center justify-center">
+                                    <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-8 border-white shadow-2xl overflow-hidden mb-12 relative bg-stone-200 flex items-center justify-center">
+                                        {!isProfileLoaded && (
+                                            <i className="fa-solid fa-circle-notch fa-spin text-stone-400 text-3xl absolute"></i>
+                                        )}
+                                        <img 
+                                            src={karikaturImage} 
+                                            alt="Karikatur Julia & Yusuf" 
+                                            loading="lazy"
+                                            onLoad={() => setIsProfileLoaded(true)}
+                                            className={`w-full h-full object-cover object-top transition-opacity duration-700 ${isProfileLoaded ? 'opacity-100' : 'opacity-0'}`} 
+                                        />
+                                    </div>
+
+                                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full">
+                                        <div className="text-center flex-1 flex flex-col items-center">
+                                            <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Julianita Nurhasanah</h3>
+                                            <p className="font-serif text-lg font-semibold mb-2 text-stone-600">Panggilan: Julia</p>
+                                            <p className="text-sm text-stone-500 font-light mb-4">
+                                                Putri dari<br/>
+                                                Bapak Juju Junaedi & Ibu Nuriah
+                                            </p>
+                                            <a href="https://instagram.com/jlyanta_nrhaa" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-stone-400 hover:text-stone-800 transition-colors">
+                                                <i className="fa-brands fa-instagram"></i> @jlyanta_nrhaa
+                                            </a>
+                                        </div>
+
+                                        <div className="font-script text-5xl md:text-6xl text-stone-300 my-4 md:my-0">&</div>
+
+                                        <div className="text-center flex-1 flex flex-col items-center">
+                                            <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Yusuf Al-Aziz S.Pd</h3>
+                                            <p className="font-serif text-lg font-semibold mb-2 text-stone-600">Panggilan: Yusuf</p>
+                                            <p className="text-sm text-stone-500 font-light mb-4">
+                                                Putra dari<br/>
+                                                Bapak H. Udin Zaenudin B S.Pd &<br/>Ibu Hj. Yuyun Kania S.Pd (Almh)
+                                            </p>
+                                            <a href="https://instagram.com/__markucup__" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-stone-400 hover:text-stone-800 transition-colors">
+                                                <i className="fa-brands fa-instagram"></i> @__markucup__
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* EVENT DETAILS & COUNTDOWN */}
+                        <section className="py-20 px-6 relative">
+                            <div className="max-w-4xl mx-auto text-center relative z-10">
+                                <h2 className="font-serif text-4xl font-semibold mb-4">Waktu & Tempat</h2>
+                                <p className="text-stone-500 font-light mb-12">Momen bahagia yang sangat kami nantikan</p>
+
+                                <div className="flex justify-center gap-3 md:gap-6 mb-16">
+                                    {[
+                                        { label: 'Hari', value: timeLeft.days },
+                                        { label: 'Jam', value: timeLeft.hours },
+                                        { label: 'Menit', value: timeLeft.minutes },
+                                        { label: 'Detik', value: timeLeft.seconds },
+                                    ].map((time, idx) => (
+                                        <div key={idx} className="bg-white shadow-lg rounded-2xl w-[70px] h-[85px] md:w-24 md:h-28 flex flex-col items-center justify-center border border-stone-100">
+                                            <span className="font-serif text-2xl md:text-4xl font-semibold text-stone-700">{time.value}</span>
+                                            <span className="text-[9px] md:text-xs tracking-widest uppercase text-stone-400 mt-1">{time.label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
+                                        <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-100 pb-4 text-stone-800">Akad Nikah</h3>
+                                        <div className="space-y-4 mb-8 flex-grow">
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-regular fa-calendar text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-regular fa-clock text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">08:00 WIB</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-solid fa-location-dot text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
+                                                    <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
+                                        <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-100 pb-4 text-stone-800">Resepsi</h3>
+                                        <div className="space-y-4 mb-8 flex-grow">
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-regular fa-calendar text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-regular fa-clock text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">10:00 WIB s/d Selesai</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-4">
+                                                <i className="fa-solid fa-location-dot text-stone-400 mt-1 w-5"></i>
+                                                <div className="text-left">
+                                                    <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
+                                                    <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a 
+                                    href="https://maps.app.goo.gl/1CW2Uf4JkRs4xDL48" 
+                                    target="_blank" 
+                                    rel="noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-4 rounded-full mt-12 hover:bg-stone-700 transition-colors shadow-lg hover:-translate-y-1 transform duration-300"
+                                >
+                                    <i className="fa-solid fa-location-dot"></i>
+                                    Buka Google Maps
+                                </a>
+                            </div>
+                        </section>
+
+                        {/* LOVE STORY SECTION */}
+                        <section className="py-20 bg-[#f4f1ed] px-6">
+                            <div className="max-w-3xl mx-auto">
+                                <div className="text-center mb-16">
+                                    <h2 className="font-serif text-4xl font-semibold mb-4">Kisah Cinta</h2>
+                                    <p className="text-stone-500 font-light">Perjalanan cerita kami hingga sampai di titik ini</p>
+                                </div>
+
+                                <div className="relative border-l border-stone-300 ml-4 md:ml-0 md:border-l-0">
+                                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-300 transform -translate-x-1/2"></div>
+
+                                    <div className="mb-12 relative flex items-center md:justify-between w-full">
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
+                                            <i className="fa-solid fa-heart text-stone-400 text-sm"></i>
+                                        </div>
+                                        <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
+                                            <h4 className="font-serif text-xl font-bold text-stone-800">Pertemuan</h4>
+                                            <p className="text-sm font-semibold text-stone-400 mb-3">Awal Juli 2022</p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
+                                                Awal Juli 2022 menjadi titik pertemuan pertama kami dalam sebuah acara istighotsah akbar. Tidak ada yang istimewa saat itu, hanya dua orang di tempat yang sama, tidak saling mengenal. Namun dari sanalah cerita bermula. Kami menjaga batas, membangun komunikasi dan komitmen, tumbuh bukan karena janji manis, melainkan keseriusan dan tujuan yang sama.
+                                            </p>
+                                        </div>
+                                        <div className="hidden md:block w-5/12"></div>
+                                    </div>
+
+                                    <div className="mb-12 relative flex items-center md:justify-between w-full">
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
+                                            <i className="fa-solid fa-heart text-stone-400 text-sm"></i>
+                                        </div>
+                                        <div className="hidden md:block w-5/12"></div>
+                                        <div className="pl-8 md:pl-0 md:w-5/12 text-left">
+                                            <h4 className="font-serif text-xl font-bold text-stone-800">Tunangan</h4>
+                                            <p className="text-sm font-semibold text-stone-400 mb-3">28 Desember 2025</p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
+                                                Dengan restu keluarga besar, kami melangkah ke tahap yang lebih pasti sebagai bentuk tanggung jawab. Perjalanan setelahnya tidak selalu mudah. Ada perbedaan, ujian, dan badai. Namun kami belajar bahwa bertahan bukan tentang siapa yang paling kuat, tetapi tentang siapa yang tetap memilih untuk tidak menyerah, dan kami mengusahakannya.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="relative flex items-center md:justify-between w-full">
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-stone-800 border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
+                                            <i className="fa-solid fa-heart text-white text-sm"></i>
+                                        </div>
+                                        <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
+                                            <h4 className="font-serif text-xl font-bold text-stone-800">Akad Nikah</h4>
+                                            <p className="text-sm font-semibold text-stone-400 mb-3">18 April 2026</p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
+                                                InsyaAllah, kami akan menyempurnakan ikhtiar ini dalam ikatan suci pernikahan. Telah melewati banyak hal bersama membuat kami akhirnya berlabuh pada tujuan yang sama. Semoga langkah ini menjadi awal dari rumah tangga yang sakinah, mawaddah, dan rahmah, serta senantiasa berada dalam ridha Allah SWT.
+                                            </p>
+                                        </div>
+                                        <div className="hidden md:block w-5/12"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* DIGITAL GIFT */}
+                        <section className="py-20 px-6 bg-white">
+                            <div className="max-w-4xl mx-auto text-center">
+                                <i className="fa-solid fa-heart text-stone-300 text-3xl mb-6"></i>
+                                <h2 className="font-serif text-4xl font-semibold mb-4 text-stone-800">Amplop Digital</h2>
+                                <p className="text-stone-500 font-light mb-12 leading-relaxed max-w-2xl mx-auto">
+                                    Doa restu Anda merupakan karunia yang sangat berarti bagi kami.<br/>
+                                    Bagi Bapak/Ibu/Saudara/i yang ingin memberikan tanda kasih untuk kami, dapat melalui:
+                                </p>
+
+                                <div className="flex flex-col md:flex-row justify-center gap-8 max-w-3xl mx-auto">
+                                    <div className="flex-1 flex flex-col items-center w-full">
+                                        <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#118EEA] to-[#0A66C2]">
+                                            <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
+                                            <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
+                                            
+                                            <div className="flex justify-between items-center relative z-10">
+                                                <i className="fa-regular fa-credit-card text-white text-2xl"></i>
+                                                <span className="font-bold text-xl text-white tracking-widest italic">DANA</span>
+                                            </div>
+                                            
+                                            <div className="text-left relative z-10">
+                                                <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Handphone</p>
+                                                <h4 className="font-sans text-2xl tracking-[0.15em] font-medium text-white mb-2 shadow-sm">
+                                                    0857 1051 5197
+                                                </h4>
+                                                <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Julianita Nurhasanah</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <button 
+                                            onClick={() => copyToClipboard('085710515197', 'dana')}
+                                            className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                        >
+                                            {copiedDana ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>}
+                                            {copiedDana ? 'Berhasil Disalin' : 'Salin Nomor DANA'}
+                                        </button>
+                                    </div>
+
+                                    <div className="flex-1 flex flex-col items-center w-full">
+                                        <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#00529C] to-[#003B70]">
+                                            <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
+                                            <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
+                                            
+                                            <div className="flex justify-between items-center relative z-10">
+                                                <i className="fa-regular fa-credit-card text-white text-2xl"></i>
+                                                <span className="font-bold text-xl text-white tracking-widest italic">BRI</span>
+                                            </div>
+                                            
+                                            <div className="text-left relative z-10">
+                                                <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Rekening</p>
+                                                <h4 className="font-sans text-xl md:text-2xl tracking-[0.1em] font-medium text-white mb-2 shadow-sm">
+                                                    4368 0100 7044 532
+                                                </h4>
+                                                <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Yusuf Al Aziz</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <button 
+                                            onClick={() => copyToClipboard('436801007044532', 'bri')}
+                                            className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                        >
+                                            {copiedBri ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>}
+                                            {copiedBri ? 'Berhasil Disalin' : 'Salin Nomor BRI'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* RSVP & WISHES */}
+                        <section className="py-20 bg-stone-50 px-6 border-t border-stone-200">
+                            <div className="max-w-2xl mx-auto">
+                                <div className="text-center mb-12">
+                                    <h2 className="font-serif text-4xl font-semibold mb-4">RSVP & Ucapan</h2>
+                                    <p className="text-stone-500 font-light">Konfirmasi kehadiran dan berikan doa restu Anda</p>
+                                </div>
+
+                                <form className="space-y-6 bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-stone-100" onSubmit={(e) => e.preventDefault()}>
+                                    <div>
+                                        <label className="block text-sm font-medium text-stone-700 mb-2">Nama Lengkap</label>
+                                        <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50" placeholder="Masukkan nama Anda" />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-medium text-stone-700 mb-2">Konfirmasi Kehadiran</label>
+                                        <select className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 text-stone-700">
+                                            <option value="">Pilih kehadiran...</option>
+                                            <option value="hadir">Ya, Saya akan hadir</option>
+                                            <option value="tidak">Maaf, saya tidak bisa hadir</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-stone-700 mb-2">Ucapan & Doa</label>
+                                        <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..."></textarea>
+                                    </div>
+
+                                    <button className="w-full bg-stone-800 text-white font-medium py-4 rounded-xl hover:bg-stone-700 transition-colors shadow-md transform active:scale-[0.98]">
+                                        Kirim Ucapan & Konfirmasi
+                                    </button>
+                                    <p className="text-xs text-center text-stone-400 mt-4">*Data RSVP biasanya dikirimkan ke Whatsapp mempelai atau disimpan dalam database</p>
+                                </form>
+                            </div>
+                        </section>
+
+                        {/* FOOTER */}
+                        <footer className="bg-stone-900 text-stone-300 py-16 px-6 text-center">
+                            <p className="font-light text-sm mb-6 max-w-xl mx-auto">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
+                            <h2 className="font-script text-5xl text-white mb-4">Julia & Yusuf</h2>
+                            <p className="text-xs font-light text-stone-500 mt-12 tracking-wider">CREATED WITH ❤️ | DIGITAL INVITATION</p>
+                        </footer>
+
+                    </div>
                 </div>
-                <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
-                  <h4 className="font-serif text-xl font-bold text-stone-800">Pertemuan</h4>
-                  <p className="text-sm font-semibold text-stone-400 mb-3">Awal Juli 2022</p>
-                  <p className="text-sm text-stone-600 font-light leading-relaxed">
-                    Awal Juli 2022 menjadi titik pertemuan pertama kami dalam sebuah acara istighotsah akbar. Tidak ada yang istimewa saat itu, hanya dua orang di tempat yang sama, tidak saling mengenal. Namun dari sanalah cerita bermula. Kami menjaga batas, membangun komunikasi dan komitmen, tumbuh bukan karena janji manis, melainkan keseriusan dan tujuan yang sama.
-                  </p>
-                </div>
-                <div className="hidden md:block w-5/12"></div>
-              </div>
+            );
+        }
 
-              {/* Item 2 */}
-              <div className="mb-12 relative flex items-center md:justify-between w-full">
-                <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
-                  <Heart size={16} className="text-stone-400 fill-current" />
-                </div>
-                <div className="hidden md:block w-5/12"></div>
-                <div className="pl-8 md:pl-0 md:w-5/12 text-left">
-                  <h4 className="font-serif text-xl font-bold text-stone-800">Tunangan</h4>
-                  <p className="text-sm font-semibold text-stone-400 mb-3">28 Desember 2025</p>
-                  <p className="text-sm text-stone-600 font-light leading-relaxed">
-                    Dengan restu keluarga besar, kami melangkah ke tahap yang lebih pasti sebagai bentuk tanggung jawab. Perjalanan setelahnya tidak selalu mudah. Ada perbedaan, ujian, dan badai. Namun kami belajar bahwa bertahan bukan tentang siapa yang paling kuat, tetapi tentang siapa yang tetap memilih untuk tidak menyerah, dan kami mengusahakannya.
-                  </p>
-                </div>
-              </div>
-
-              {/* Item 3 */}
-              <div className="relative flex items-center md:justify-between w-full">
-                <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-stone-800 border-4 border-[#f4f1ed] shadow flex items-center justify-center z-10">
-                  <Heart size={16} className="text-white fill-current" />
-                </div>
-                <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
-                  <h4 className="font-serif text-xl font-bold text-stone-800">Akad Nikah</h4>
-                  <p className="text-sm font-semibold text-stone-400 mb-3">18 April 2026</p>
-                  <p className="text-sm text-stone-600 font-light leading-relaxed">
-                    InsyaAllah, kami akan menyempurnakan ikhtiar ini dalam ikatan suci pernikahan. Telah melewati banyak hal bersama membuat kami akhirnya berlabuh pada tujuan yang sama. Semoga langkah ini menjadi awal dari rumah tangga yang sakinah, mawaddah, dan rahmah, serta senantiasa berada dalam ridha Allah SWT.
-                  </p>
-                </div>
-                <div className="hidden md:block w-5/12"></div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* DIGITAL GIFT */}
-        <section className="py-20 px-6 bg-white">
-          <div className="max-w-4xl mx-auto text-center">
-            <Heart size={32} className="mx-auto text-stone-300 mb-6" />
-            <h2 className="font-serif text-4xl font-semibold mb-4 text-stone-800">Amplop Digital</h2>
-            <p className="text-stone-500 font-light mb-12 leading-relaxed max-w-2xl mx-auto">
-              Doa restu Anda merupakan karunia yang sangat berarti bagi kami.<br/>
-              Bagi Bapak/Ibu/Saudara/i yang ingin memberikan tanda kasih untuk kami, dapat melalui:
-            </p>
-
-            <div className="flex flex-col md:flex-row justify-center gap-8 max-w-3xl mx-auto">
-              {/* DANA Card */}
-              <div className="flex-1 flex flex-col items-center w-full">
-                <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#118EEA] to-[#0A66C2]">
-                  {/* Decorative Glow */}
-                  <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                  <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                  
-                  <div className="flex justify-between items-center relative z-10">
-                    <CreditCard size={24} className="text-white/90" />
-                    <span className="font-bold text-xl text-white tracking-widest italic">DANA</span>
-                  </div>
-                  
-                  <div className="text-left relative z-10">
-                    <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Handphone</p>
-                    <h4 className="font-sans text-2xl tracking-[0.15em] font-medium text-white mb-2 shadow-sm">
-                      0857 1051 5197
-                    </h4>
-                    <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Julianita Nurhasanah</p>
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={() => copyToClipboard('085710515197', 'dana')}
-                  className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
-                >
-                  {copiedDana ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
-                  {copiedDana ? 'Berhasil Disalin' : 'Salin Nomor DANA'}
-                </button>
-              </div>
-
-              {/* BRI Card */}
-              <div className="flex-1 flex flex-col items-center w-full">
-                <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#00529C] to-[#003B70]">
-                  {/* Decorative Glow */}
-                  <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                  <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                  
-                  <div className="flex justify-between items-center relative z-10">
-                    <CreditCard size={24} className="text-white/90" />
-                    <span className="font-bold text-xl text-white tracking-widest italic">BRI</span>
-                  </div>
-                  
-                  <div className="text-left relative z-10">
-                    <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Rekening</p>
-                    <h4 className="font-sans text-xl md:text-2xl tracking-[0.1em] font-medium text-white mb-2 shadow-sm">
-                      4368 0100 7044 532
-                    </h4>
-                    <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Yusuf Al Aziz</p>
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={() => copyToClipboard('436801007044532', 'bri')}
-                  className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
-                >
-                  {copiedBri ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
-                  {copiedBri ? 'Berhasil Disalin' : 'Salin Nomor BRI'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* RSVP & WISHES */}
-        <section className="py-20 bg-stone-50 px-6 border-t border-stone-200">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-semibold mb-4">RSVP & Ucapan</h2>
-              <p className="text-stone-500 font-light">Konfirmasi kehadiran dan berikan doa restu Anda</p>
-            </div>
-
-            <form className="space-y-6 bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-stone-100" onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-2">Nama Lengkap</label>
-                <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50" placeholder="Masukkan nama Anda" />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-2">Konfirmasi Kehadiran</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 text-stone-700">
-                  <option value="">Pilih kehadiran...</option>
-                  <option value="hadir">Ya, Saya akan hadir</option>
-                  <option value="tidak">Maaf, saya tidak bisa hadir</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-2">Ucapan & Doa</label>
-                <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..."></textarea>
-              </div>
-
-              <button className="w-full bg-stone-800 text-white font-medium py-4 rounded-xl hover:bg-stone-700 transition-colors shadow-md transform active:scale-[0.98]">
-                Kirim Ucapan & Konfirmasi
-              </button>
-              <p className="text-xs text-center text-stone-400 mt-4">*Data RSVP biasanya dikirimkan ke Whatsapp mempelai atau disimpan dalam database</p>
-            </form>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="bg-stone-900 text-stone-300 py-16 px-6 text-center">
-          <p className="font-light text-sm mb-6 max-w-xl mx-auto">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
-          <h2 className="font-script text-5xl text-white mb-4">Julia & Yusuf</h2>
-          <p className="text-xs font-light text-stone-500 mt-12 tracking-wider">CREATED WITH ❤️ | DIGITAL INVITATION</p>
-        </footer>
-
-      </div>
-    </div>
-  );
-}
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
