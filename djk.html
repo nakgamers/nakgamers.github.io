@@ -3,85 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisi-Kisi Soal Dasar Jaringan Komputer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Kisi-Kisi Soal Informatika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .header-info {
+            margin-bottom: 20px;
+        }
+        .header-info p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .center {
+            text-align: center;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        @media print {
+            body { margin: 0; }
+            button { display: none; } /* Menyembunyikan tombol saat dicetak */
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-8 flex justify-center items-center min-h-screen">
+<body>
 
-    <div class="bg-white shadow-xl rounded-lg p-10 max-w-4xl w-full border-t-8 border-green-600">
-        
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800 uppercase tracking-wide">Kisi-Kisi Soal Ujian</h1>
-            <h2 class="text-xl font-semibold text-green-600 mt-1">Teknik Jaringan Komputer</h2>
-            <div class="flex justify-center gap-6 mt-4 text-sm text-gray-600 font-medium">
-                <p>Mata Pelajaran: <span class="text-gray-800">Dasar Jaringan Komputer (DJK)</span></p>
-                <p>Jumlah Soal: <span class="text-gray-800">20 Butir</span></p>
-            </div>
-        </div>
+    <h2>KISI-KISI PENULISAN SOAL</h2>
+    
+    <div class="header-info">
+        <p>Mata Pelajaran: Informatika</p>
+        <p>Topik/Materi: Pengolah Angka (Microsoft Excel)</p>
+        <p>Kelas/Program: X (Pagi AK/MP)</p>
+        <p>Jumlah Soal: 25 Soal (20 Pilihan Ganda, 5 Uraian)</p>
+    </div>
 
-        <div class="overflow-hidden rounded-lg border border-gray-200">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-green-600 text-white text-sm uppercase tracking-wider">
-                        <th class="px-6 py-4 font-semibold w-1/3">Topik Materi</th>
-                        <th class="px-6 py-4 font-semibold">Indikator Pencapaian / Hal yang Harus Dipelajari</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 text-sm divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 font-bold align-top text-gray-900">A. Perangkat & Topologi Jaringan</td>
-                        <td class="px-6 py-4 align-top">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Memahami fungsi perangkat Router dalam menghubungkan jaringan yang berbeda.</li>
-                                <li>Mengetahui karakteristik topologi yang menggunakan satu kabel utama/backbone (Bus).</li>
-                                <li>Mengidentifikasi kelemahan utama dari topologi terpusat (Star).</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition bg-gray-50/50">
-                        <td class="px-6 py-4 font-bold align-top text-gray-900">B. Protokol & Pengalamatan (IP Address)</td>
-                        <td class="px-6 py-4 align-top">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Memahami fungsi protokol pemberi IP otomatis (DHCP) dan penerjemah nama domain (DNS).</li>
-                                <li>Mengetahui protokol untuk menguji konektivitas jaringan (ICMP/Ping).</li>
-                                <li>Mengetahui port default untuk akses web browser (HTTP/Port 80).</li>
-                                <li>Mengetahui protokol standar pengiriman email (SMTP).</li>
-                                <li>Mengetahui panjang bit dari IPv4 (32 bit).</li>
-                                <li>Menentukan rentang IP Address Kelas A dan Subnet Mask default Kelas C.</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 font-bold align-top text-gray-900">C. Media Transmisi & OSI Layer</td>
-                        <td class="px-6 py-4 align-top">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Mengetahui fungsi lapisan pendeteksi error dan pengalamatan fisik (Data Link Layer).</li>
-                                <li>Memahami panjang identitas fisik kartu jaringan (MAC Address / 48 bit).</li>
-                                <li>Mengetahui jarak transmisi maksimal kabel UTP secara optimal (100 meter).</li>
-                                <li>Memahami penggunaan susunan kabel Cross-over untuk perangkat sejenis (contoh: PC ke PC).</li>
-                                <li>Mengetahui bentuk transmisi sinyal pada kabel Fiber Optik (Cahaya).</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition bg-gray-50/50">
-                        <td class="px-6 py-4 font-bold align-top text-gray-900">D. Konsep Dasar & Keamanan</td>
-                        <td class="px-6 py-4 align-top">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Memahami kepanjangan dan definisi dari jaringan area lokal (LAN).</li>
-                                <li>Memahami cakupan area dari jaringan berbasis luas (WAN).</li>
-                                <li>Mengetahui standar internasional untuk jaringan nirkabel/Wi-Fi (IEEE 802.11).</li>
-                                <li>Memahami sistem keamanan yang bertugas memonitor lalu lintas jaringan masuk dan keluar (Firewall).</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="mt-8 p-4 bg-green-50 border-l-4 border-green-500 text-sm text-green-800 rounded">
-            <strong>Tips Tambahan:</strong> Ingat kembali bedanya susunan kabel Straight dan Cross-over, serta perhatikan baik-baik rentang angka pada IP Address di setiap kelasnya saat ujian.
-        </div>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kompetensi Dasar / Materi Pokok</th>
+                <th>Indikator Pencapaian Kompetensi (Indikator Soal)</th>
+                <th>Bentuk Soal</th>
+                <th>Nomor Soal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="center">1</td>
+                <td><strong>Pengenalan Microsoft Excel</strong><br>
+                    <ul>
+                        <li>Fungsi dan kegunaan aplikasi</li>
+                        <li>Manfaat Excel di berbagai bidang</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik dapat mengidentifikasi fungsi utama Microsoft Excel sebagai pengolah angka.</li>
+                        <li>Peserta didik dapat menjelaskan pengertian dan fungsi utama Excel.</li>
+                        <li>Peserta didik dapat menganalisis alasan dan manfaat penggunaan Excel dalam pendidikan dan pekerjaan.</li>
+                    </ul>
+                </td>
+                <td class="center">PG<br>Uraian<br>Uraian</td>
+                <td class="center">1<br>21<br>24</td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td><strong>Terminologi & Antarmuka Excel</strong><br>
+                    <ul>
+                        <li>File, Sheet, Baris, Kolom</li>
+                        <li>Sel dan Range</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik dapat menyebutkan istilah file yang dibuat di Excel (Workbook).</li>
+                        <li>Peserta didik dapat mengidentifikasi istilah pertemuan baris dan kolom (Cell), serta kumpulan sel (Range).</li>
+                        <li>Peserta didik dapat mengenali penanda kolom (huruf) dan baris (angka) serta cara penulisan alamat sel yang benar.</li>
+                        <li>Peserta didik mengetahui jumlah default worksheet dalam satu file Excel.</li>
+                        <li>Peserta didik dapat menguraikan perbedaan workbook, worksheet, row, column, dan cell.</li>
+                    </ul>
+                </td>
+                <td class="center">PG<br>PG<br>PG<br>PG<br>Uraian</td>
+                <td class="center">2<br>3, 16<br>4, 5, 6<br>20<br>22</td>
+            </tr>
+            <tr>
+                <td class="center">3</td>
+                <td><strong>Rumus (Formula) dan Fungsi</strong><br>
+                    <ul>
+                        <li>Operator Matematika</li>
+                        <li>Fungsi Statistik & Logika dasar</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik mengetahui tanda awal penulisan rumus/formula di Excel (=).</li>
+                        <li>Peserta didik dapat mengidentifikasi simbol operator matematika (perkalian).</li>
+                        <li>Peserta didik dapat menentukan fungsi untuk statistik dasar (SUM, AVERAGE, COUNT, MAX, MIN).</li>
+                        <li>Peserta didik dapat mengidentifikasi fungsi logika (IF).</li>
+                        <li>Peserta didik dapat menjelaskan kegunaan rumus dan fungsi beserta contohnya.</li>
+                    </ul>
+                </td>
+                <td class="center">PG<br>PG<br>PG<br>PG<br>Uraian</td>
+                <td class="center">7<br>13<br>8, 9, 10, 11, 12<br>18<br>23</td>
+            </tr>
+            <tr>
+                <td class="center">4</td>
+                <td><strong>Operasi Dasar & Shortcut</strong><br>
+                    <ul>
+                        <li>Menyimpan, Menyalin</li>
+                        <li>Manajemen isi sel</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik dapat mengetahui perintah shortcut keyboard untuk menyimpan dan menyalin data.</li>
+                        <li>Peserta didik dapat menentukan perintah untuk menghapus isi sel tanpa menghapus formatnya.</li>
+                    </ul>
+                </td>
+                <td class="center">PG<br>PG</td>
+                <td class="center">14, 19<br>17</td>
+            </tr>
+            <tr>
+                <td class="center">5</td>
+                <td><strong>Visualisasi Data</strong><br>
+                    <ul>
+                        <li>Grafik (Chart)</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik dapat menjelaskan fungsi pembuatan grafik (chart) dalam Excel untuk visualisasi data.</li>
+                    </ul>
+                </td>
+                <td class="center">PG</td>
+                <td class="center">15</td>
+            </tr>
+            <tr>
+                <td class="center">6</td>
+                <td><strong>Penerapan & Praktik Dasar</strong><br>
+                    <ul>
+                        <li>Pembuatan tabel dasar</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Peserta didik dapat menjelaskan langkah-langkah dasar membuat tabel dan perhitungan sederhana di Excel.</li>
+                    </ul>
+                </td>
+                <td class="center">Uraian</td>
+                <td class="center">25</td>
+            </tr>
+        </tbody>
+    </table>
 
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Cetak ke PDF</button>
     </div>
 
 </body>
