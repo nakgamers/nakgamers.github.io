@@ -5,205 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan Julia & Yusuf</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- Babel (Untuk membaca JSX di browser) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Google Fonts -->
     <style>
-        /* BINGKAI FLORAL DINAMIS */
-.floral-frame-container {
-    position: fixed;
-    top: max(15px, env(safe-area-inset-top));
-    bottom: max(15px, env(safe-area-inset-bottom));
-    left: max(15px, env(safe-area-inset-left));
-    right: max(15px, env(safe-area-inset-right));
-    
-    pointer-events: none;
-    z-index: 40;
-    
-    opacity: 0;
-    transform: scale(1.03);
-    transition: opacity 1.5s ease-in-out 0.8s, transform 1.5s ease-out 0.8s;
-}
+        /* BINGKAI FLORAL DINAMIS - ABSOLUTE HANYA DI HERO SECTION */
+        .floral-frame-container {
+            position: absolute;
+            top: max(15px, env(safe-area-inset-top));
+            bottom: max(15px, env(safe-area-inset-bottom));
+            left: max(15px, env(safe-area-inset-left));
+            right: max(15px, env(safe-area-inset-right));
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(1.03);
+            transition: opacity 1.5s ease-in-out 0.8s, transform 1.5s ease-out 0.8s;
+        }
 
-.floral-frame-container.show {
-    opacity: 1;
-    transform: scale(1);
-}
+        .floral-frame-container.show {
+            opacity: 1;
+            transform: scale(1);
+        }
 
-/* Garis Emas di dalam bingkai */
-.floral-frame-border {
-    position: absolute;
-    inset: 8px; /* Memberi jarak agar daun bisa overlap (keluar) dari garis */
-    border: 1.5px solid #c6a85b; /* Warna emas */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
-}
+        /* Garis Emas di dalam bingkai */
+        .floral-frame-border {
+            position: absolute;
+            inset: 8px;
+            border: 1.5px solid #c6a85b;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+        }
 
-/* Posisi Sudut Bunga SVG */
-.floral-corner {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.05));
-}
+        /* Posisi Sudut Bunga SVG */
+        .floral-corner {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.05));
+        }
 
-.floral-tr {
-    top: -2px;
-    right: -2px;
-}
+        .floral-tr { top: -2px; right: -2px; }
+        .floral-bl { bottom: -2px; left: -2px; transform: rotate(180deg); }
 
-.floral-bl {
-    bottom: -2px;
-    left: -2px;
-    transform: rotate(180deg); /* Memutar SVG yang sama untuk sudut sebaliknya */
-}
+        /* Responsif untuk HP */
+        @media (max-width: 768px) {
+            .floral-frame-container { top: 8px; bottom: 8px; left: 8px; right: 8px; }
+            .floral-corner { width: 140px; height: 140px; }
+            .floral-tr { top: -2px; right: -2px; }
+            .floral-bl { bottom: -2px; left: -2px; }
+        }
 
-/* Responsif untuk HP */
-@media (max-width: 768px) {
-    .floral-frame-container { top: 8px; bottom: 8px; left: 8px; right: 8px; }
-    .floral-corner { width: 140px; height: 140px; }
-    .floral-tr { top: -2px; right: -2px; }
-    .floral-bl { bottom: -2px; left: -2px; }
-}
-        /* BINGKAI UNDANGAN DINAMIS */
-.wedding-frame {
-    position: fixed;
-    top: 15px;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-    /* Menggunakan warna gold yang sudah ada di kodemu */
-    border: 1px solid #c6a85b; 
-    outline: 1px solid #c6a85b;
-    outline-offset: -6px;
-    border-radius: 16px;
-    pointer-events: none; /* Agar tidak menghalangi klik pada tombol/form */
-    z-index: 40; /* Berada di atas konten, tapi di bawah tombol musik & cover */
-    
-    /* Animasi sembunyi ke tampil */
-    opacity: 0;
-    transform: scale(1.02);
-    transition: opacity 1.5s ease-in-out 0.8s, transform 1.5s ease-out 0.8s;
-}
-
-.wedding-frame.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Responsif untuk HP agar bingkai tidak terlalu ketat */
-@media (max-width: 768px) {
-    .wedding-frame {
-        top: 10px;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
-        outline-offset: -4px;
-    }
-}
-        
         /* Scroll smooth guestbook */
-
-::-webkit-scrollbar{
-width:6px;
-}
-
-::-webkit-scrollbar-track{
-background:transparent;
-}
-
-::-webkit-scrollbar-thumb{
-background:#d6d3d1;
-border-radius:10px;
-}
-
-::-webkit-scrollbar-thumb:hover{
-background:#a8a29e;
-}
-        .hero-reveal{
-animation:fadeInUp 1s ease 0.6s forwards;
-opacity:0;
-}
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:#d6d3d1; border-radius:10px; }
+        ::-webkit-scrollbar-thumb:hover { background:#a8a29e; }
+        
+        .hero-reveal { animation:fadeInUp 1s ease 0.6s forwards; opacity:0; }
+        
         /* GOLD SHIMMER */
+        .gold-shimmer {
+            background:linear-gradient(90deg, #c6a85b 0%, #fff6c9 30%, #c6a85b 60%);
+            background-size:200% auto;
+            color:transparent;
+            -webkit-background-clip:text;
+            background-clip:text;
+            animation:shimmer 4s linear infinite;
+        }
 
-.gold-shimmer{
-background:linear-gradient(
-90deg,
-#c6a85b 0%,
-#fff6c9 30%,
-#c6a85b 60%
-);
-background-size:200% auto;
-color:transparent;
--webkit-background-clip:text;
-background-clip:text;
-animation:shimmer 4s linear infinite;
-}
+        @keyframes shimmer {
+            0%{background-position:-200% center;}
+            100%{background-position:200% center;}
+        }
 
-@keyframes shimmer{
-0%{background-position:-200% center;}
-100%{background-position:200% center;}
-}
+        /* CINEMATIC COVER */
+        .cover-zoom { animation:coverZoom 2s ease forwards; }
+        @keyframes coverZoom {
+            0%{ transform:scale(1.15); opacity:0; }
+            100%{ transform:scale(1); opacity:1; }
+        }
 
+        /* FLOWER ANIMATION */
+        .falling-flowers {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; overflow:hidden; z-index:3;
+        }
 
-/* CINEMATIC COVER */
+        .flower {
+            position:absolute; top:-50px; font-size:18px;
+            animation:fall linear infinite; opacity:.7; will-change: transform;
+        }
 
-.cover-zoom{
-animation:coverZoom 2s ease forwards;
-}
-
-@keyframes coverZoom{
-0%{
-transform:scale(1.15);
-opacity:0;
-}
-100%{
-transform:scale(1);
-opacity:1;
-}
-}
-
-
-/* FLOWER ANIMATION */
-
-.falling-flowers{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-overflow:hidden;
-z-index:3;
-}
-
-.flower{
-position:absolute;
-top:-50px;
-font-size:18px;
-animation:fall linear infinite;
-opacity:.7;
-will-change: transform;
-}
-
-@keyframes fall{
-0%{
-transform:translateY(-10vh) rotate(0deg);
-}
-100%{
-transform:translateY(110vh) rotate(360deg);
-}
-}
+        @keyframes fall {
+            0%{ transform:translateY(-10vh) rotate(0deg); }
+            100%{ transform:translateY(110vh) rotate(360deg); }
+        }
+        
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap');
         
         body { margin: 0; padding: 0; background-color: #fcfaf8; }
@@ -221,41 +124,22 @@ transform:translateY(110vh) rotate(360deg);
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
         html { scroll-behavior: smooth; }
 
         /* ORNAMEN FLORAL CSS */
-        .floral-bg-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 300px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
-            background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.5'%3E%3Cpath d='M400 -50 C 300 100, 100 150, -50 50 C 0 -100, 200 -150, 400 -50 Z' fill='%23d4dacb' filter='blur(20px)'/%3E%3Cpath d='M600 -20 C 500 120, 700 200, 900 100 C 850 -50, 700 -100, 600 -20 Z' fill='%23e2e5d9' filter='blur(25px)'/%3E%3Cpath d='M250 -30 C 350 50, 450 60, 500 -10' stroke='%23b8c2ab' stroke-width='2' fill='none'/%3E%3Cpath d='M300 20 C 280 60, 250 80, 200 70 C 230 40, 270 20, 300 20 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M450 40 C 480 80, 520 90, 570 60 C 530 40, 480 20, 450 40 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M380 60 C 360 100, 380 140, 420 150 C 430 110, 410 70, 380 60 Z' fill='%23b8c2ab' opacity='0.6'/%3E%3Ccircle cx='350' cy='30' r='5' fill='%23d1bfae'/%3E%3Ccircle cx='420' cy='80' r='4' fill='%23d1bfae'/%3E%3Ccircle cx='480' cy='20' r='6' fill='%23d1bfae'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: cover;
+        .floral-bg-top, .floral-bg-bottom {
+            position: absolute; left: 0; width: 100%; height: 300px;
+            pointer-events: none; z-index: 0; opacity: 0.6;
+            background-repeat: no-repeat; background-size: cover;
         }
-
+        .floral-bg-top {
+            top: 0; background-position: center top;
+            background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.5'%3E%3Cpath d='M400 -50 C 300 100, 100 150, -50 50 C 0 -100, 200 -150, 400 -50 Z' fill='%23d4dacb' filter='blur(20px)'/%3E%3Cpath d='M600 -20 C 500 120, 700 200, 900 100 C 850 -50, 700 -100, 600 -20 Z' fill='%23e2e5d9' filter='blur(25px)'/%3E%3Cpath d='M250 -30 C 350 50, 450 60, 500 -10' stroke='%23b8c2ab' stroke-width='2' fill='none'/%3E%3Cpath d='M300 20 C 280 60, 250 80, 200 70 C 230 40, 270 20, 300 20 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M450 40 C 480 80, 520 90, 570 60 C 530 40, 480 20, 450 40 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M380 60 C 360 100, 380 140, 420 150 C 430 110, 410 70, 380 60 Z' fill='%23b8c2ab' opacity='0.6'/%3E%3Ccircle cx='350' cy='30' r='5' fill='%23d1bfae'/%3E%3Ccircle cx='420' cy='80' r='4' fill='%23d1bfae'/%3E%3Ccircle cx='480' cy='20' r='6' fill='%23d1bfae'/%3E%3C/g%3E%3C/svg%3E");
+        }
         .floral-bg-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 300px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
+            bottom: 0; background-position: center bottom;
             background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.5' transform='rotate(180 400 200)'%3E%3Cpath d='M400 -50 C 300 100, 100 150, -50 50 C 0 -100, 200 -150, 400 -50 Z' fill='%23d4dacb' filter='blur(20px)'/%3E%3Cpath d='M600 -20 C 500 120, 700 200, 900 100 C 850 -50, 700 -100, 600 -20 Z' fill='%23e2e5d9' filter='blur(25px)'/%3E%3Cpath d='M250 -30 C 350 50, 450 60, 500 -10' stroke='%23b8c2ab' stroke-width='2' fill='none'/%3E%3Cpath d='M300 20 C 280 60, 250 80, 200 70 C 230 40, 270 20, 300 20 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M450 40 C 480 80, 520 90, 570 60 C 530 40, 480 20, 450 40 Z' fill='%23a9b59a' opacity='0.7'/%3E%3Cpath d='M380 60 C 360 100, 380 140, 420 150 C 430 110, 410 70, 380 60 Z' fill='%23b8c2ab' opacity='0.6'/%3E%3Ccircle cx='350' cy='30' r='5' fill='%23d1bfae'/%3E%3Ccircle cx='420' cy='80' r='4' fill='%23d1bfae'/%3E%3Ccircle cx='480' cy='20' r='6' fill='%23d1bfae'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center bottom;
-            background-size: cover;
         }
         
         .glass-card {
@@ -264,88 +148,22 @@ transform:translateY(110vh) rotate(360deg);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        /* FLORAL TEXTURE BACKGROUND */
 
-body{
-background:
-linear-gradient(180deg,#fcfaf8 0%,#f5f2ee 100%);
-}
+        body { background: linear-gradient(180deg,#fcfaf8 0%,#f5f2ee 100%); }
+        body::before {
+            content:""; position:fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; z-index:0; background-size:120px 120px;
+            background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4dacb' fill-opacity='0.25'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3Ccircle cx='80' cy='40' r='1.5'/%3E%3Ccircle cx='60' cy='90' r='1.5'/%3E%3Ccircle cx='30' cy='70' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        body::after {
+            content:""; position:fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; z-index:1;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.06) 100%);
+        }
 
-/* floral pattern halus */
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:0;
-
-background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4dacb' fill-opacity='0.25'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3Ccircle cx='80' cy='40' r='1.5'/%3E%3Ccircle cx='60' cy='90' r='1.5'/%3E%3Ccircle cx='30' cy='70' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
-
-background-size:120px 120px;
-}
-
-/* vignette elegan */
-
-body::after{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:1;
-
-background:
-radial-gradient(circle at center,
-rgba(0,0,0,0) 60%,
-rgba(0,0,0,0.06) 100%);
-}
-/* floating floral decoration */
-
-.floral-decoration{
-position:absolute;
-width:220px;
-height:220px;
-opacity:.35;
-pointer-events:none;
-filter:blur(2px);
-}
-
-.floral-left{
-top:20%;
-left:-80px;
-background:
-radial-gradient(circle at 40% 40%,#b8c2ab 0%,transparent 70%),
-radial-gradient(circle at 60% 60%,#a9b59a 0%,transparent 70%);
-}
-
-.floral-right{
-bottom:20%;
-right:-80px;
-background:
-radial-gradient(circle at 50% 50%,#b8c2ab 0%,transparent 70%),
-radial-gradient(circle at 70% 30%,#a9b59a 0%,transparent 70%);
-}
-.invitation-frame{
-position:relative;
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
-
-background:white;
-
-border:1px solid #e6e2dd;
-border-radius:24px;
-
-box-shadow:
-0 20px 60px rgba(0,0,0,0.08),
-0 5px 15px rgba(0,0,0,0.05);
-}
+        .floral-decoration { position:absolute; width:220px; height:220px; opacity:.35; pointer-events:none; filter:blur(2px); }
+        .floral-left { top:20%; left:-80px; background: radial-gradient(circle at 40% 40%,#b8c2ab 0%,transparent 70%), radial-gradient(circle at 60% 60%,#a9b59a 0%,transparent 70%); }
+        .floral-right { bottom:20%; right:-80px; background: radial-gradient(circle at 50% 50%,#b8c2ab 0%,transparent 70%), radial-gradient(circle at 70% 30%,#a9b59a 0%,transparent 70%); }
     </style>
 </head>
 <body>
@@ -361,30 +179,22 @@ box-shadow:
 
         function App() {
             const loadRSVP = async () => {
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    setWishes(data);
+                    let hadir=0; let tidak=0;
+                    data.forEach(d => {
+                        if(d.kehadiran === "hadir") hadir++;
+                        if(d.kehadiran === "tidak") tidak++;
+                    });
+                    setHadirCount(hadir);
+                    setTidakCount(tidak);
+                } catch(e) {
+                    console.error("Gagal load RSVP",e);
+                }
+            }
 
-try{
-
-const res = await fetch(API_URL)
-const data = await res.json()
-
-setWishes(data)
-
-let hadir=0
-let tidak=0
-
-data.forEach(d=>{
-if(d.kehadiran==="hadir") hadir++
-if(d.kehadiran==="tidak") tidak++
-})
-
-setHadirCount(hadir)
-setTidakCount(tidak)
-
-}catch(e){
-console.error("Gagal load RSVP",e)
-}
-
-}
             const [isOpened, setIsOpened] = useState(false);
             const [isPlaying, setIsPlaying] = useState(false);
             const [copiedDana, setCopiedDana] = useState(false);
@@ -398,13 +208,8 @@ console.error("Gagal load RSVP",e)
             const [hadirCount, setHadirCount] = useState(0);
             const [tidakCount, setTidakCount] = useState(0);
 
-            const API_URL="https://script.google.com/macros/s/AKfycby1Geydn5cYyYu8x0PoJVD6viDvou1w47_bRITzGovkXfaZ1DpN00_yOoo0A3KnBtM0MQ/exec"
-            
-            const [isProfileLoaded, setIsProfileLoaded] = useState(false);
-            
+            const API_URL="https://script.google.com/macros/s/AKfycby1Geydn5cYyYu8x0PoJVD6viDvou1w47_bRITzGovkXfaZ1DpN00_yOoo0A3KnBtM0MQ/exec";
             const audioRef = useRef(null);
-
-            
             const targetDate = new Date('2026-04-18T08:00:00+07:00').getTime();
 
             useEffect(() => {
@@ -414,33 +219,25 @@ console.error("Gagal load RSVP",e)
                     setGuestName(decodeURIComponent(nameFromUrl));
                 }
             }, []);
-            useEffect(()=>{
 
-loadRSVP()
+            useEffect(() => {
+                loadRSVP();
+                const interval = setInterval(() => { loadRSVP() }, 5000);
+                return () => clearInterval(interval);
+            }, []);
 
-const interval=setInterval(()=>{
-loadRSVP()
-},5000)
-
-return ()=>clearInterval(interval)
-
-},[])
-            useEffect(()=>{
-            if(guestName){
-            setName(guestName)
-            }
-            },[guestName]);
+            useEffect(() => {
+                if(guestName) { setName(guestName); }
+            }, [guestName]);
 
             useEffect(() => {
                 const timer = setInterval(() => {
                     const now = new Date().getTime();
                     const distance = targetDate - now;
-
                     if (distance < 0) {
                         clearInterval(timer);
                         return;
                     }
-
                     setTimeLeft({
                         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
                         hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
@@ -448,84 +245,60 @@ return ()=>clearInterval(interval)
                         seconds: Math.floor((distance % (1000 * 60)) / 1000),
                     });
                 }, 1000);
-
                 return () => clearInterval(timer);
             }, [targetDate]);
-const toggleAudio = () => {
 
-if(!audioRef.current) return
+            const toggleAudio = () => {
+                if(!audioRef.current) return;
+                if(isPlaying) {
+                    audioRef.current.pause();
+                    setIsPlaying(false);
+                } else {
+                    audioRef.current.play();
+                    setIsPlaying(true);
+                }
+            }
 
-if(isPlaying){
-audioRef.current.pause()
-setIsPlaying(false)
-}else{
-audioRef.current.play()
-setIsPlaying(true)
-}
+            const handleOpen = () => {
+                setIsOpened(true);
+                setTimeout(() => {
+                    window.scrollTo({ top: document.body.scrollHeight * 0.05, behavior: "smooth" });
+                }, 800);
 
-}
-const handleOpen = () => {
+                if (audioRef.current) {
+                    audioRef.current.currentTime = 65;
+                    const playPromise = audioRef.current.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            setIsPlaying(true);
+                        }).catch(error => {
+                            console.error("Gagal memutar audio:", error);
+                        });
+                    }
+                }
+            };
 
-setIsOpened(true)
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append("name", name);
+                formData.append("attendance", attendance);
+                formData.append("message", message);
 
-setTimeout(()=>{
+                try {
+                    await fetch(API_URL, { method:"POST", body:formData });
+                    alert("Terima kasih atas ucapan dan konfirmasi!");
+                    setName("");
+                    setAttendance("");
+                    setMessage("");
+                    loadRSVP();
+                } catch(err) {
+                    console.error(err);
+                    alert("Gagal mengirim RSVP");
+                }
+            };
 
-window.scrollTo({
-top: document.body.scrollHeight * 0.05,
-behavior:"smooth"
-})
-
-},800)
-
-if (audioRef.current){
-
-audioRef.current.currentTime = 65
-
-const playPromise = audioRef.current.play()
-
-if (playPromise !== undefined){
-playPromise.then(()=>{
-setIsPlaying(true)
-}).catch(error=>{
-console.error("Gagal memutar audio:", error)
-});
-}
-
-}
-
-};
-const handleSubmit = async (e) => {
-
-e.preventDefault()
-
-const formData=new FormData()
-
-formData.append("name",name)
-formData.append("attendance",attendance)
-formData.append("message",message)
-
-try{
-
-await fetch(API_URL,{
-method:"POST",
-body:formData
-})
-
-alert("Terima kasih atas ucapan dan konfirmasi!")
-
-setName("")
-setAttendance("")
-setMessage("")
-
-loadRSVP()
-
-}catch(err){
-
-console.error(err)
-alert("Gagal mengirim RSVP")
-
-}
-};            const copyToClipboard = (text, type) => {
+            const copyToClipboard = (text, type) => {
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 document.body.appendChild(textArea);
@@ -547,101 +320,29 @@ alert("Gagal mengirim RSVP")
 
             return (
                 <div className="bg-[#fcfaf8] text-stone-800 font-sans min-h-screen relative overflow-x-hidden animate-fade-in-up">
-                 <div className={`floral-frame-container ${isOpened ? 'show' : ''}`}>
-            <div className="floral-frame-border"></div>
-            
-            {/* Sudut Kanan Atas */}
-            <svg className="floral-corner floral-tr" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                {/* Geometris Emas */}
-                <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
-                <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
-                <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
-                <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
-                
-                {/* Tangkai */}
-                <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
-                <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
-                
-                {/* Daun dengan berbagai gradasi hijau */}
-                <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
-                <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
-                <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
-                <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
-                <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
-                <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
-                
-                {/* Beri / Kuncup Bunga */}
-                <circle cx="150" cy="30" r="4" fill="#6e7d60" />
-                <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
-                <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
-                <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
-                <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
-                <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
-                <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
-            </svg>
-
-            {/* Sudut Kiri Bawah (Menggunakan SVG yang sama, dirotasi oleh CSS) */}
-            <svg className="floral-corner floral-bl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
-                <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
-                <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
-                <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
-                <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
-                <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
-                <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
-                <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
-                <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
-                <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
-                <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
-                <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
-                <circle cx="150" cy="30" r="4" fill="#6e7d60" />
-                <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
-                <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
-                <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
-                <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
-                <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
-                <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
-            </svg>
-        </div>
-        {/* --- AKHIR BINGKAI FLORAL --- */}
+                    
                     <div className="falling-flowers">
-{Array.from({length:15}).map((_,i)=>(
-<span
-key={i}
-className="flower"
-style={{
-left:Math.random()*100+"%",
-animationDuration:(8+Math.random()*8)+"s"
-}}
->
-🌸
-</span>
-))}
-</div>
-                    {/* Background Audio - Menggunakan lagu Andmesh - Anugerah Terindah */}
-                    <audio ref={audioRef} loop preload="auto">
-    <source src="https://nandz.my.id/Andmesh_-_Anugerah_Terindah_CeeNaija.com_.mp3" type="audio/mpeg" />
-    <source src="./lagu.mp3" type="audio/mpeg" />
-</audio>
+                        {Array.from({length:15}).map((_,i)=>(
+                            <span key={i} className="flower" style={{ left:Math.random()*100+"%", animationDuration:(8+Math.random()*8)+"s" }}>🌸</span>
+                        ))}
+                    </div>
 
-                    {/* Floating Audio Button */}
+                    <audio ref={audioRef} loop preload="auto">
+                        <source src="https://nandz.my.id/Andmesh_-_Anugerah_Terindah_CeeNaija.com_.mp3" type="audio/mpeg" />
+                        <source src="./lagu.mp3" type="audio/mpeg" />
+                    </audio>
+
                     {isOpened && (
-                        <button 
-                            onClick={toggleAudio}
-                            className="fixed bottom-6 right-6 z-50 bg-stone-800/80 text-white w-12 h-12 rounded-full shadow-lg backdrop-blur-sm transition-transform hover:scale-110 flex items-center justify-center"
-                        >
+                        <button onClick={toggleAudio} className="fixed bottom-6 right-6 z-50 bg-stone-800/80 text-white w-12 h-12 rounded-full shadow-lg backdrop-blur-sm transition-transform hover:scale-110 flex items-center justify-center">
                             {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-music"></i>}
                         </button>
                     )}
 
                     {/* COVER SCREEN */}
                     <div className={`fixed inset-0 z-[100] bg-stone-900 flex flex-col items-center justify-center transition-transform duration-1000 ${isOpened ? 'cover-slide-up pointer-events-none' : 'cover-zoom'}`}>
-                        
                         <div className="absolute inset-0 bg-gradient-to-b from-[#f8f6f2] via-[#e8eee3] to-[#d4dacb]"></div>
-
-<div className="floral-bg-top"></div>
-<div className="floral-bg-bottom"></div>
-                        
+                        <div className="floral-bg-top"></div>
+                        <div className="floral-bg-bottom"></div>
                         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/40 to-stone-900/90 z-0"></div>
 
                         <div className="relative z-10 w-full flex flex-col items-center justify-center px-6 text-white min-h-[300px]">
@@ -651,20 +352,12 @@ animationDuration:(8+Math.random()*8)+"s"
                                 
                                 <div className="mb-12 drop-shadow-md">
                                     <p className="text-sm font-light mb-2 text-stone-200">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-                                    <p className="font-serif text-3xl font-semibold border-b border-white/40 pb-2 inline-block px-8 text-white capitalize min-w-[200px]">
-                                        {guestName}
-                                    </p>
-                                    <p className="text-xs font-light mt-4 italic text-stone-300">
-                                        *Mohon maaf bila ada kesalahan penulisan nama/gelar
-                                    </p>
+                                    <p className="font-serif text-3xl font-semibold border-b border-white/40 pb-2 inline-block px-8 text-white capitalize min-w-[200px]">{guestName}</p>
+                                    <p className="text-xs font-light mt-4 italic text-stone-300">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
                                 </div>
 
-                                <button 
-                                    onClick={handleOpen}
-                                    className="flex items-center justify-center gap-2 bg-white text-stone-800 px-8 py-3 rounded-full font-medium tracking-wide hover:bg-stone-100 transition-all duration-300 mx-auto shadow-2xl transform hover:-translate-y-1 hover:scale-105"
-                                >
-                                    <i className="fa-solid fa-heart text-rose-500"></i>
-                                    Buka Undangan
+                                <button onClick={handleOpen} className="flex items-center justify-center gap-2 bg-white text-stone-800 px-8 py-3 rounded-full font-medium tracking-wide hover:bg-stone-100 transition-all duration-300 mx-auto shadow-2xl transform hover:-translate-y-1 hover:scale-105">
+                                    <i className="fa-solid fa-heart text-rose-500"></i> Buka Undangan
                                 </button>
                             </div>
                         </div>
@@ -672,13 +365,63 @@ animationDuration:(8+Math.random()*8)+"s"
 
                     {/* MAIN CONTENT */}
                     <div className={`${!isOpened ? 'h-screen overflow-hidden' : ''}`}>
-                     <div className="floral-decoration floral-left"></div>
-<div className="floral-decoration floral-right"></div>
-<div className="floral-decoration floral-left"></div>
-<div className="floral-decoration floral-right"></div>   
+                        <div className="floral-decoration floral-left"></div>
+                        <div className="floral-decoration floral-right"></div>
+                        <div className="floral-decoration floral-left"></div>
+                        <div className="floral-decoration floral-right"></div>   
                         
-                        {/* HERO SECTION DENGAN ORNAMEN FLORAL */}
+                        {/* HERO SECTION DENGAN ORNAMEN FLORAL & BINGKAI */}
                         <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-[#fcfaf8]">
+                            
+                            {/* BINGKAI FLORAL (HANYA MUNCUL DI HERO SECTION) */}
+                            <div className={`floral-frame-container ${isOpened ? 'show' : ''}`}>
+                                <div className="floral-frame-border"></div>
+                                
+                                <svg className="floral-corner floral-tr" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                    <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                                    <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                                    <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
+                                    <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
+                                    <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
+                                    <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
+                                    <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
+                                    <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
+                                    <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
+                                    <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
+                                    <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
+                                    <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
+                                    <circle cx="150" cy="30" r="4" fill="#6e7d60" />
+                                    <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
+                                    <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
+                                    <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
+                                    <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
+                                    <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
+                                    <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
+                                </svg>
+
+                                <svg className="floral-corner floral-bl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                    <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                                    <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                                    <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
+                                    <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
+                                    <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
+                                    <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
+                                    <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
+                                    <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
+                                    <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
+                                    <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
+                                    <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
+                                    <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
+                                    <circle cx="150" cy="30" r="4" fill="#6e7d60" />
+                                    <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
+                                    <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
+                                    <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
+                                    <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
+                                    <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
+                                    <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
+                                </svg>
+                            </div>
+
                             <div className="floral-bg-top"></div>
                             <div className="floral-bg-bottom"></div>
                             <div className={`z-10 hero-reveal ${isOpened ? "opacity-100" : ""}`}>
@@ -702,7 +445,7 @@ animationDuration:(8+Math.random()*8)+"s"
                             <p className="font-serif font-medium text-stone-500">(QS. Ar-Rum: 21)</p>
                         </section>
 
-                        {/* PROFILE SECTION DENGAN KARIKATUR & ORNAMEN */}
+                        {/* PROFILE SECTION */}
                         <section className="py-20 px-6 relative bg-white">
                             <div className="floral-bg-top opacity-30"></div>
                             <div className="max-w-5xl mx-auto relative z-10">
@@ -713,36 +456,25 @@ animationDuration:(8+Math.random()*8)+"s"
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col items-center justify-center">
-                                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full relative z-10 -mt-10">
+                                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full relative z-10">
+                                    <div className="text-center flex-1 flex flex-col items-center">
+                                        <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Julianita Nurhasanah</h3>
+                                        <p className="font-serif text-lg font-semibold mb-2 text-[#8c9c7d]">Panggilan: Julia</p>
+                                        <p className="text-sm text-stone-500 font-light mb-4">Putri dari<br/><span className="font-medium text-stone-700">Bapak Juju Junaedi & Ibu Nuriah</span></p>
+                                        <a href="https://instagram.com/jlyanta_nrhaa" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-[#8c9c7d] hover:text-stone-800 transition-colors">
+                                            <i className="fa-brands fa-instagram"></i> @jlyanta_nrhaa
+                                        </a>
                                     </div>
 
-                                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full relative z-10">
-                                        <div className="text-center flex-1 flex flex-col items-center">
-                                            <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Julianita Nurhasanah</h3>
-                                            <p className="font-serif text-lg font-semibold mb-2 text-[#8c9c7d]">Panggilan: Julia</p>
-                                            <p className="text-sm text-stone-500 font-light mb-4">
-                                                Putri dari<br/>
-                                                <span className="font-medium text-stone-700">Bapak Juju Junaedi & Ibu Nuriah</span>
-                                            </p>
-                                            <a href="https://instagram.com/jlyanta_nrhaa" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-[#8c9c7d] hover:text-stone-800 transition-colors">
-                                                <i className="fa-brands fa-instagram"></i> @jlyanta_nrhaa
-                                            </a>
-                                        </div>
+                                    <div className="font-script text-5xl md:text-6xl text-[#d4dacb] my-4 md:my-0">&</div>
 
-                                        <div className="font-script text-5xl md:text-6xl text-[#d4dacb] my-4 md:my-0">&</div>
-
-                                        <div className="text-center flex-1 flex flex-col items-center">
-                                            <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Yusuf Al-Aziz S.Pd</h3>
-                                            <p className="font-serif text-lg font-semibold mb-2 text-[#8c9c7d]">Panggilan: Yusuf</p>
-                                            <p className="text-sm text-stone-500 font-light mb-4">
-                                                Putra dari<br/>
-                                                <span className="font-medium text-stone-700">Bapak H. Udin Zaenudin B S.Pd &<br/>Ibu Hj. Yuyun Kania S.Pd (Almh)</span>
-                                            </p>
-                                            <a href="https://instagram.com/__markucup__" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-[#8c9c7d] hover:text-stone-800 transition-colors">
-                                                <i className="fa-brands fa-instagram"></i> @__markucup__
-                                            </a>
-                                        </div>
+                                    <div className="text-center flex-1 flex flex-col items-center">
+                                        <h3 className="font-script text-4xl md:text-5xl mb-2 text-stone-800">Yusuf Al-Aziz S.Pd</h3>
+                                        <p className="font-serif text-lg font-semibold mb-2 text-[#8c9c7d]">Panggilan: Yusuf</p>
+                                        <p className="text-sm text-stone-500 font-light mb-4">Putra dari<br/><span className="font-medium text-stone-700">Bapak H. Udin Zaenudin B S.Pd &<br/>Ibu Hj. Yuyun Kania S.Pd (Almh)</span></p>
+                                        <a href="https://instagram.com/__markucup__" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-sm text-[#8c9c7d] hover:text-stone-800 transition-colors">
+                                            <i className="fa-brands fa-instagram"></i> @__markucup__
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -756,12 +488,7 @@ animationDuration:(8+Math.random()*8)+"s"
                                 <p className="text-stone-500 font-light mb-12">Momen bahagia yang sangat kami nantikan</p>
 
                                 <div className="flex justify-center gap-3 md:gap-6 mb-16">
-                                    {[
-                                        { label: 'Hari', value: timeLeft.days },
-                                        { label: 'Jam', value: timeLeft.hours },
-                                        { label: 'Menit', value: timeLeft.minutes },
-                                        { label: 'Detik', value: timeLeft.seconds },
-                                    ].map((time, idx) => (
+                                    {[ { label: 'Hari', value: timeLeft.days }, { label: 'Jam', value: timeLeft.hours }, { label: 'Menit', value: timeLeft.minutes }, { label: 'Detik', value: timeLeft.seconds } ].map((time, idx) => (
                                         <div key={idx} className="glass-card shadow-lg rounded-2xl w-[70px] h-[85px] md:w-24 md:h-28 flex flex-col items-center justify-center">
                                             <span className="font-serif text-2xl md:text-4xl font-semibold text-[#6e7d60]">{time.value}</span>
                                             <span className="text-[9px] md:text-xs tracking-widest uppercase text-stone-500 mt-1">{time.label}</span>
@@ -773,62 +500,22 @@ animationDuration:(8+Math.random()*8)+"s"
                                     <div className="glass-card rounded-3xl p-6 md:p-8 shadow-xl flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
                                         <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-200 pb-4 text-stone-800">Akad Nikah</h3>
                                         <div className="space-y-4 mb-8 flex-grow">
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-regular fa-calendar text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-regular fa-clock text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">08:00 WIB</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-solid fa-location-dot text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
-                                                    <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
-                                                </div>
-                                            </div>
+                                            <div className="flex items-start gap-4"><i className="fa-regular fa-calendar text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">Sabtu, 18 April 2026</p></div></div>
+                                            <div className="flex items-start gap-4"><i className="fa-regular fa-clock text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">08:00 WIB</p></div></div>
+                                            <div className="flex items-start gap-4"><i className="fa-solid fa-location-dot text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p><p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p></div></div>
                                         </div>
                                     </div>
-
                                     <div className="glass-card rounded-3xl p-6 md:p-8 shadow-xl flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
                                         <h3 className="font-serif text-2xl font-bold mb-6 border-b border-stone-200 pb-4 text-stone-800">Resepsi</h3>
                                         <div className="space-y-4 mb-8 flex-grow">
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-regular fa-calendar text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">Sabtu, 18 April 2026</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-regular fa-clock text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">10:00 WIB s/d Selesai</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start gap-4">
-                                                <i className="fa-solid fa-location-dot text-[#8c9c7d] mt-1 w-5"></i>
-                                                <div className="text-left">
-                                                    <p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p>
-                                                    <p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p>
-                                                </div>
-                                            </div>
+                                            <div className="flex items-start gap-4"><i className="fa-regular fa-calendar text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">Sabtu, 18 April 2026</p></div></div>
+                                            <div className="flex items-start gap-4"><i className="fa-regular fa-clock text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">10:00 WIB s/d Selesai</p></div></div>
+                                            <div className="flex items-start gap-4"><i className="fa-solid fa-location-dot text-[#8c9c7d] mt-1 w-5"></i><div className="text-left"><p className="font-medium text-stone-700">Kediaman Mempelai Wanita</p><p className="text-sm text-stone-500 font-light mt-1">Kp. Cikeler, Desa Padamulya, Kec. Angsana, Kab. Pandeglang, Banten</p></div></div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <a 
-                                    href="https://maps.app.goo.gl/1CW2Uf4JkRs4xDL48" 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                    className="inline-flex items-center justify-center gap-2 bg-[#6e7d60] text-white px-8 py-4 rounded-full mt-12 hover:bg-[#5b684f] transition-colors shadow-lg hover:-translate-y-1 transform duration-300"
-                                >
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    Buka Google Maps
+                                <a href="https://maps.app.goo.gl/1CW2Uf4JkRs4xDL48" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#6e7d60] text-white px-8 py-4 rounded-full mt-12 hover:bg-[#5b684f] transition-colors shadow-lg hover:-translate-y-1 transform duration-300">
+                                    <i className="fa-solid fa-location-dot"></i> Buka Google Maps
                                 </a>
                             </div>
                         </section>
@@ -841,48 +528,35 @@ animationDuration:(8+Math.random()*8)+"s"
                                     <h2 className="font-serif text-4xl font-semibold mb-4 text-stone-800">Kisah Cinta</h2>
                                     <p className="text-stone-500 font-light">Perjalanan cerita kami hingga sampai di titik ini</p>
                                 </div>
-
                                 <div className="relative border-l border-[#d4dacb] ml-4 md:ml-0 md:border-l-0">
                                     <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-[#d4dacb] transform -translate-x-1/2"></div>
-
+                                    
                                     <div className="mb-12 relative flex items-center md:justify-between w-full">
-                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#f4f1ed] border-4 border-white shadow flex items-center justify-center z-10">
-                                            <i className="fa-solid fa-heart text-[#a9b59a] text-sm"></i>
-                                        </div>
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#f4f1ed] border-4 border-white shadow flex items-center justify-center z-10"><i className="fa-solid fa-heart text-[#a9b59a] text-sm"></i></div>
                                         <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
                                             <h4 className="font-serif text-xl font-bold text-stone-800">Pertemuan</h4>
                                             <p className="text-sm font-semibold text-[#8c9c7d] mb-3">Awal Juli 2022</p>
-                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
-                                                Awal Juli 2022 menjadi titik pertemuan pertama kami dalam sebuah acara istighotsah akbar. Tidak ada yang istimewa saat itu, hanya dua orang di tempat yang sama, tidak saling mengenal. Namun dari sanalah cerita bermula. Kami menjaga batas, membangun komunikasi dan komitmen, tumbuh bukan karena janji manis, melainkan keseriusan dan tujuan yang sama.
-                                            </p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">Awal Juli 2022 menjadi titik pertemuan pertama kami dalam sebuah acara istighotsah akbar. Tidak ada yang istimewa saat itu, hanya dua orang di tempat yang sama, tidak saling mengenal. Namun dari sanalah cerita bermula. Kami menjaga batas, membangun komunikasi dan komitmen, tumbuh bukan karena janji manis, melainkan keseriusan dan tujuan yang sama.</p>
                                         </div>
                                         <div className="hidden md:block w-5/12"></div>
                                     </div>
 
                                     <div className="mb-12 relative flex items-center md:justify-between w-full">
-                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#f4f1ed] border-4 border-white shadow flex items-center justify-center z-10">
-                                            <i className="fa-solid fa-heart text-[#a9b59a] text-sm"></i>
-                                        </div>
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#f4f1ed] border-4 border-white shadow flex items-center justify-center z-10"><i className="fa-solid fa-heart text-[#a9b59a] text-sm"></i></div>
                                         <div className="hidden md:block w-5/12"></div>
                                         <div className="pl-8 md:pl-0 md:w-5/12 text-left">
                                             <h4 className="font-serif text-xl font-bold text-stone-800">Tunangan</h4>
                                             <p className="text-sm font-semibold text-[#8c9c7d] mb-3">28 Desember 2025</p>
-                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
-                                                Dengan restu keluarga besar, kami melangkah ke tahap yang lebih pasti sebagai bentuk tanggung jawab. Perjalanan setelahnya tidak selalu mudah. Ada perbedaan, ujian, dan badai. Namun kami belajar bahwa bertahan bukan tentang siapa yang paling kuat, tetapi tentang siapa yang tetap memilih untuk tidak menyerah, dan kami mengusahakannya.
-                                            </p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">Dengan restu keluarga besar, kami melangkah ke tahap yang lebih pasti sebagai bentuk tanggung jawab. Perjalanan setelahnya tidak selalu mudah. Ada perbedaan, ujian, dan badai. Namun kami belajar bahwa bertahan bukan tentang siapa yang paling kuat, tetapi tentang siapa yang tetap memilih untuk tidak menyerah, dan kami mengusahakannya.</p>
                                         </div>
                                     </div>
 
                                     <div className="relative flex items-center md:justify-between w-full">
-                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#6e7d60] border-4 border-white shadow flex items-center justify-center z-10">
-                                            <i className="fa-solid fa-heart text-white text-sm"></i>
-                                        </div>
+                                        <div className="absolute left-[-21px] md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-[#6e7d60] border-4 border-white shadow flex items-center justify-center z-10"><i className="fa-solid fa-heart text-white text-sm"></i></div>
                                         <div className="pl-8 md:pl-0 md:w-5/12 text-left md:text-right">
                                             <h4 className="font-serif text-xl font-bold text-stone-800">Akad Nikah</h4>
                                             <p className="text-sm font-semibold text-[#8c9c7d] mb-3">18 April 2026</p>
-                                            <p className="text-sm text-stone-600 font-light leading-relaxed">
-                                                InsyaAllah, kami akan menyempurnakan ikhtiar ini dalam ikatan suci pernikahan. Telah melewati banyak hal bersama membuat kami akhirnya berlabuh pada tujuan yang sama. Semoga langkah ini menjadi awal dari rumah tangga yang sakinah, mawaddah, dan rahmah, serta senantiasa berada dalam ridha Allah SWT.
-                                            </p>
+                                            <p className="text-sm text-stone-600 font-light leading-relaxed">InsyaAllah, kami akan menyempurnakan ikhtiar ini dalam ikatan suci pernikahan. Telah melewati banyak hal bersama membuat kami akhirnya berlabuh pada tujuan yang sama. Semoga langkah ini menjadi awal dari rumah tangga yang sakinah, mawaddah, dan rahmah, serta senantiasa berada dalam ridha Allah SWT.</p>
                                         </div>
                                         <div className="hidden md:block w-5/12"></div>
                                     </div>
@@ -906,27 +580,15 @@ animationDuration:(8+Math.random()*8)+"s"
                                         <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#118EEA] to-[#0A66C2]">
                                             <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
                                             <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                                            
-                                            <div className="flex justify-between items-center relative z-10">
-                                                <i className="fa-regular fa-credit-card text-white text-2xl"></i>
-                                                <span className="font-bold text-xl text-white tracking-widest italic">DANA</span>
-                                            </div>
-                                            
+                                            <div className="flex justify-between items-center relative z-10"><i className="fa-regular fa-credit-card text-white text-2xl"></i><span className="font-bold text-xl text-white tracking-widest italic">DANA</span></div>
                                             <div className="text-left relative z-10">
                                                 <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Handphone</p>
-                                                <h4 className="font-sans text-2xl tracking-[0.15em] font-medium text-white mb-2 shadow-sm">
-                                                    0857 1051 5197
-                                                </h4>
+                                                <h4 className="font-sans text-2xl tracking-[0.15em] font-medium text-white mb-2 shadow-sm">0857 1051 5197</h4>
                                                 <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Julianita Nurhasanah</p>
                                             </div>
                                         </div>
-                                        
-                                        <button 
-                                            onClick={() => copyToClipboard('085710515197', 'dana')}
-                                            className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
-                                        >
-                                            {copiedDana ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>}
-                                            {copiedDana ? 'Berhasil Disalin' : 'Salin Nomor DANA'}
+                                        <button onClick={() => copyToClipboard('085710515197', 'dana')} className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1">
+                                            {copiedDana ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>} {copiedDana ? 'Berhasil Disalin' : 'Salin Nomor DANA'}
                                         </button>
                                     </div>
 
@@ -934,33 +596,22 @@ animationDuration:(8+Math.random()*8)+"s"
                                         <div className="w-full max-w-sm h-48 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#00529C] to-[#003B70]">
                                             <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
                                             <div className="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-white/20 blur-3xl"></div>
-                                            
-                                            <div className="flex justify-between items-center relative z-10">
-                                                <i className="fa-regular fa-credit-card text-white text-2xl"></i>
-                                                <span className="font-bold text-xl text-white tracking-widest italic">BRI</span>
-                                            </div>
-                                            
+                                            <div className="flex justify-between items-center relative z-10"><i className="fa-regular fa-credit-card text-white text-2xl"></i><span className="font-bold text-xl text-white tracking-widest italic">BRI</span></div>
                                             <div className="text-left relative z-10">
                                                 <p className="text-white/70 text-[10px] tracking-widest uppercase mb-1">Nomor Rekening</p>
-                                                <h4 className="font-sans text-xl md:text-2xl tracking-[0.1em] font-medium text-white mb-2 shadow-sm">
-                                                    4368 0100 7044 532
-                                                </h4>
+                                                <h4 className="font-sans text-xl md:text-2xl tracking-[0.1em] font-medium text-white mb-2 shadow-sm">4368 0100 7044 532</h4>
                                                 <p className="text-white/90 text-sm tracking-widest uppercase font-medium">Yusuf Al Aziz</p>
                                             </div>
                                         </div>
-                                        
-                                        <button 
-                                            onClick={() => copyToClipboard('436801007044532', 'bri')}
-                                            className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1"
-                                        >
-                                            {copiedBri ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>}
-                                            {copiedBri ? 'Berhasil Disalin' : 'Salin Nomor BRI'}
+                                        <button onClick={() => copyToClipboard('436801007044532', 'bri')} className="mt-6 flex items-center justify-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full text-sm hover:bg-stone-700 transition-all duration-300 shadow-md transform hover:-translate-y-1">
+                                            {copiedBri ? <i className="fa-solid fa-check text-green-400"></i> : <i className="fa-regular fa-copy"></i>} {copiedBri ? 'Berhasil Disalin' : 'Salin Nomor BRI'}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        {/* RSVP & WISHES */}
+
+                        {/* RSVP & WISHES - SEMUA GUESTBOOK MASUK DI SINI */}
                         <section className="py-20 bg-white px-6 border-t border-[#f4f1ed]">
                             <div className="max-w-2xl mx-auto">
                                 <div className="text-center mb-12">
@@ -968,107 +619,64 @@ animationDuration:(8+Math.random()*8)+"s"
                                     <p className="text-stone-500 font-light">Konfirmasi kehadiran dan berikan doa restu Anda</p>
                                 </div>
 
-                                <form className="space-y-6 bg-[#fcfaf8] p-6 md:p-8 rounded-3xl shadow-lg border border-[#f4f1ed]" onSubmit={handleSubmit}>
+                                <form className="space-y-6 bg-[#fcfaf8] p-6 md:p-8 rounded-3xl shadow-lg border border-[#f4f1ed] mb-12" onSubmit={handleSubmit}>
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Nama Lengkap</label>
                                         <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Masukkan nama Anda" value={name} onChange={(e) => setName(e.target.value)} />
                                     </div>
-                                    
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Konfirmasi Kehadiran</label>
-                                        <select
-value={attendance}
-onChange={(e)=>setAttendance(e.target.value)}
-className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white text-stone-700"
->
+                                        <select value={attendance} onChange={(e)=>setAttendance(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white text-stone-700">
                                             <option value="">Pilih kehadiran...</option>
                                             <option value="hadir">Ya, Saya akan hadir</option>
                                             <option value="tidak">Maaf, saya tidak bisa hadir</option>
                                         </select>
                                     </div>
-
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Ucapan & Doa</label>
                                         <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..." value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                                     </div>
-
                                     <button type="submit" className="w-full bg-[#6e7d60] text-white font-medium py-4 rounded-xl hover:bg-[#5b684f] transition-colors shadow-md transform active:scale-[0.98]">
-    Kirim Ucapan & Konfirmasi
-</button>
+                                        Kirim Ucapan & Konfirmasi
+                                    </button>
                                     <p className="text-xs text-center text-stone-400 mt-4">*Data RSVP biasanya dikirimkan ke Whatsapp mempelai atau disimpan dalam database</p>
                                 </form>
+
+                                {/* STATISTIK KEHADIRAN */}
+                                <div className="grid grid-cols-2 gap-4 mb-8 text-center">
+                                    <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                                        <p className="text-2xl font-bold text-green-700">{hadirCount}</p>
+                                        <p className="text-sm text-green-600">Akan Hadir</p>
+                                    </div>
+                                    <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+                                        <p className="text-2xl font-bold text-red-700">{tidakCount}</p>
+                                        <p className="text-sm text-red-600">Tidak Hadir</p>
+                                    </div>
+                                </div>
+
+                                {/* DAFTAR UCAPAN TAMU */}
+                                <h3 className="text-xl font-semibold mb-6 text-stone-800">Ucapan Tamu</h3>
+                                <div className="max-h-[420px] overflow-y-auto space-y-4 pr-2">
+                                    {wishes.slice().reverse().map((w,i)=>{
+                                        const avatar = w.nama ? w.nama.charAt(0).toUpperCase() : "T";
+                                        return(
+                                            <div key={i} className="flex gap-4 bg-[#fcfaf8] border border-stone-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                                                <div className="w-10 h-10 shrink-0 rounded-full bg-[#6e7d60] text-white flex items-center justify-center font-semibold">{avatar}</div>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <p className="font-semibold text-stone-800">{w.nama}</p>
+                                                        <span className={`text-xs px-2 py-1 rounded-full ${w.kehadiran==="hadir" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                                            {w.kehadiran==="hadir" ? "Hadir" : "Tidak Hadir"}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm text-stone-600 leading-relaxed">{w.ucapan}</p>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </section>
-
-<h3 className="text-xl font-semibold mb-6 text-center">
-Ucapan Tamu
-</h3>
-
-<div className="max-h-[420px] overflow-y-auto space-y-4 pr-2">
-
-{wishes.slice().reverse().map((w,i)=>{
-
-const avatar = w.nama ? w.nama.charAt(0).toUpperCase() : "T"
-
-return(
-
-<div 
-key={i} 
-className="flex gap-4 bg-white border border-stone-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
->
-
-<div className="w-10 h-10 rounded-full bg-[#6e7d60] text-white flex items-center justify-center font-semibold">
-{avatar}
-</div>
-
-<div className="flex-1">
-
-<div className="flex items-center justify-between mb-1">
-
-<p className="font-semibold text-stone-800">
-{w.nama}
-</p>
-
-<span className={`text-xs px-2 py-1 rounded-full ${
-w.kehadiran==="hadir"
-?"bg-green-100 text-green-700"
-:"bg-red-100 text-red-700"
-}`}>
-{w.kehadiran==="hadir" ? "Hadir" : "Tidak Hadir"}
-</span>
-
-</div>
-
-<p className="text-sm text-stone-600 leading-relaxed">
-{w.ucapan}
-</p>
-
-</div>
-
-</div>
-
-)
-
-})}
-
-</div>
-<div className="grid grid-cols-2 gap-4 mb-8 text-center">
-
-<div className="bg-green-50 p-4 rounded-xl border">
-<p className="text-2xl font-bold text-green-700">{hadirCount}</p>
-<p className="text-sm text-green-600">Akan Hadir</p>
-</div>
-
-<div className="bg-red-50 p-4 rounded-xl border">
-<p className="text-2xl font-bold text-red-700">{tidakCount}</p>
-<p className="text-sm text-red-600">Tidak Hadir</p>
-</div>
-<div className="mt-12">
-
-
-</div>
-</div>
-                        
 
                         {/* FOOTER */}
                         <footer className="bg-stone-900 text-[#d4dacb] py-16 px-6 text-center relative overflow-hidden">
