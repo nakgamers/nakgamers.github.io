@@ -44,7 +44,7 @@
 /* Garis Emas di dalam bingkai */
 .floral-frame-border {
     position: absolute;
-    inset: 15px; /* Memberi jarak agar daun bisa overlap (keluar) dari garis */
+    inset: 8px; /* Memberi jarak agar daun bisa overlap (keluar) dari garis */
     border: 1.5px solid #c6a85b; /* Warna emas */
     box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
 }
@@ -52,25 +52,25 @@
 /* Posisi Sudut Bunga SVG */
 .floral-corner {
     position: absolute;
-    width: 180px;
-    height: 180px;
+    width: 120px;
+    height: 120px;
     filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.05));
 }
 
 .floral-tr {
-    top: -5px;
-    right: -5px;
+    top: -2px;
+    right: -2px;
 }
 
 .floral-bl {
-    bottom: -5px;
-    left: -5px;
+    bottom: -2px;
+    left: -2px;
     transform: rotate(180deg); /* Memutar SVG yang sama untuk sudut sebaliknya */
 }
 
 /* Responsif untuk HP */
 @media (max-width: 768px) {
-    .floral-frame-container { top: 12px; bottom: 12px; left: 12px; right: 12px; }
+    .floral-frame-container { top: 8px; bottom: 8px; left: 8px; right: 8px; }
     .floral-corner { width: 140px; height: 140px; }
     .floral-tr { top: -2px; right: -2px; }
     .floral-bl { bottom: -2px; left: -2px; }
