@@ -1,97 +1,343 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Generator Undangan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
-    }
-    .container {
-      max-width: 480px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input, textarea, button {
-      width: 100%;
-      font-size: 14px;
-      margin-bottom: 12px;
-      padding: 10px;
-    }
-    textarea {
-      height: 260px;
-      resize: none;
-    }
-    button {
-      background: #1e88e5;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1565c0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard RSVP - Julia & Yusuf</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc; /* Slate 50 */
+        }
+        
+        /* Custom Scrollbar untuk tabel dan textarea */
+        ::-webkit-scrollbar { height: 8px; width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
 </head>
 <body>
+    <div id="root"></div>
 
-<div class="container">
-  <h2>Generator Link Undangan</h2>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-  <input type="text" id="nama" placeholder="Masukkan Nama Tamu">
+        function Dashboard() {
+            const [rsvps, setRsvps] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [searchTerm, setSearchTerm] = useState("");
+            
+            // State untuk Generator Undangan
+            const [guestNameInput, setGuestNameInput] = useState("");
+            const [copiedPesan, setCopiedPesan] = useState(false);
 
-  <textarea id="pesan" readonly></textarea>
+            const API_URL = "https://script.google.com/macros/s/AKfycby1Geydn5cYyYu8x0PoJVD6viDvou1w47_bRITzGovkXfaZ1DpN00_yOoo0A3KnBtM0MQ/exec";
 
-  <button onclick="copyText()">Salin Pesan</button>
-</div>
+            const fetchData = async () => {
+                setLoading(true);
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    setRsvps(data.reverse());
+                } catch (error) {
+                    console.error("Gagal mengambil data:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
 
-<script>
-  const namaInput = document.getElementById("nama");
-  const pesanBox = document.getElementById("pesan");
+            useEffect(() => {
+                fetchData();
+            }, []);
 
-  function generatePesan() {
-    const nama = namaInput.value.trim() || "[Nama Tamu]";
-    const link = "https://nandz.my.id/invit.html?namatamu=" + encodeURIComponent(nama);
+            // Statistik
+            const totalRSVP = rsvps.length;
+            const hadirCount = rsvps.filter(r => r.kehadiran === 'hadir').length;
+            const tidakHadirCount = rsvps.filter(r => r.kehadiran === 'tidak').length;
 
-    pesanBox.value =
-`Assalamu’alaikum Wr. Wb.
+            // Filter pencarian
+            const filteredRsvps = rsvps.filter(r => 
+                (r.nama || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (r.ucapan || "").toLowerCase().includes(searchTerm.toLowerCase())
+            );
 
-Yth. ${nama}
+            // Logika Generator Pesan
+            const baseUrl = "https://nandz.my.id/invit.html";
+            const generatedLink = guestNameInput 
+                ? `${baseUrl}?namatamu=${encodeURIComponent(guestNameInput.trim())}` 
+                : baseUrl;
 
-Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.
+            const generatedPesan = `Bismillahirahmanirrahim.
+Assalamu’alaikum Warahmatullahi Wabarakatuh.
 
-Detail acara dapat dilihat melalui link undangan berikut:
-👉 ${link}
+Kepada Yth. Bapak/Ibu/Saudara/i
+*${guestNameInput.trim() || "[Nama Tamu]"}*
 
-Kami sangat berharap kehadiran serta doa restu dari Bapak/Ibu/Saudara/i.
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami.
 
-Terima kasih 🙏
+Detail acara dan lokasi dapat dilihat melalui tautan undangan digital berikut:
+👉 ${generatedLink}
 
-Arif & Pari`;
-  }
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir di hari bahagia kami.
 
-  namaInput.addEventListener("input", generatePesan);
+Wassalamu’alaikum Warahmatullahi Wabarakatuh.
 
-  generatePesan();
+Hormat kami,
+*Julia & Yusuf*`;
 
-  function copyText() {
-    pesanBox.select();
-    pesanBox.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    alert("Pesan undangan berhasil disalin!");
-  }
-</script>
+            const handleCopyPesan = () => {
+                navigator.clipboard.writeText(generatedPesan).then(() => {
+                    setCopiedPesan(true);
+                    setTimeout(() => setCopiedPesan(false), 2000);
+                }).catch(err => {
+                    console.error('Gagal menyalin:', err);
+                });
+            };
 
+            return (
+                <div className="min-h-screen flex flex-col md:flex-row">
+                    
+                    {/* SIDEBAR (Desktop) */}
+                    <aside className="w-full md:w-64 bg-slate-900 text-white p-6 hidden md:flex flex-col">
+                        <div className="flex items-center gap-3 mb-10">
+                            <div className="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30">
+                                <i className="fa-solid fa-heart text-white"></i>
+                            </div>
+                            <div>
+                                <h2 className="font-bold text-lg tracking-wide">Julia & Yusuf</h2>
+                                <p className="text-slate-400 text-xs uppercase tracking-wider">RSVP Panel</p>
+                            </div>
+                        </div>
+                        
+                        <nav className="flex-1 space-y-2">
+                            <a href="#" className="flex items-center gap-3 bg-slate-800 text-rose-400 px-4 py-3 rounded-xl font-medium transition-colors">
+                                <i className="fa-solid fa-chart-pie w-5"></i> Overview
+                            </a>
+                            <a href="https://nandz.my.id/invit.html" target="_blank" className="flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white px-4 py-3 rounded-xl font-medium transition-colors">
+                                <i className="fa-solid fa-envelope-open-text w-5"></i> Lihat Undangan
+                            </a>
+                        </nav>
+                        
+                        <div className="mt-auto pt-6 border-t border-slate-800 text-center">
+                            <p className="text-slate-500 text-xs">Versi 1.1.0</p>
+                        </div>
+                    </aside>
+
+                    {/* MAIN CONTENT */}
+                    <main className="flex-1 p-6 md:p-10 h-screen overflow-y-auto">
+                        {/* Header Mobile */}
+                        <div className="md:hidden flex items-center gap-3 mb-8 bg-slate-900 p-4 rounded-2xl text-white shadow-lg">
+                            <div className="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center">
+                                <i className="fa-solid fa-heart"></i>
+                            </div>
+                            <div>
+                                <h2 className="font-bold">Dashboard RSVP</h2>
+                                <p className="text-slate-400 text-xs">Julia & Yusuf</p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                            <div>
+                                <h1 className="text-3xl font-bold text-slate-800 mb-1">Overview Dashboard</h1>
+                                <p className="text-slate-500 text-sm">Kelola undangan, pantau ucapan, dan konfirmasi kehadiran tamu.</p>
+                            </div>
+                            <button 
+                                onClick={fetchData} 
+                                className="bg-white border border-slate-200 text-slate-600 px-5 py-2.5 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-medium flex items-center gap-2 shadow-sm transition-all"
+                            >
+                                <i className={`fa-solid fa-rotate-right ${loading ? 'fa-spin text-rose-500' : ''}`}></i> 
+                                Segarkan Data
+                            </button>
+                        </div>
+
+                        {/* STATS CARDS */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
+                                <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 text-xl">
+                                    <i className="fa-solid fa-users"></i>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-slate-500 font-medium mb-1">Total Respon</p>
+                                    <h3 className="text-3xl font-bold text-slate-800">{loading ? '-' : totalRSVP}</h3>
+                                </div>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 relative overflow-hidden">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-emerald-50 rounded-full z-0"></div>
+                                <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl relative z-10">
+                                    <i className="fa-solid fa-check"></i>
+                                </div>
+                                <div className="relative z-10">
+                                    <p className="text-sm text-slate-500 font-medium mb-1">Akan Hadir</p>
+                                    <h3 className="text-3xl font-bold text-emerald-600">{loading ? '-' : hadirCount}</h3>
+                                </div>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 relative overflow-hidden">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-rose-50 rounded-full z-0"></div>
+                                <div className="w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center text-rose-500 text-xl relative z-10">
+                                    <i className="fa-solid fa-xmark"></i>
+                                </div>
+                                <div className="relative z-10">
+                                    <p className="text-sm text-slate-500 font-medium mb-1">Tidak Hadir</p>
+                                    <h3 className="text-3xl font-bold text-rose-500">{loading ? '-' : tidakHadirCount}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* GENERATOR UNDANGAN */}
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-8">
+                            <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                                <h3 className="font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    <i className="fa-brands fa-whatsapp text-emerald-500 text-xl"></i>
+                                    Generator Link Undangan
+                                </h3>
+                                <p className="text-slate-500 text-sm mt-1">Buat pesan otomatis beserta nama tamu untuk disebar melalui WhatsApp.</p>
+                            </div>
+                            
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {/* Input Nama */}
+                                <div className="flex flex-col">
+                                    <label className="block text-sm font-semibold text-slate-700 mb-2">Nama Tamu / Penerima</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Contoh: Bpk. Budi Santoso" 
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all mb-4"
+                                        value={guestNameInput}
+                                        onChange={(e) => setGuestNameInput(e.target.value)}
+                                    />
+                                    
+                                    <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mt-auto">
+                                        <p className="text-xs text-amber-800 flex gap-2">
+                                            <i className="fa-solid fa-circle-info mt-0.5"></i>
+                                            <span>Ketik nama tamu di atas, dan tautan unik (<code>?namatamu=...</code>) akan otomatis terbuat di dalam pesan di sebelah kanan.</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Preview & Copy */}
+                                <div className="flex flex-col">
+                                    <label className="block text-sm font-semibold text-slate-700 mb-2">Preview Pesan</label>
+                                    <textarea 
+                                        readOnly 
+                                        className="w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600 focus:outline-none resize-none mb-4"
+                                        value={generatedPesan}
+                                    ></textarea>
+                                    
+                                    <button 
+                                        onClick={handleCopyPesan}
+                                        className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all ${
+                                            copiedPesan 
+                                            ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
+                                            : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
+                                        }`}
+                                    >
+                                        {copiedPesan ? <i className="fa-solid fa-check-double"></i> : <i className="fa-regular fa-copy"></i>}
+                                        {copiedPesan ? 'Pesan Berhasil Disalin!' : 'Salin Pesan WhatsApp'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* TABLE SECTION */}
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                            <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
+                                <h3 className="font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    <i className="fa-solid fa-list-check text-rose-500"></i> Data Kehadiran
+                                </h3>
+                                
+                                {/* Search Bar */}
+                                <div className="relative w-full md:w-auto">
+                                    <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Cari nama atau ucapan..." 
+                                        className="pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 w-full md:w-72 text-sm transition-all shadow-sm"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-white text-slate-500 text-xs uppercase tracking-wider">
+                                            <th className="px-6 py-4 font-semibold border-b border-slate-100">Nama Tamu</th>
+                                            <th className="px-6 py-4 font-semibold border-b border-slate-100">Status</th>
+                                            <th className="px-6 py-4 font-semibold border-b border-slate-100">Ucapan & Doa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+                                        {loading ? (
+                                            <tr>
+                                                <td colSpan="3" className="px-6 py-12 text-center text-slate-400">
+                                                    <i className="fa-solid fa-circle-notch fa-spin text-2xl mb-3 text-rose-400"></i>
+                                                    <p>Memuat data dari server...</p>
+                                                </td>
+                                            </tr>
+                                        ) : filteredRsvps.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="3" className="px-6 py-12 text-center text-slate-400">
+                                                    <div className="w-16 h-16 mx-auto bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                                                        <i className="fa-solid fa-inbox text-2xl text-slate-300"></i>
+                                                    </div>
+                                                    <p>Tidak ada data ditemukan.</p>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            filteredRsvps.map((rsvp, index) => (
+                                                <tr key={index} className="hover:bg-slate-50/80 border-b border-slate-50 transition-colors">
+                                                    <td className="px-6 py-4 font-medium text-slate-800 whitespace-nowrap">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                                                                {(rsvp.nama || "T").charAt(0).toUpperCase()}
+                                                            </div>
+                                                            {rsvp.nama}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                                            rsvp.kehadiran === 'hadir' 
+                                                            ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
+                                                            : 'bg-rose-100 text-rose-700 border border-rose-200'
+                                                        }`}>
+                                                            {rsvp.kehadiran === 'hadir' ? (
+                                                                <><i className="fa-solid fa-check mr-1"></i> Hadir</>
+                                                            ) : (
+                                                                <><i className="fa-solid fa-xmark mr-1"></i> Tidak Hadir</>
+                                                            )}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-slate-600 max-w-md">
+                                                        <p className="truncate hover:whitespace-normal hover:break-words transition-all">
+                                                            {rsvp.ucapan || <span className="text-slate-400 italic">Tidak ada ucapan</span>}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
 </body>
 </html>
