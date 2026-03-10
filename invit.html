@@ -20,6 +20,116 @@
 
     <!-- Google Fonts -->
     <style>
+        /* BINGKAI FLORAL DINAMIS */
+.floral-frame-container {
+    position: fixed;
+    top: max(15px, env(safe-area-inset-top));
+    bottom: max(15px, env(safe-area-inset-bottom));
+    left: max(15px, env(safe-area-inset-left));
+    right: max(15px, env(safe-area-inset-right));
+    
+    pointer-events: none;
+    z-index: 40;
+    
+    opacity: 0;
+    transform: scale(1.03);
+    transition: opacity 1.5s ease-in-out 0.8s, transform 1.5s ease-out 0.8s;
+}
+
+.floral-frame-container.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Garis Emas di dalam bingkai */
+.floral-frame-border {
+    position: absolute;
+    inset: 15px; /* Memberi jarak agar daun bisa overlap (keluar) dari garis */
+    border: 1.5px solid #c6a85b; /* Warna emas */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+
+/* Posisi Sudut Bunga SVG */
+.floral-corner {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.05));
+}
+
+.floral-tr {
+    top: -5px;
+    right: -5px;
+}
+
+.floral-bl {
+    bottom: -5px;
+    left: -5px;
+    transform: rotate(180deg); /* Memutar SVG yang sama untuk sudut sebaliknya */
+}
+
+/* Responsif untuk HP */
+@media (max-width: 768px) {
+    .floral-frame-container { top: 12px; bottom: 12px; left: 12px; right: 12px; }
+    .floral-corner { width: 140px; height: 140px; }
+    .floral-tr { top: -2px; right: -2px; }
+    .floral-bl { bottom: -2px; left: -2px; }
+}
+        /* BINGKAI UNDANGAN DINAMIS */
+.wedding-frame {
+    position: fixed;
+    top: 15px;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    /* Menggunakan warna gold yang sudah ada di kodemu */
+    border: 1px solid #c6a85b; 
+    outline: 1px solid #c6a85b;
+    outline-offset: -6px;
+    border-radius: 16px;
+    pointer-events: none; /* Agar tidak menghalangi klik pada tombol/form */
+    z-index: 40; /* Berada di atas konten, tapi di bawah tombol musik & cover */
+    
+    /* Animasi sembunyi ke tampil */
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 1.5s ease-in-out 0.8s, transform 1.5s ease-out 0.8s;
+}
+
+.wedding-frame.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Responsif untuk HP agar bingkai tidak terlalu ketat */
+@media (max-width: 768px) {
+    .wedding-frame {
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        outline-offset: -4px;
+    }
+}
+        
+        /* Scroll smooth guestbook */
+
+::-webkit-scrollbar{
+width:6px;
+}
+
+::-webkit-scrollbar-track{
+background:transparent;
+}
+
+::-webkit-scrollbar-thumb{
+background:#d6d3d1;
+border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#a8a29e;
+}
         .hero-reveal{
 animation:fadeInUp 1s ease 0.6s forwards;
 opacity:0;
@@ -154,6 +264,88 @@ transform:translateY(110vh) rotate(360deg);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
+        /* FLORAL TEXTURE BACKGROUND */
+
+body{
+background:
+linear-gradient(180deg,#fcfaf8 0%,#f5f2ee 100%);
+}
+
+/* floral pattern halus */
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+
+background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4dacb' fill-opacity='0.25'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3Ccircle cx='80' cy='40' r='1.5'/%3E%3Ccircle cx='60' cy='90' r='1.5'/%3E%3Ccircle cx='30' cy='70' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+
+background-size:120px 120px;
+}
+
+/* vignette elegan */
+
+body::after{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:1;
+
+background:
+radial-gradient(circle at center,
+rgba(0,0,0,0) 60%,
+rgba(0,0,0,0.06) 100%);
+}
+/* floating floral decoration */
+
+.floral-decoration{
+position:absolute;
+width:220px;
+height:220px;
+opacity:.35;
+pointer-events:none;
+filter:blur(2px);
+}
+
+.floral-left{
+top:20%;
+left:-80px;
+background:
+radial-gradient(circle at 40% 40%,#b8c2ab 0%,transparent 70%),
+radial-gradient(circle at 60% 60%,#a9b59a 0%,transparent 70%);
+}
+
+.floral-right{
+bottom:20%;
+right:-80px;
+background:
+radial-gradient(circle at 50% 50%,#b8c2ab 0%,transparent 70%),
+radial-gradient(circle at 70% 30%,#a9b59a 0%,transparent 70%);
+}
+.invitation-frame{
+position:relative;
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+
+background:white;
+
+border:1px solid #e6e2dd;
+border-radius:24px;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,0.08),
+0 5px 15px rgba(0,0,0,0.05);
+}
     </style>
 </head>
 <body>
@@ -168,12 +360,45 @@ transform:translateY(110vh) rotate(360deg);
         const { useState, useEffect, useRef } = React;
 
         function App() {
+            const loadRSVP = async () => {
+
+try{
+
+const res = await fetch(API_URL)
+const data = await res.json()
+
+setWishes(data)
+
+let hadir=0
+let tidak=0
+
+data.forEach(d=>{
+if(d.kehadiran==="hadir") hadir++
+if(d.kehadiran==="tidak") tidak++
+})
+
+setHadirCount(hadir)
+setTidakCount(tidak)
+
+}catch(e){
+console.error("Gagal load RSVP",e)
+}
+
+}
             const [isOpened, setIsOpened] = useState(false);
             const [isPlaying, setIsPlaying] = useState(false);
             const [copiedDana, setCopiedDana] = useState(false);
             const [copiedBri, setCopiedBri] = useState(false);
             const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             const [guestName, setGuestName] = useState("Tamu Undangan");
+            const [name, setName] = useState("");
+            const [attendance, setAttendance] = useState("");
+            const [message, setMessage] = useState("");
+            const [wishes, setWishes] = useState([]);
+            const [hadirCount, setHadirCount] = useState(0);
+            const [tidakCount, setTidakCount] = useState(0);
+
+            const API_URL="https://script.google.com/macros/s/AKfycby1Geydn5cYyYu8x0PoJVD6viDvou1w47_bRITzGovkXfaZ1DpN00_yOoo0A3KnBtM0MQ/exec"
             
             const [isProfileLoaded, setIsProfileLoaded] = useState(false);
             
@@ -189,6 +414,22 @@ transform:translateY(110vh) rotate(360deg);
                     setGuestName(decodeURIComponent(nameFromUrl));
                 }
             }, []);
+            useEffect(()=>{
+
+loadRSVP()
+
+const interval=setInterval(()=>{
+loadRSVP()
+},5000)
+
+return ()=>clearInterval(interval)
+
+},[])
+            useEffect(()=>{
+            if(guestName){
+            setName(guestName)
+            }
+            },[guestName]);
 
             useEffect(() => {
                 const timer = setInterval(() => {
@@ -253,8 +494,38 @@ console.error("Gagal memutar audio:", error)
 }
 
 };
+const handleSubmit = async (e) => {
 
-            const copyToClipboard = (text, type) => {
+e.preventDefault()
+
+const formData=new FormData()
+
+formData.append("name",name)
+formData.append("attendance",attendance)
+formData.append("message",message)
+
+try{
+
+await fetch(API_URL,{
+method:"POST",
+body:formData
+})
+
+alert("Terima kasih atas ucapan dan konfirmasi!")
+
+setName("")
+setAttendance("")
+setMessage("")
+
+loadRSVP()
+
+}catch(err){
+
+console.error(err)
+alert("Gagal mengirim RSVP")
+
+}
+};            const copyToClipboard = (text, type) => {
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 document.body.appendChild(textArea);
@@ -276,7 +547,64 @@ console.error("Gagal memutar audio:", error)
 
             return (
                 <div className="bg-[#fcfaf8] text-stone-800 font-sans min-h-screen relative overflow-x-hidden animate-fade-in-up">
-                 <div className="falling-flowers">
+                 <div className={`floral-frame-container ${isOpened ? 'show' : ''}`}>
+            <div className="floral-frame-border"></div>
+            
+            {/* Sudut Kanan Atas */}
+            <svg className="floral-corner floral-tr" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                {/* Geometris Emas */}
+                <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
+                <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
+                
+                {/* Tangkai */}
+                <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
+                <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
+                
+                {/* Daun dengan berbagai gradasi hijau */}
+                <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
+                <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
+                <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
+                <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
+                <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
+                <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
+                
+                {/* Beri / Kuncup Bunga */}
+                <circle cx="150" cy="30" r="4" fill="#6e7d60" />
+                <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
+                <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
+                <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
+                <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
+                <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
+                <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
+            </svg>
+
+            {/* Sudut Kiri Bawah (Menggunakan SVG yang sama, dirotasi oleh CSS) */}
+            <svg className="floral-corner floral-bl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="90,40 140,20 160,70 110,90" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                <polygon points="120,80 160,50 190,80 150,110" fill="none" stroke="#c6a85b" strokeWidth="1.5" />
+                <line x1="140" y1="20" x2="160" y2="70" stroke="#c6a85b" strokeWidth="1" />
+                <line x1="160" y1="50" x2="190" y2="80" stroke="#c6a85b" strokeWidth="1" />
+                <path d="M200,0 Q130,50 40,150" fill="none" stroke="#5b684f" strokeWidth="1.5" />
+                <path d="M150,0 Q100,60 20,100" fill="none" stroke="#5b684f" strokeWidth="1" />
+                <path d="M130,50 C100,40 90,70 120,90 C150,70 150,40 130,50 Z" fill="#4a5d3f" />
+                <path d="M160,80 C130,90 140,120 170,110 C190,90 180,70 160,80 Z" fill="#6e7d60" opacity="0.9" />
+                <path d="M90,80 C60,60 50,90 70,110 C100,100 110,70 90,80 Z" fill="#6e7d60" opacity="0.85" />
+                <path d="M100,120 C70,110 60,140 80,150 C110,140 120,110 100,120 Z" fill="#a9b59a" opacity="0.9" />
+                <path d="M180,30 C150,20 140,50 160,60 C190,50 200,20 180,30 Z" fill="#8c9c7d" />
+                <path d="M50,110 C30,100 20,120 40,130 C60,120 70,100 50,110 Z" fill="#8c9c7d" opacity="0.8" />
+                <circle cx="150" cy="30" r="4" fill="#6e7d60" />
+                <circle cx="140" cy="40" r="3" fill="#8c9c7d" />
+                <circle cx="110" cy="60" r="4" fill="#4a5d3f" />
+                <circle cx="100" cy="50" r="2.5" fill="#a9b59a" />
+                <circle cx="80" cy="90" r="3.5" fill="#6e7d60" />
+                <circle cx="60" cy="130" r="3" fill="#4a5d3f" />
+                <circle cx="180" cy="110" r="3.5" fill="#a9b59a" />
+            </svg>
+        </div>
+        {/* --- AKHIR BINGKAI FLORAL --- */}
+                    <div className="falling-flowers">
 {Array.from({length:15}).map((_,i)=>(
 <span
 key={i}
@@ -344,6 +672,10 @@ animationDuration:(8+Math.random()*8)+"s"
 
                     {/* MAIN CONTENT */}
                     <div className={`${!isOpened ? 'h-screen overflow-hidden' : ''}`}>
+                     <div className="floral-decoration floral-left"></div>
+<div className="floral-decoration floral-right"></div>
+<div className="floral-decoration floral-left"></div>
+<div className="floral-decoration floral-right"></div>   
                         
                         {/* HERO SECTION DENGAN ORNAMEN FLORAL */}
                         <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-[#fcfaf8]">
@@ -628,7 +960,6 @@ animationDuration:(8+Math.random()*8)+"s"
                                 </div>
                             </div>
                         </section>
-
                         {/* RSVP & WISHES */}
                         <section className="py-20 bg-white px-6 border-t border-[#f4f1ed]">
                             <div className="max-w-2xl mx-auto">
@@ -637,15 +968,19 @@ animationDuration:(8+Math.random()*8)+"s"
                                     <p className="text-stone-500 font-light">Konfirmasi kehadiran dan berikan doa restu Anda</p>
                                 </div>
 
-                                <form className="space-y-6 bg-[#fcfaf8] p-6 md:p-8 rounded-3xl shadow-lg border border-[#f4f1ed]" onSubmit={(e) => e.preventDefault()}>
+                                <form className="space-y-6 bg-[#fcfaf8] p-6 md:p-8 rounded-3xl shadow-lg border border-[#f4f1ed]" onSubmit={handleSubmit}>
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Nama Lengkap</label>
-                                        <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Masukkan nama Anda" />
+                                        <input type="text" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Masukkan nama Anda" value={name} onChange={(e) => setName(e.target.value)} />
                                     </div>
                                     
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Konfirmasi Kehadiran</label>
-                                        <select className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white text-stone-700">
+                                        <select
+value={attendance}
+onChange={(e)=>setAttendance(e.target.value)}
+className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white text-stone-700"
+>
                                             <option value="">Pilih kehadiran...</option>
                                             <option value="hadir">Ya, Saya akan hadir</option>
                                             <option value="tidak">Maaf, saya tidak bisa hadir</option>
@@ -654,16 +989,86 @@ animationDuration:(8+Math.random()*8)+"s"
 
                                     <div>
                                         <label className="block text-sm font-medium text-stone-700 mb-2">Ucapan & Doa</label>
-                                        <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..."></textarea>
+                                        <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#a9b59a] bg-white" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..." value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                                     </div>
 
-                                    <button className="w-full bg-[#6e7d60] text-white font-medium py-4 rounded-xl hover:bg-[#5b684f] transition-colors shadow-md transform active:scale-[0.98]">
-                                        Kirim Ucapan & Konfirmasi
-                                    </button>
+                                    <button type="submit" className="w-full bg-[#6e7d60] text-white font-medium py-4 rounded-xl hover:bg-[#5b684f] transition-colors shadow-md transform active:scale-[0.98]">
+    Kirim Ucapan & Konfirmasi
+</button>
                                     <p className="text-xs text-center text-stone-400 mt-4">*Data RSVP biasanya dikirimkan ke Whatsapp mempelai atau disimpan dalam database</p>
                                 </form>
                             </div>
                         </section>
+
+<h3 className="text-xl font-semibold mb-6 text-center">
+Ucapan Tamu
+</h3>
+
+<div className="max-h-[420px] overflow-y-auto space-y-4 pr-2">
+
+{wishes.slice().reverse().map((w,i)=>{
+
+const avatar = w.nama ? w.nama.charAt(0).toUpperCase() : "T"
+
+return(
+
+<div 
+key={i} 
+className="flex gap-4 bg-white border border-stone-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+>
+
+<div className="w-10 h-10 rounded-full bg-[#6e7d60] text-white flex items-center justify-center font-semibold">
+{avatar}
+</div>
+
+<div className="flex-1">
+
+<div className="flex items-center justify-between mb-1">
+
+<p className="font-semibold text-stone-800">
+{w.nama}
+</p>
+
+<span className={`text-xs px-2 py-1 rounded-full ${
+w.kehadiran==="hadir"
+?"bg-green-100 text-green-700"
+:"bg-red-100 text-red-700"
+}`}>
+{w.kehadiran==="hadir" ? "Hadir" : "Tidak Hadir"}
+</span>
+
+</div>
+
+<p className="text-sm text-stone-600 leading-relaxed">
+{w.ucapan}
+</p>
+
+</div>
+
+</div>
+
+)
+
+})}
+
+</div>
+<div className="grid grid-cols-2 gap-4 mb-8 text-center">
+
+<div className="bg-green-50 p-4 rounded-xl border">
+<p className="text-2xl font-bold text-green-700">{hadirCount}</p>
+<p className="text-sm text-green-600">Akan Hadir</p>
+</div>
+
+<div className="bg-red-50 p-4 rounded-xl border">
+<p className="text-2xl font-bold text-red-700">{tidakCount}</p>
+<p className="text-sm text-red-600">Tidak Hadir</p>
+</div>
+<div className="mt-12">
+
+
+</div>
+</div>
+                        
 
                         {/* FOOTER */}
                         <footer className="bg-stone-900 text-[#d4dacb] py-16 px-6 text-center relative overflow-hidden">
@@ -671,7 +1076,7 @@ animationDuration:(8+Math.random()*8)+"s"
                             <div className="relative z-10">
                                 <p className="font-light text-sm mb-6 max-w-xl mx-auto text-stone-400">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
                                 <h2 className="font-script text-5xl text-white mb-4">Julia & Yusuf</h2>
-                                <p className="text-xs font-light text-stone-500 mt-12 tracking-wider">CREATED WITH ❤️ | NANDZ.MY.ID</p>
+                                <p className="text-xs font-light text-stone-500 mt-12 tracking-wider">CREATED WITH ❤️ | DIGITAL INVITATION</p>
                             </div>
                         </footer>
 
