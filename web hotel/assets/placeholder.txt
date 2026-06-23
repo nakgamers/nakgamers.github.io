@@ -1,2 +1,0 @@
-Placeholder asset file.
-This file exists so the assets directory is not empty.
