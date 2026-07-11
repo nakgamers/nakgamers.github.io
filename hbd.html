@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untukmu - Selamat Ulang Tahun! ☕️💚</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for clean icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sbGreen: '#1E3932',      // Starbucks Deep Green
+                        sbLightGreen: '#006241', // Starbucks Accent Green
+                        sbWarmSand: '#F9F6F0',   // Super cozy cream
+                        sbGold: '#CBA258',       // Premium Gold Accent
+                        sbDark: '#2D2926',       // Charcoal
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        handwritten: ['Dancing Script', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F6F0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 3D Envelope Physics and Layering Fixes */
+        .envelope-container {
+            perspective: 1000px;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* EXACT LAYER STACKING FOR ENVELOPE PARTS */
+        .envelope-back {
+            z-index: 10;
+        }
+
+        /* Keep letter completely hidden and tucked inside when closed */
+        .letter {
+            z-index: 20;
+            transform: translateY(30px) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        opacity 0.4s ease,
+                        z-index 0.1s ease;
+        }
+
+        /* Slide up, fade in, and move to top layer when opened */
+        .envelope.open .letter {
+            transform: translateY(-55%) scale(1.02);
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 45; /* Renders above both the front flaps and top flap */
+        }
+
+        .envelope-flaps-front {
+            z-index: 30;
+        }
+
+        /* Flap rotation */
+        .flap-top {
+            transform-origin: top;
+            transition: transform 0.5s ease-in-out, z-index 0.2s ease;
+            z-index: 40; /* Covers the letter when closed */
+        }
+
+        .envelope.open .flap-top {
+            transform: rotateX(180deg);
+            z-index: 15; /* Flips back behind the popping-up letter */
+        }
+
+        /* Floating elements */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-80vh) rotate(360deg); opacity: 0; }
+        }
+        .particle {
+            position: fixed;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 10s infinite linear;
+        }
+
+        /* Custom subtle pulsing for the button guide */
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .pulse-btn {
+            animation: pulseSoft 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-sbDark min-h-screen flex flex-col justify-between relative px-4 py-8">
+
+    <!-- Floating Particles Layer -->
+    <div id="particle-container" class="absolute inset-0 overflow-hidden pointer-events-none select-none z-0"></div>
+
+    <!-- Background Music Holder -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Tiny Floating Music Control -->
+    <button id="music-toggle" class="fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-sbGreen text-sbGold border border-sbGold/30 flex items-center justify-center shadow-lg focus:outline-none transition-transform active:scale-95" aria-label="Toggle Music">
+        <i id="music-icon" class="fa-solid fa-music"></i>
+    </button>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-md mx-auto flex-grow flex flex-col items-center justify-center z-10 py-6">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <span class="text-xs uppercase tracking-widest text-sbGold font-bold px-3 py-1 bg-sbGreen/10 rounded-full inline-block mb-3">
+                ☕️ Special Edition
+            </span>
+            <h1 class="font-serif text-3xl font-bold text-sbGreen">Untukmu Hari Ini</h1>
+            <p class="text-xs text-gray-500 mt-1">Selamat ulang tahun cipaaa 💚</p>
+        </div>
+
+        <!-- 1 Photo: Elegant Polaroid Frame using the uploaded user image -->
+        <div class="relative w-64 md:w-72 bg-white p-4 pb-10 shadow-xl rounded-md border border-gray-100/50 transform -rotate-1 hover:rotate-0 transition-transform duration-300 ease-out mb-10">
+            <!-- Tape ornament -->
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-sbGold/30 border-x border-dashed border-sbGold/50 rotate-1 z-20"></div>
+
+            <!-- Image Wrapper with Corrected Tag Syntax and Fallback -->
+            <div class="aspect-square w-full overflow-hidden bg-sbWarmSand rounded border border-gray-100">
+                <img 
+                    src="image_a59a1a.jpg" 
+                    alt="Sahabat Barista" 
+                    class="w-full h-full object-cover"
+                    onerror="this.onerror=null; this.src='https://nandz.my.id/cipa.jpeg';"
+                />
+            </div>
+
+            <!-- Polaroid text -->
+            <div class="mt-4 text-center">
+                <p class="font-handwritten text-2xl text-sbGreen font-bold">Barista Andalan ✨</p>
+                <p class="text-[9px] uppercase tracking-wider text-gray-400 font-mono mt-0.5">Brewing Happiness Daily</p>
+            </div>
+        </div>
+
+        <!-- Interactive Envelope Area -->
+        <div class="w-full max-w-[320px] sm:max-w-[340px] mb-12">
+            
+            <!-- Envelope Container -->
+            <div id="envelope-container" class="envelope-container w-full aspect-[4/3] relative">
+                
+                <!-- Main Envelope Body with 3D wrapper -->
+                <div id="envelope" class="envelope w-full h-full relative cursor-pointer select-none">
+                    
+                    <!-- 1. The Letter Inside (Perfectly styled & layer controlled) -->
+                    <div class="letter absolute left-[5%] top-[5%] w-[90%] h-[90%] bg-white rounded-lg shadow-md p-5 flex flex-col justify-between overflow-hidden border border-amber-900/5">
+                        
+                        <!-- Mini letter header -->
+                        <div class="border-b border-sbGold/20 pb-2 flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-5 h-5 rounded-full bg-sbGreen flex items-center justify-center text-[8px] text-sbGold">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </div>
+                                <span class="font-serif text-[10px] font-bold text-sbGreen">Nandz & Sabrina</span>
+                            </div>
+                            <span class="text-[8px] text-sbGold font-mono">100% Love</span>
+                        </div>
+
+                        <!-- Letter message -->
+                        <div class="text-[11px] text-sbDark leading-relaxed flex-grow overflow-y-auto pr-1">
+                            <p class="font-bold text-sbGreen mb-1">Hai Teman Baikku! 👋💚</p>
+                            <p class="text-gray-600 mb-2">
+                                Selamat ulang tahun! Semoga harimu sehangat kopi espresso yang baru diseduh dan semanis racikan caramel macchiato buatanmu.
+                            </p>
+            
+                            <!-- Custom Menu Note -->
+                            <div class="bg-sbWarmSand/80 p-2 rounded border-l-2 border-sbGold font-mono text-[9px] text-sbGreen mb-2">
+                                <strong>📋 Resep Hari Ini:</strong><br>
+                                • 1 Shot Semangat Baru<br>
+                                • Ekstra Sirup Keberuntungan<br>
+                                • Topping Sehat & Bahagia Selalu!
+                            </div>
+
+                            <p class="text-gray-600 italic">
+                                Tetap bersinar dan selalu bahagia ya! Terus sajikan senyum terbaikmu ke dunia.
+                            </p>
+                        </div>
+
+                        <!-- Mini letter footer -->
+                        <div class="border-t border-sbGold/20 pt-2 flex items-center justify-between mt-1">
+                            <span class="text-[8px] text-gray-400">Dari teman baikmu,</span>
+                            <span class="font-handwritten text-sm text-sbGreen font-bold">Sabrina 💚</span>
+                        </div>
+
+                    </div>
+
+                    <!-- 2. Envelope Backplate (SVG) -->
+                    <div class="envelope-back absolute inset-0 w-full h-full pointer-events-none">
+                        <svg class="w-full h-full drop-shadow-lg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background inside envelope -->
+                            <rect width="400" height="300" rx="12" fill="#0D2C22" />
+                            <rect x="15" y="15" width="370" height="270" rx="8" fill="#133D30" />
+                        </svg>
+                    </div>
+
+                    <!-- 3. Left & Right Flaps (SVG) - Strictly layered above the closed letter -->
+                    <div class="envelope-flaps-front absolute inset-0 w-full h-full pointer-events-none">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Bottom Flap -->
+                            <path d="M 0 300 L 195 150 C 198 148, 202 148, 205 150 L 400 300 Z" fill="#13382D" opacity="0.95"/>
+                            <!-- Left Side Flap -->
+                            <path d="M 0 0 L 180 150 L 0 300 Z" fill="#184437" opacity="0.9"/>
+                            <!-- Right Side Flap -->
+                            <path d="M 400 0 L 220 150 L 400 300 Z" fill="#184437" opacity="0.9"/>
+                        </svg>
+                    </div>
+
+                    <!-- 4. Top Flap (SVG with 3D Rotation Class) -->
+                    <div class="flap-top absolute inset-x-0 top-0 w-full h-[55%] pointer-events-none">
+                        <svg class="w-full h-full" viewBox="0 0 400 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 0 0 L 190 158 C 196 163, 204 163, 210 158 L 400 0 Z" fill="#1C4F40" />
+                            <!-- Gold Stamp Seal effect -->
+                            <circle cx="200" cy="115" r="22" fill="#CBA258" class="drop-shadow-md"/>
+                            <!-- Gold Cup icon inside Stamp -->
+                            <path d="M194 111 C194 109 196 107 198 107 L202 107 C204 107 206 109 206 111 L206 117 C206 119 204 121 202 121 L198 121 C196 121 194 119 194 117 Z M206 111 L208 111 C209 111 210 112 210 113 L210 115 C210 116 209 117 208 117 L206 117 Z" stroke="#1E3932" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Click Instructions Guide -->
+            <div id="tap-instruction" class="text-center mt-6 text-xs text-gray-500 flex items-center justify-center gap-2 cursor-pointer pulse-btn">
+                <i class="fa-solid fa-hand-pointer text-sbGold"></i>
+                <span id="instruction-text">Tap amplop untuk membuka surat 💌</span>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Simple, Elegant Footer -->
+    <footer class="w-full text-center py-4 z-10">
+        <p class="text-[10px] uppercase tracking-widest text-gray-400 font-mono">
+            Crafted with love & fresh coffee aroma • 2026
+        </p>
+    </footer>
+
+    <!-- Custom Popup Notification (No Alert policy) -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-sbGreen text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-xl border border-sbGold/30 flex items-center gap-2 transition-all duration-300 translate-y-20 opacity-0 pointer-events-none">
+        <i class="fa-solid fa-mug-hot text-sbGold"></i>
+        <span id="toast-text">Pesan di sini</span>
+    </div>
+
+    <!-- Interaction Scripts -->
+    <script>
+        const envelope = document.getElementById('envelope');
+        const bgMusic = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const instructionText = document.getElementById('instruction-text');
+        const particleContainer = document.getElementById('particle-container');
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toast-text');
+
+        let isMusicPlaying = false;
+
+        // Custom minimal notification (No-alert policy)
+        function showNotification(message) {
+            toastText.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // Web Audio API: Sweet clean chime sound effect when opening
+        function triggerChimeSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // Sweet major arpeggio
+                const now = audioCtx.currentTime;
+
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                    
+                    gain.gain.setValueAtTime(0.08, now + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.35);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(now + idx * 0.12);
+                    osc.stop(now + idx * 0.12 + 0.4);
+                });
+            } catch (err) {
+                console.log("Audio play deferred or unsupported", err);
+            }
+        }
+
+        // Background Cozy Acoustic Music Toggle
+        function toggleMusic() {
+            if (!isMusicPlaying) {
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    musicIcon.className = "fa-solid fa-volume-high animate-pulse";
+                    musicToggle.classList.add('border-sbGold');
+                    showNotification("Memutar musik latar kedai kopi hangat 🎶");
+                }).catch(err => {
+                    console.log("Audio playback blocked:", err);
+                    showNotification("Ketuk sekali lagi untuk memutar musik!");
+                });
+            } else {
+                bgMusic.pause();
+                isMusicPlaying = false;
+                musicIcon.className = "fa-solid fa-music";
+                musicToggle.classList.remove('border-sbGold');
+                showNotification("Musik latar dijeda.");
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Click Envelope Action with fixed layering states
+        envelope.addEventListener('click', function() {
+            const isOpen = this.classList.toggle('open');
+            
+            if (isOpen) {
+                triggerChimeSound();
+                instructionText.textContent = "Tap kembali untuk menutup amplop 💌";
+                showNotification("Surat dibuka! Semoga suka harinya ☕️🎉");
+                
+                // Autoplay background music upon interaction if not yet playing
+                if (!isMusicPlaying) {
+                    toggleMusic();
+                }
+            } else {
+                instructionText.textContent = "Tap amplop untuk membuka surat 💌";
+            }
+        });
+
+        // Soft Falling Starbucks Leaves & Sparkles
+        function generateParticles() {
+            const symbols = ['🍃', '☕️', '🌟', '💚', '✨'];
+            const count = 12; // Modest count for smooth mobile performance
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle text-lg select-none';
+                p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                p.style.left = `${Math.random() * 100}vw`;
+                p.style.animationDuration = `${6 + Math.random() * 8}s`;
+                p.style.animationDelay = `${Math.random() * 6}s`;
+                p.style.fontSize = `${12 + Math.random() * 14}px`;
+
+                particleContainer.appendChild(p);
+            }
+        }
+
+        // Initial setup on window load
+        window.onload = function() {
+            generateParticles();
+        }
+    </script>
+</body>
+</html>
